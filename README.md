@@ -29,4 +29,4 @@ For the time being, "mild" backwards-incompatible changes may be made without ch
 
 ## License
 
-All files are released with The MIT License (MIT).
+All files are released with The MIT License (MIT).All files are released with The MIT License (MIT).
