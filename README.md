@@ -1,4 +1,5 @@
 [![Gitter chat](http://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg)](https://gitter.im/opentracing/public)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/dawallin/opentracing-csharp?branch=master&svg=true)](https://ci.appveyor.com/project/dawallin/opentracing-csharp)
 
 # OpenTracing API for .Net including a BasicTracer
 
