@@ -10,7 +10,5 @@ namespace OpenTracing.OpenTracing.Tracer
         public T ParentContext { get; set; }
         public DateTime StartTime { get; set; } = DateTime.Now;
         public Dictionary<string, string> Tag { get; set; } = new Dictionary<string, string>() { };
-
-        public ISpanRecorder<T> SpanRecorder { get; set; }
     }
 }
