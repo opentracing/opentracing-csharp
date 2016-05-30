@@ -31,9 +31,7 @@ namespace OpenTracing.OpenTracing.Tracer
                 throw new ArgumentNullException("No span context factory set.");
             }
 
-            var spanFactory = new SpanFactory<T>();
-
-            return new Tracer<T>(_spanContextFactory, spanFactory, _spanRecorder);
+            return new Tracer<T>(_spanContextFactory, _spanRecorder);
         }
     }
 }

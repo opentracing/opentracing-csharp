@@ -8,13 +8,11 @@ namespace OpenTracing.OpenTracing.Tracer
     public class Tracer<T> : ITracer<T> where T : ISpanContext
     {
         private readonly ISpanContextFactory<T> _spanContextFactory;
-        private readonly ISpanFactory<T> _spanFactory;
         public ISpanRecorder<T> SpanRecorder { get; private set; }
 
-        internal Tracer(ISpanContextFactory<T> spanContextFactory, ISpanFactory<T> spanFactory, ISpanRecorder<T> spanRecorder)
+        internal Tracer(ISpanContextFactory<T> spanContextFactory, ISpanRecorder<T> spanRecorder)
         {
             _spanContextFactory = spanContextFactory;
-            _spanFactory = spanFactory;
             SpanRecorder = spanRecorder;
         }
 
@@ -36,7 +34,7 @@ namespace OpenTracing.OpenTracing.Tracer
                 return false;
             }
 
-            span = _spanFactory.NewSpan(this, spanContext, operationName, DateTime.Now);
+            span = NewSpan(spanContext, operationName, DateTime.Now);
 
             return true;
         }
@@ -50,12 +48,12 @@ namespace OpenTracing.OpenTracing.Tracer
 
                 var rootSpanContext = _spanContextFactory.NewRootSpanContext();
 
-                span = _spanFactory.NewSpan(this, rootSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
+                span = NewSpan(rootSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
             }
             else
             {
                 var childSpanContext = _spanContextFactory.NewChildSpanContext(startSpanOptions.ParentContext);
-                span = _spanFactory.NewSpan(this, childSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
+                span = NewSpan(childSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
             }
 
             foreach (var tag in startSpanOptions.Tag)
@@ -72,6 +70,11 @@ namespace OpenTracing.OpenTracing.Tracer
             {
                 OperationName = operationName,
             });
+        }
+
+        private ISpan<T> NewSpan(T spanContext, string operationName, DateTime startTime)
+        {
+            return new Span<T>(this, spanContext, operationName, startTime);
         }
     }
 }

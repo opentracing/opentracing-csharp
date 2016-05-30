@@ -9,7 +9,6 @@ namespace OpenTracing.OpenTracing.Span
     public sealed class Span<T> : ISpan<T> where T : ISpanContext
     {
         private readonly ITracer<T> _tracer;
-        private readonly ISpanFactory<T> _spanFactory;
         private readonly T _spanContext;
 
         public T GetSpanContext()
@@ -17,10 +16,9 @@ namespace OpenTracing.OpenTracing.Span
             return _spanContext;
         }
 
-        internal Span(ITracer<T> tracer, ISpanFactory<T> spanFactory, T spanContext, string operationName, DateTime startTime)
+        internal Span(ITracer<T> tracer, T spanContext, string operationName, DateTime startTime)
         {
             _tracer = tracer;
-            _spanFactory = spanFactory;
             _spanContext = spanContext;
             OperationName = operationName;
 
