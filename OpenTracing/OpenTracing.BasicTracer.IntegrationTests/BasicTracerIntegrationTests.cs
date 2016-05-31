@@ -105,7 +105,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             traceBuilder.SetSpanRecorder(simpleMockRecorder);
             var tracer = traceBuilder.BuildTracer();
 
-            var span = tracer.StartSpan(new StartSpanOptions<OpenTracingContext.OpenTracingSpanContext>
+            var span = tracer.StartSpan(new StartSpanOptions()
             {
                 OperationName = "TestOperation",
                 StartTime = DateTime.Parse("2016-01-01 12:00"),
