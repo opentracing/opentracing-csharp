@@ -2,9 +2,9 @@
 using System.Linq;
 using OpenTracing.OpenTracing.Propagation;
 
-namespace OpenTracing.BasicTracer
+namespace OpenTracing.BasicTracer.OpenTracingContext
 {
-    public class BasicSpanContextToTextMapper : IContextMapper<BasicSpanContext, TextMapFormat>
+    public class OpenTracingSpanContextToTextMapper : IContextMapper<OpenTracingSpanContext, TextMapFormat>
     {
         private const string prefixTracerState = "ot-tracer-";
         private const string prefixBaggage = "ot-baggage-";
@@ -13,7 +13,7 @@ namespace OpenTracing.BasicTracer
         private const string fieldNameSpanID = prefixTracerState + "spanid";
         private const string fieldNameSampled = prefixTracerState + "sampled";
 
-        public TextMapFormat MapFrom(BasicSpanContext spanContext)
+        public TextMapFormat MapFrom(OpenTracingSpanContext spanContext)
         {
             var baggageInfo = spanContext.GetBaggageItems().ToDictionary(p => prefixBaggage + p.Key, p => p.Value);
 
@@ -27,7 +27,7 @@ namespace OpenTracing.BasicTracer
             return new TextMapFormat(baggageInfo.Union(tracerInfo).ToDictionary(p => p.Key, p => p.Value));
         }
 
-        public bool TryMapTo(TextMapFormat data, out BasicSpanContext spanContext)
+        public bool TryMapTo(TextMapFormat data, out OpenTracingSpanContext spanContext)
         {
             spanContext = null;
 
@@ -64,7 +64,7 @@ namespace OpenTracing.BasicTracer
                 .Where(p => p.Key.StartsWith(prefixBaggage))
                 .ToDictionary(p => p.Key.Substring(prefixBaggage.Length, p.Key.Length), p => p.Value);
 
-            spanContext = new BasicSpanContext(traceId, parentId, GuidFactory.Create(), sampled, baggage);
+            spanContext = new OpenTracingSpanContext(traceId, parentId, GuidFactory.Create(), sampled, baggage);
 
             return true;
         }
