@@ -1,11 +1,9 @@
 ﻿using OpenTracing.OpenTracing.Context;
+using OpenTracing.OpenTracing.Span;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OpenTracing.OpenTracing.Span
+namespace OpenTracing.BasicTracer.Span
 {
     public class SpanData<T> where T : ISpanContext
     {

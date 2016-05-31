@@ -40,11 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Span\ISpanEvents.cs" />
+    <Compile Include="Span\ISpanRecorder.cs" />
     <Compile Include="OpenTracingContext\OpenTracingSpanContext.cs" />
     <Compile Include="OpenTracingContext\OpenTracingSpanContextFactory.cs" />
     <Compile Include="OpenTracingContext\OpenTracingSpanContextToTextMapper.cs" />
     <Compile Include="OpenTracingContext\GuidFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Span\Span.cs" />
+    <Compile Include="Span\SpanData.cs" />
+    <Compile Include="Tracer\Tracer.cs" />
+    <Compile Include="Tracer\TracerBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenTracing.OpenTracing\OpenTracing.OpenTracing.csproj">

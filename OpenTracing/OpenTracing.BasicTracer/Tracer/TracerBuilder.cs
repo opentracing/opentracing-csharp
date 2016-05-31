@@ -1,8 +1,7 @@
 ﻿using OpenTracing.OpenTracing.Context;
-using OpenTracing.OpenTracing.Span;
 using System;
 
-namespace OpenTracing.OpenTracing.Tracer
+namespace OpenTracing.BasicTracer.Tracer
 {
     public class TracerBuilder<T> where T : ISpanContext
     {

@@ -6,6 +6,7 @@ using OpenTracing.OpenTracing.Propagation;
 using OpenTracing.OpenTracing.Span;
 using System;
 using OpenTracing.BasicTracer.OpenTracingContext;
+using OpenTracing.BasicTracer.Tracer;
 
 namespace OpenTracing.BasicTracer.IntegrationTests
 {

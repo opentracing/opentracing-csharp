@@ -50,17 +50,11 @@
     <Compile Include="Span\ISpan.cs" />
     <Compile Include="Context\ISpanContext.cs" />
     <Compile Include="Context\ISpanContextFactory.cs" />
-    <Compile Include="Span\SpanData.cs" />
-    <Compile Include="Span\ISpanEvents.cs" />
     <Compile Include="Span\LogData.cs" />
-    <Compile Include="Tracer\ISpanRecorder.cs" />
     <Compile Include="Tracer\ITraceBuilder.cs" />
     <Compile Include="Tracer\ITracer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Span\Span.cs" />
     <Compile Include="Tracer\StartSpanOptions.cs" />
-    <Compile Include="Tracer\Tracer.cs" />
-    <Compile Include="Tracer\TracerBuilder.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

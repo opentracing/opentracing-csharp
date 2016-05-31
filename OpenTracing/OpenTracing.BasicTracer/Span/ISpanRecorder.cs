@@ -1,7 +1,7 @@
-﻿using OpenTracing.OpenTracing.Context;
-using OpenTracing.OpenTracing.Span;
+﻿using OpenTracing.BasicTracer.Span;
+using OpenTracing.OpenTracing.Context;
 
-namespace OpenTracing.OpenTracing.Tracer
+namespace OpenTracing.BasicTracer.Tracer
 {
     public interface ISpanRecorder<T> where T : ISpanContext
     {
