@@ -2,11 +2,11 @@
 using OpenTracing.OpenTracing.Context;
 using System.Collections.ObjectModel;
 
-namespace OpenTracing.BasicTracer
+namespace OpenTracing.BasicTracer.OpenTracingContext
 {
-    public class BasicSpanContext : ISpanContext
+    public class OpenTracingSpanContext : ISpanContext
     {
-        public BasicSpanContext(ulong traceId, ulong parentId, ulong spanId, bool sampled, Dictionary<string, string> baggage)
+        public OpenTracingSpanContext(ulong traceId, ulong parentId, ulong spanId, bool sampled, Dictionary<string, string> baggage)
         {
             TraceId = traceId;
             ParentId = parentId;

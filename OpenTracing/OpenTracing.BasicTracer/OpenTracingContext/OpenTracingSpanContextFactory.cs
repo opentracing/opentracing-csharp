@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OpenTracing.BasicTracer
+namespace OpenTracing.BasicTracer.OpenTracingContext
 {
-    public class BasicSpanContextFactory : ISpanContextFactory<BasicSpanContext>
+    public class OpenTracingSpanContextFactory : ISpanContextFactory<OpenTracingSpanContext>
     {
         private ulong _sampleRate;
         private const int sampleAll = 1;
 
-        public BasicSpanContextFactory()
+        public OpenTracingSpanContextFactory()
             : this (sampleAll)
         {
         }
 
-        public BasicSpanContextFactory(ulong sampleRate)
+        public OpenTracingSpanContextFactory(ulong sampleRate)
         {
             _sampleRate = sampleRate;
         }
@@ -24,17 +24,17 @@ namespace OpenTracing.BasicTracer
             return spanId % _sampleRate == 0;
         }
 
-        public BasicSpanContext NewRootSpanContext()
+        public OpenTracingSpanContext NewRootSpanContext()
         {
             var traceId = GuidFactory.Create();
             var spanId = GuidFactory.Create();
             var shouldSample = ShouldSample(spanId);
 
             var baggage = new Dictionary<string, string>() { };
-            return new BasicSpanContext(traceId, 0, spanId, shouldSample, baggage);
+            return new OpenTracingSpanContext(traceId, 0, spanId, shouldSample, baggage);
         }
 
-        public BasicSpanContext NewChildSpanContext(BasicSpanContext spanContext)
+        public OpenTracingSpanContext NewChildSpanContext(OpenTracingSpanContext spanContext)
         {
             var parentTraceContext = spanContext;
 
@@ -45,7 +45,7 @@ namespace OpenTracing.BasicTracer
 
             var baggage = parentTraceContext.GetBaggageItems().ToDictionary(p => p.Key, p => p.Value);
 
-            var childSpanContext = new BasicSpanContext(traceId, parentId, spanId, shouldSample, baggage);
+            var childSpanContext = new OpenTracingSpanContext(traceId, parentId, spanId, shouldSample, baggage);
             return childSpanContext;
         }
     }

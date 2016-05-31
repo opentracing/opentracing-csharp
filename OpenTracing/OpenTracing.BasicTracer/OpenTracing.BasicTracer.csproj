@@ -40,10 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicSpanContext.cs" />
-    <Compile Include="BasicSpanContextFactory.cs" />
-    <Compile Include="BasicSpanContextToTextMapper.cs" />
-    <Compile Include="GuidFactory.cs" />
+    <Compile Include="OpenTracingContext\OpenTracingSpanContext.cs" />
+    <Compile Include="OpenTracingContext\OpenTracingSpanContextFactory.cs" />
+    <Compile Include="OpenTracingContext\OpenTracingSpanContextToTextMapper.cs" />
+    <Compile Include="OpenTracingContext\GuidFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

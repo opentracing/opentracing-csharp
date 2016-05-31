@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenTracing.BasicTracer
+namespace OpenTracing.BasicTracer.OpenTracingContext
 {
     internal static class GuidFactory
     {
