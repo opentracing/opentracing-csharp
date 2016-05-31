@@ -11,7 +11,5 @@ namespace OpenTracing.OpenTracing.Tracer
 
         void Inject(ISpan<T> span, IInjectCarrier<T> carrier);
         bool TryJoin(string operationName, IExtractCarrier<T> carrier, out ISpan<T> span);
-
-        ISpanRecorder<T> SpanRecorder { get; }
     }
 }

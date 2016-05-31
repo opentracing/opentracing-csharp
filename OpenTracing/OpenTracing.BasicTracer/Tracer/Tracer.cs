@@ -1,19 +1,21 @@
-﻿using OpenTracing.OpenTracing.Context;
-using OpenTracing.OpenTracing.Span;
-using System;
+﻿using OpenTracing.BasicTracer.Span;
+using OpenTracing.OpenTracing.Context;
 using OpenTracing.OpenTracing.Propagation;
+using OpenTracing.OpenTracing.Span;
+using OpenTracing.OpenTracing.Tracer;
+using System;
 
-namespace OpenTracing.OpenTracing.Tracer
+namespace OpenTracing.BasicTracer.Tracer
 {
     public class Tracer<T> : ITracer<T> where T : ISpanContext
     {
         private readonly ISpanContextFactory<T> _spanContextFactory;
-        public ISpanRecorder<T> SpanRecorder { get; private set; }
+        private ISpanRecorder<T> _spanRecorder;
 
         internal Tracer(ISpanContextFactory<T> spanContextFactory, ISpanRecorder<T> spanRecorder)
         {
             _spanContextFactory = spanContextFactory;
-            SpanRecorder = spanRecorder;
+            _spanRecorder = spanRecorder;
         }
 
         public void Inject(ISpan<T> span, IInjectCarrier<T> carrier)
@@ -74,7 +76,7 @@ namespace OpenTracing.OpenTracing.Tracer
 
         private ISpan<T> NewSpan(T spanContext, string operationName, DateTime startTime)
         {
-            return new Span<T>(this, spanContext, operationName, startTime);
+            return new Span<T>(this, _spanRecorder, spanContext, operationName, startTime);
         }
     }
 }

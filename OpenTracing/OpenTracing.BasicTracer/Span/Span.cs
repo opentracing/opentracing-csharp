@@ -1,26 +1,32 @@
-﻿using OpenTracing.OpenTracing.Context;
+﻿using OpenTracing.BasicTracer.Tracer;
+using OpenTracing.OpenTracing.Context;
+using OpenTracing.OpenTracing.Span;
 using OpenTracing.OpenTracing.Tracer;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace OpenTracing.OpenTracing.Span
+namespace OpenTracing.BasicTracer.Span
 {
     public sealed class Span<T> : ISpan<T> where T : ISpanContext
     {
         private readonly ITracer<T> _tracer;
         private readonly T _spanContext;
 
+        private ISpanRecorder<T> _spanRecorder;
+
         public T GetSpanContext()
         {
             return _spanContext;
         }
 
-        internal Span(ITracer<T> tracer, T spanContext, string operationName, DateTime startTime)
+        internal Span(ITracer<T> tracer, ISpanRecorder<T> spanRecorder, T spanContext, string operationName, DateTime startTime)
         {
             _tracer = tracer;
             _spanContext = spanContext;
             OperationName = operationName;
+
+            _spanRecorder = spanRecorder;
 
             StartTime = startTime;
         }
@@ -49,7 +55,7 @@ namespace OpenTracing.OpenTracing.Span
                 LogData = LogData,
             };
 
-            _tracer.SpanRecorder.RecordSpan(spanData);
+            _spanRecorder.RecordSpan(spanData);
             isFinished = true;
         }
 

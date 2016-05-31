@@ -1,7 +1,7 @@
 ﻿using OpenTracing.OpenTracing.Tracer;
 using System.Collections.Generic;
-using OpenTracing.OpenTracing.Span;
-using OpenTracing.BasicTracer.OpenTracingContext;
+using OpenTracing.BasicTracer.Span;
+using OpenTracing.BasicTracer.Tracer;
 
 namespace OpenTracing.BasicTracer.IntegrationTests
 {
