@@ -41,22 +41,13 @@ namespace OpenTracing.BasicTracer.Tracer
             return true;
         }
 
-        public ISpan<T> StartSpan(StartSpanOptions<T> startSpanOptions)
+        public ISpan<T> StartSpan(StartSpanOptions startSpanOptions)
         {
             ISpan<T> span;
 
-            if (startSpanOptions.ParentContext == null)
-            {
+            var rootSpanContext = _spanContextFactory.NewRootSpanContext();
 
-                var rootSpanContext = _spanContextFactory.NewRootSpanContext();
-
-                span = NewSpan(rootSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
-            }
-            else
-            {
-                var childSpanContext = _spanContextFactory.NewChildSpanContext(startSpanOptions.ParentContext);
-                span = NewSpan(childSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
-            }
+            span = NewSpan(rootSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
 
             foreach (var tag in startSpanOptions.Tag)
             {
@@ -68,7 +59,7 @@ namespace OpenTracing.BasicTracer.Tracer
 
         public ISpan<T> StartSpan(string operationName)
         {
-            return StartSpan(new StartSpanOptions<T>()
+            return StartSpan(new StartSpanOptions()
             {
                 OperationName = operationName,
             });
