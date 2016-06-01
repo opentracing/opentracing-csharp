@@ -62,7 +62,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         }
 
         [Test()]
-        public void DefaultBasicTracer_WhenJoinBadSpanToMemoryCarrier_Works()
+        public void DefaultBasicTracer_WhenJoinValidSpanToMemoryCarrier_Works()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
             var traceBuilder = new TracerBuilder<OpenTracingContext.OpenTracingSpanContext>();
