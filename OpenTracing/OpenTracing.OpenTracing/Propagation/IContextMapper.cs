@@ -1,6 +1,6 @@
-﻿using OpenTracing.OpenTracing.Context;
+﻿using OpenTracing.Context;
 
-namespace OpenTracing.OpenTracing.Propagation
+namespace OpenTracing.Propagation
 {
     public interface IContextMapper<T, TFormat> where TFormat : IFormat where T : ISpanContext
     {

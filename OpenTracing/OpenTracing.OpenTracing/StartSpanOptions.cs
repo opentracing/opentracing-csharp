@@ -1,8 +1,7 @@
-﻿using OpenTracing.OpenTracing.Context;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace OpenTracing.OpenTracing.Tracer
+namespace OpenTracing
 {
     public class StartSpanOptions
     {

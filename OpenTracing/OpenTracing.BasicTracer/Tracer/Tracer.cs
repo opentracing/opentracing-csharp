@@ -1,8 +1,6 @@
 ﻿using OpenTracing.BasicTracer.Span;
-using OpenTracing.OpenTracing.Context;
-using OpenTracing.OpenTracing.Propagation;
-using OpenTracing.OpenTracing.Span;
-using OpenTracing.OpenTracing.Tracer;
+using OpenTracing.Context;
+using OpenTracing.Propagation;
 using System;
 
 namespace OpenTracing.BasicTracer.Tracer

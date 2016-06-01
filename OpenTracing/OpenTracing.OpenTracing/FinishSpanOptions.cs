@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenTracing.OpenTracing.Span
+namespace OpenTracing
 {
     public class FinishSpanOptions
     {

@@ -1,9 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Linq;
 using System.Collections.Generic;
-using OpenTracing.OpenTracing.Tracer;
-using OpenTracing.OpenTracing.Propagation;
-using OpenTracing.OpenTracing.Span;
+using OpenTracing.Propagation;
 using System;
 using OpenTracing.BasicTracer.OpenTracingContext;
 using OpenTracing.BasicTracer.Tracer;

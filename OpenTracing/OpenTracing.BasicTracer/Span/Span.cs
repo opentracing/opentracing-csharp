@@ -1,7 +1,5 @@
 ﻿using OpenTracing.BasicTracer.Tracer;
-using OpenTracing.OpenTracing.Context;
-using OpenTracing.OpenTracing.Span;
-using OpenTracing.OpenTracing.Tracer;
+using OpenTracing.Context;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -63,7 +61,7 @@ namespace OpenTracing.BasicTracer.Span
         public DateTime StartTime { get; private set; }
         public TimeSpan Duration { get; private set; }
         public Dictionary<string, string> Tags { get; } = new Dictionary<string, string>();
-        public List<LogData> LogData { get; } = new List<OpenTracing.Span.LogData>();
+        public List<LogData> LogData { get; } = new List<OpenTracing.LogData>();
 
         public void SetTag(string message, string value)
         {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OpenTracing.OpenTracing.Context
+namespace OpenTracing.Context
 {
     public interface ISpanContext
     {

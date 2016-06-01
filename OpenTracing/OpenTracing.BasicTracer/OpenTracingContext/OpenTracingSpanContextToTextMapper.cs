@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using OpenTracing.OpenTracing.Propagation;
+using OpenTracing.Propagation;
 
 namespace OpenTracing.BasicTracer.OpenTracingContext
 {

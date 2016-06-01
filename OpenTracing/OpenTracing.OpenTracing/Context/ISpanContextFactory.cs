@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OpenTracing.OpenTracing.Context
+﻿namespace OpenTracing.Context
 {
     public interface ISpanContextFactory<T> where T : ISpanContext
     {
