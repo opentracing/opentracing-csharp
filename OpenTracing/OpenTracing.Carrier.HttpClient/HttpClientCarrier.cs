@@ -1,5 +1,5 @@
-﻿using OpenTracing.OpenTracing.Propagation;
-using OpenTracing.OpenTracing.Context;
+﻿using OpenTracing.Propagation;
+using OpenTracing.Context;
 
 namespace OpenTracing.Carrier.HttpClient
 {

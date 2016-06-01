@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace OpenTracing.OpenTracing.Propagation
+namespace OpenTracing.Propagation
 {
     public class TextMapFormat : ReadOnlyDictionary<string,string>, IFormat
     {

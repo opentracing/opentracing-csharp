@@ -1,8 +1,7 @@
-﻿using OpenTracing.OpenTracing.Span;
-using OpenTracing.OpenTracing.Context;
-using OpenTracing.OpenTracing.Propagation;
+﻿using OpenTracing.Context;
+using OpenTracing.Propagation;
 
-namespace OpenTracing.OpenTracing.Tracer
+namespace OpenTracing
 {
     public interface ITracer<T> where T : ISpanContext
     {

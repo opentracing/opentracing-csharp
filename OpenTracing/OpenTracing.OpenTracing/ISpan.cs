@@ -1,9 +1,7 @@
-﻿using OpenTracing.OpenTracing.Context;
-using OpenTracing.OpenTracing.Tracer;
+﻿using OpenTracing.Context;
 using System;
-using System.Collections.Generic;
 
-namespace OpenTracing.OpenTracing.Span
+namespace OpenTracing
 {
     public interface ISpan<T> where T : ISpanContext
     {

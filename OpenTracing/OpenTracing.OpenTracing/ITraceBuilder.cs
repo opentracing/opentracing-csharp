@@ -1,6 +1,6 @@
-﻿using OpenTracing.OpenTracing.Context;
+﻿using OpenTracing.Context;
 
-namespace OpenTracing.OpenTracing.Tracer
+namespace OpenTracing
 {
     public interface ITraceBuilder<T> where T : ISpanContext
     {

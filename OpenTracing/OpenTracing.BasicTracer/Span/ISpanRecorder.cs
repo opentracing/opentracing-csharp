@@ -1,5 +1,5 @@
 ﻿using OpenTracing.BasicTracer.Span;
-using OpenTracing.OpenTracing.Context;
+using OpenTracing.Context;
 
 namespace OpenTracing.BasicTracer.Tracer
 {

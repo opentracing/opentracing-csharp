@@ -1,8 +1,8 @@
-﻿using OpenTracing.OpenTracing.Context;
+﻿using OpenTracing.Context;
 using System.Collections.Generic;
 using System;
 
-namespace OpenTracing.OpenTracing.Propagation
+namespace OpenTracing.Propagation
 {
     public class MemoryTextMapCarrier<T> : IInjectCarrier<T>, IExtractCarrier<T> where T : ISpanContext
     {

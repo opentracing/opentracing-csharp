@@ -1,5 +1,4 @@
-﻿using OpenTracing.OpenTracing.Tracer;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using OpenTracing.BasicTracer.Span;
 using OpenTracing.BasicTracer.Tracer;
 

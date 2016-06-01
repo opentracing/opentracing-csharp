@@ -1,4 +1,4 @@
-﻿using OpenTracing.OpenTracing.Context;
+﻿using OpenTracing.Context;
 using System.Collections.Generic;
 using System.Linq;
 

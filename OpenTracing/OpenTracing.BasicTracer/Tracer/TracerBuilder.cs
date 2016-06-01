@@ -1,4 +1,4 @@
-﻿using OpenTracing.OpenTracing.Context;
+﻿using OpenTracing.Context;
 using System;
 
 namespace OpenTracing.BasicTracer.Tracer

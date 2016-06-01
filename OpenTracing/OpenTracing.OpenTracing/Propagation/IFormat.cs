@@ -1,4 +1,4 @@
-﻿namespace OpenTracing.OpenTracing.Propagation
+﻿namespace OpenTracing.Propagation
 {
     public interface IFormat
     {
