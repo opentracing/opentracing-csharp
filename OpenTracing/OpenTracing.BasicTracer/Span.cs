@@ -1,10 +1,9 @@
-﻿using OpenTracing.BasicTracer.Tracer;
-using OpenTracing.Context;
+﻿using OpenTracing.Context;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace OpenTracing.BasicTracer.Span
+namespace OpenTracing.BasicTracer
 {
     public sealed class Span<T> : ISpan<T> where T : ISpanContext
     {

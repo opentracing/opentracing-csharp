@@ -1,9 +1,8 @@
-﻿using OpenTracing.BasicTracer.Span;
-using OpenTracing.Context;
+﻿using OpenTracing.Context;
 using OpenTracing.Propagation;
 using System;
 
-namespace OpenTracing.BasicTracer.Tracer
+namespace OpenTracing.BasicTracer
 {
     public class Tracer<T> : ITracer<T> where T : ISpanContext
     {

@@ -1,4 +1,4 @@
-﻿namespace OpenTracing.BasicTracer.Span
+﻿namespace OpenTracing.BasicTracer
 {
     public interface ISpanEvents
     {

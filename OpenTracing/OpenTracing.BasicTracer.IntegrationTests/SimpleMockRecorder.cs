@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using OpenTracing.BasicTracer.Span;
-using OpenTracing.BasicTracer.Tracer;
 
 namespace OpenTracing.BasicTracer.IntegrationTests
 {
