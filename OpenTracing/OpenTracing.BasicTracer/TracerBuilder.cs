@@ -1,7 +1,7 @@
 ﻿using OpenTracing.Context;
 using System;
 
-namespace OpenTracing.BasicTracer.Tracer
+namespace OpenTracing.BasicTracer
 {
     public class TracerBuilder<T> where T : ISpanContext
     {

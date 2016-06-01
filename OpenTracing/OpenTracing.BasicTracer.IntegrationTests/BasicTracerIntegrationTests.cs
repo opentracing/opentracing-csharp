@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using OpenTracing.Propagation;
 using System;
 using OpenTracing.BasicTracer.OpenTracingContext;
-using OpenTracing.BasicTracer.Tracer;
 
 namespace OpenTracing.BasicTracer.IntegrationTests
 {

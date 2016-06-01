@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OpenTracing.BasicTracer.Span
+namespace OpenTracing.BasicTracer
 {
     public class SpanData<T> where T : ISpanContext
     {
