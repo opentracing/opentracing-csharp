@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using OpenTracing.BasicTracer.OpenTracingContext;
+using System.Collections.Generic;
 
 namespace OpenTracing.BasicTracer.IntegrationTests
 {
-    public class SimpleMockRecorder : ISpanRecorder<OpenTracingContext.OpenTracingSpanContext>
+    public class SimpleMockRecorder : ISpanRecorder<OpenTracingSpanContext>
     {
-        public List<SpanData<OpenTracingContext.OpenTracingSpanContext>> spanEvents = new List<SpanData<OpenTracingContext.OpenTracingSpanContext>>() { };
+        public List<SpanData<OpenTracingSpanContext>> spanEvents = new List<SpanData<OpenTracingSpanContext>>() { };
 
-        public void RecordSpan(SpanData<OpenTracingContext.OpenTracingSpanContext> span)
+        public void RecordSpan(SpanData<OpenTracingSpanContext> span)
         {
             spanEvents.Add(span);
         }
