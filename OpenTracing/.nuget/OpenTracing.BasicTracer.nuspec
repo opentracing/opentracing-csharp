@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>OpenTracing.BasicTracer</id>
+		<title>Basic Open Tracing Tracer</title>
+        <version>0.8.3</version>
+        <authors>Daniel Wallin, The Open Tracing Team</authors>
+		<projectUrl>https://github.com/opentracing/opentracing-csharp</projectUrl>
+		<iconUrl>https://avatars0.githubusercontent.com/u/15482765</iconUrl>
+		<licenseUrl>https://raw.githubusercontent.com/opentracing/opentracing-csharp/master/LICENSE</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <summary>A Basic Tracer implementaion of the Open Tracing API.</summary>
+		<description>This library is a Basic Tracer implementaion of the Open Tracing API. To fully understand this platform API, it's helpful to be familiar with the OpenTracing project and terminology more generally.
+		
+		For the time being, "mild" backwards-incompatible changes may be made without changing the major version number. As OpenTracing and opentracing-csharp mature, backwards compatibility will become more of a priority.
+		</description>
+        <tags>OpenTracing distributed-tracing</tags>
+		<dependencies>
+			<dependency id="OpenTracing" version="0.8" />
+		</dependencies>
+    </metadata>
+    <files>
+	  <file src="..\OpenTracing.BasicTracer\bin\Release\OpenTracing.BasicTracer.dll" target="lib\net40\" />
+	  <file src="..\OpenTracing.BasicTracer\bin\Release\OpenTracing.BasicTracer.pdb" target="lib\net40\" />
+	  <file src="..\OpenTracing.BasicTracer\*.cs" target="src" />
+    </files>
+</package>
