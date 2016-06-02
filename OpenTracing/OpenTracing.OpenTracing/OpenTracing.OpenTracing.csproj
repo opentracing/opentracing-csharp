@@ -7,8 +7,8 @@
     <ProjectGuid>{F81A2AFF-6D47-46DB-B401-F5AC9BCDE719}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenTracing.OpenTracing</RootNamespace>
-    <AssemblyName>OpenTracing.OpenTracing</AssemblyName>
+    <RootNamespace>OpenTracing</RootNamespace>
+    <AssemblyName>OpenTracing</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
