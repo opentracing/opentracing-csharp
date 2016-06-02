@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
-using System.Linq;
-using System.Collections.Generic;
+using OpenTracing.BasicTracer.OpenTracingContext;
 using OpenTracing.Propagation;
 using System;
-using OpenTracing.BasicTracer.OpenTracingContext;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenTracing.BasicTracer.IntegrationTests
 {
@@ -14,7 +14,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         public void DefaultBasicTracer_WhenStartSpanCalled_ReturnsSpan()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
-            var traceBuilder = new TracerBuilder<OpenTracingContext.OpenTracingSpanContext>();
+            var traceBuilder = new TracerBuilder<OpenTracingSpanContext>();
             traceBuilder.SetSpanContextFactory(spanContextFactory);
             var tracer = traceBuilder.BuildTracer();
 
@@ -27,7 +27,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         public void DefaultBasicTracer_WhenSpanInjectedToMemoryCarrier_Work()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
-            var traceBuilder = new TracerBuilder<OpenTracingContext.OpenTracingSpanContext>();
+            var traceBuilder = new TracerBuilder<OpenTracingSpanContext>();
             traceBuilder.SetSpanContextFactory(spanContextFactory);
             var tracer = traceBuilder.BuildTracer();
 
@@ -37,7 +37,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             var spanId = span.GetSpanContext().SpanId;
 
             var contextMapper = new OpenTracingSpanContextToTextMapper();
-            var memoryCarrier = new MemoryTextMapCarrier<OpenTracingContext.OpenTracingSpanContext>(contextMapper, new Dictionary<string, string>() { });
+            var memoryCarrier = new MemoryTextMapCarrier<OpenTracingSpanContext>(contextMapper, new Dictionary<string, string>() { });
             tracer.Inject(span, memoryCarrier);
 
             Assert.AreEqual(traceId.ToString(), memoryCarrier.TextMap["ot-tracer-traceid"]);
@@ -48,12 +48,12 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         public void DefaultBasicTracer_WhenJoinBadSpanToMemoryCarrier_Fails()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
-            var traceBuilder = new TracerBuilder<OpenTracingContext.OpenTracingSpanContext>();
+            var traceBuilder = new TracerBuilder<OpenTracingSpanContext>();
             traceBuilder.SetSpanContextFactory(spanContextFactory);
             var tracer = traceBuilder.BuildTracer();
 
             var contextMapper = new OpenTracingSpanContextToTextMapper();
-            var memoryCarrier = new MemoryTextMapCarrier<OpenTracingContext.OpenTracingSpanContext>(contextMapper, new Dictionary<string, string>() { });
+            var memoryCarrier = new MemoryTextMapCarrier<OpenTracingSpanContext>(contextMapper, new Dictionary<string, string>() { });
 
             ISpan<OpenTracingContext.OpenTracingSpanContext> span;
             var success = tracer.TryJoin("TestOperation", memoryCarrier, out span);
@@ -65,7 +65,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         public void DefaultBasicTracer_WhenJoinValidSpanToMemoryCarrier_Works()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
-            var traceBuilder = new TracerBuilder<OpenTracingContext.OpenTracingSpanContext>();
+            var traceBuilder = new TracerBuilder<OpenTracingSpanContext>();
             traceBuilder.SetSpanContextFactory(spanContextFactory);
             var tracer = traceBuilder.BuildTracer();
 
@@ -79,7 +79,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             };
 
             var contextMapper = new OpenTracingSpanContextToTextMapper();
-            var memoryCarrier = new MemoryTextMapCarrier<OpenTracingContext.OpenTracingSpanContext>(contextMapper, data);
+            var memoryCarrier = new MemoryTextMapCarrier<OpenTracingSpanContext>(contextMapper, data);
 
             ISpan<OpenTracingContext.OpenTracingSpanContext> span;
             var success = tracer.TryJoin("TestOperation", memoryCarrier, out span);
@@ -96,7 +96,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         public void DefaultBasicTracer_WhenFinishSpan_CallsRecorderWithAllSpanData()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
-            var traceBuilder = new TracerBuilder<OpenTracingContext.OpenTracingSpanContext>();
+            var traceBuilder = new TracerBuilder<OpenTracingSpanContext>();
             traceBuilder.SetSpanContextFactory(spanContextFactory);
             var simpleMockRecorder = new SimpleMockRecorder();
             traceBuilder.SetSpanRecorder(simpleMockRecorder);
