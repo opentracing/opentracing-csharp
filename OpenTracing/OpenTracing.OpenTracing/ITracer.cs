@@ -1,5 +1,4 @@
-﻿using OpenTracing.Context;
-using OpenTracing.Propagation;
+﻿using OpenTracing.Propagation;
 
 namespace OpenTracing
 {

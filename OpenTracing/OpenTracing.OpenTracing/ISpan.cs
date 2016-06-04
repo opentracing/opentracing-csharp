@@ -1,5 +1,4 @@
-﻿using OpenTracing.Context;
-using System;
+﻿using System;
 
 namespace OpenTracing
 {

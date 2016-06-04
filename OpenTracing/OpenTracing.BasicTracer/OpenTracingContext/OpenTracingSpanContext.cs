@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using OpenTracing.Context;
+using OpenTracing.BasicTracer.Context;
 using System.Collections.ObjectModel;
 
 namespace OpenTracing.BasicTracer.OpenTracingContext
