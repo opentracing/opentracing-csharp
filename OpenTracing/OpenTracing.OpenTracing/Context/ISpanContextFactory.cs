@@ -1,6 +1,6 @@
 ﻿namespace OpenTracing.Context
 {
-    public interface ISpanContextFactory<T> where T : ISpanContext
+    public interface ISpanContextFactory<T>
     {
         T NewRootSpanContext();
         T NewChildSpanContext(T spanContext);

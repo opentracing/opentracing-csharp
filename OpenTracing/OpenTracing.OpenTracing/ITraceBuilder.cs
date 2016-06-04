@@ -2,7 +2,7 @@
 
 namespace OpenTracing
 {
-    public interface ITraceBuilder<T> where T : ISpanContext
+    public interface ITraceBuilder<T>
     {
         ITraceBuilder<T> SetSpanContextFactory(ISpanContextFactory<ISpanContext> spanContextFactory);
         ITracer<T> BuildTracer();

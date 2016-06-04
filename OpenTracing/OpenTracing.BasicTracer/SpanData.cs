@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace OpenTracing.BasicTracer
 {
-    public class SpanData<T> where T : ISpanContext
+    public class SpanData<T>
     {
         public T Context { get; internal set; }
          

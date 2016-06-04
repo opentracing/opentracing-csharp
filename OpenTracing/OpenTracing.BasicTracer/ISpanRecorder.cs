@@ -2,7 +2,7 @@
 
 namespace OpenTracing.BasicTracer
 {
-    public interface ISpanRecorder<T> where T : ISpanContext
+    public interface ISpanRecorder<T>
     {
         void RecordSpan(SpanData<T> span);
     }

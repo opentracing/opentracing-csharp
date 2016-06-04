@@ -2,7 +2,7 @@
 
 namespace OpenTracing.Propagation
 {
-    public interface IContextMapper<T, TFormat> where TFormat : IFormat where T : ISpanContext
+    public interface IContextMapper<T, TFormat>
     {
         bool TryMapTo(TFormat data, out T spanContext);
         TFormat MapFrom(T spanContext);

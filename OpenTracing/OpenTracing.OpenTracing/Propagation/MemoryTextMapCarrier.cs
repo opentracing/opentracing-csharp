@@ -4,7 +4,7 @@ using System;
 
 namespace OpenTracing.Propagation
 {
-    public class MemoryTextMapCarrier<T> : IInjectCarrier<T>, IExtractCarrier<T> where T : ISpanContext
+    public class MemoryTextMapCarrier<T> : IInjectCarrier<T>, IExtractCarrier<T>
     {
         private IContextMapper<T, TextMapFormat> _contextMapper;
 
