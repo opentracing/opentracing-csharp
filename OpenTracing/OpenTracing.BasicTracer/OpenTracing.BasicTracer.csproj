@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ISpanEvents.cs" />
     <Compile Include="ISpanRecorder.cs" />
+    <Compile Include="ITracerBuilder.cs" />
     <Compile Include="OpenTracingContext\OpenTracingSpanContext.cs" />
     <Compile Include="OpenTracingContext\OpenTracingSpanContextFactory.cs" />
     <Compile Include="OpenTracingContext\OpenTracingSpanContextToTextMapper.cs" />

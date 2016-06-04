@@ -50,7 +50,6 @@
     <Compile Include="Context\ISpanContext.cs" />
     <Compile Include="Context\ISpanContextFactory.cs" />
     <Compile Include="LogData.cs" />
-    <Compile Include="ITraceBuilder.cs" />
     <Compile Include="ITracer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartSpanOptions.cs" />
