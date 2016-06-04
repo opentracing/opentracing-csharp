@@ -1,4 +1,4 @@
-﻿namespace OpenTracing.Context
+﻿namespace OpenTracing.BasicTracer.Context
 {
     public interface ISpanContextFactory<T>
     {

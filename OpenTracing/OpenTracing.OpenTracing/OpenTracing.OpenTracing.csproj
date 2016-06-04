@@ -47,8 +47,6 @@
     <Compile Include="Propagation\TextMapFormat.cs" />
     <Compile Include="FinishSpanOptions.cs" />
     <Compile Include="ISpan.cs" />
-    <Compile Include="Context\ISpanContext.cs" />
-    <Compile Include="Context\ISpanContextFactory.cs" />
     <Compile Include="LogData.cs" />
     <Compile Include="ITracer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
