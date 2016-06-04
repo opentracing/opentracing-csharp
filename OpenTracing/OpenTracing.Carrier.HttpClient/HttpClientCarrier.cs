@@ -1,9 +1,8 @@
 ﻿using OpenTracing.Propagation;
-using OpenTracing.Context;
 
 namespace OpenTracing.Carrier.HttpClient
 {
-    public class HttpClientCarrier<T> : IInjectCarrier<T> where T : ISpanContext
+    public class HttpClientCarrier<T> : IInjectCarrier<T>
     {
         private IContextMapper<T, TextMapFormat> _contextMapper;
         System.Net.Http.HttpClient _httpClient;

@@ -3,7 +3,7 @@ using OpenTracing.Propagation;
 
 namespace OpenTracing
 {
-    public interface ITracer<T> where T : ISpanContext
+    public interface ITracer<T>
     {
         ISpan<T> StartSpan(string operationName);
         ISpan<T> StartSpan(StartSpanOptions startSpanOptions);

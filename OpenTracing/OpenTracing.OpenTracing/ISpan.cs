@@ -3,7 +3,7 @@ using System;
 
 namespace OpenTracing
 {
-    public interface ISpan<T> where T : ISpanContext
+    public interface ISpan<T> 
     {
         T GetSpanContext();
 
