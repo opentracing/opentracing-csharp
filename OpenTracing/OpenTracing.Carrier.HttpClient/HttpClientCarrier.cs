@@ -4,10 +4,10 @@ namespace OpenTracing.Carrier.HttpClient
 {
     public class HttpClientCarrier<T> : IInjectCarrier<T>
     {
-        private IContextMapper<T, TextMapFormat> _contextMapper;
+        private IContextTextMapMapper<T> _contextMapper;
         System.Net.Http.HttpClient _httpClient;
 
-        public HttpClientCarrier(IContextMapper<T, TextMapFormat> contextMapper, System.Net.Http.HttpClient httpClient)
+        public HttpClientCarrier(IContextTextMapMapper<T> contextMapper, System.Net.Http.HttpClient httpClient)
         {
             _contextMapper = contextMapper;
             _httpClient = httpClient;

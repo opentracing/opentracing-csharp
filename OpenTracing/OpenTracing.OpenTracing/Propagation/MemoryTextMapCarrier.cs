@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace OpenTracing.Propagation
 {
     public class MemoryTextMapCarrier<T> : IInjectCarrier<T>, IExtractCarrier<T>
     {
-        private IContextMapper<T, TextMapFormat> _contextMapper;
+        private IContextTextMapMapper<T> _contextMapper;
 
-        public IDictionary<string, string> TextMap { get; set; } = new Dictionary<string, string>() { };
+        public IReadOnlyDictionary<string, string> TextMap { get; set; }
 
-        public MemoryTextMapCarrier(IContextMapper<T, TextMapFormat> contextMapper, IDictionary<string, string> textMap)
+        public MemoryTextMapCarrier(IContextTextMapMapper<T> contextMapper, IReadOnlyDictionary<string, string> textMap)
         {
             TextMap = textMap;
             _contextMapper = contextMapper;
@@ -16,7 +17,7 @@ namespace OpenTracing.Propagation
 
         public bool TryMapTo(out T spanContext)
         {
-            return _contextMapper.TryMapTo(new TextMapFormat(TextMap), out spanContext);
+            return _contextMapper.TryMapTo(TextMap, out spanContext);
         }
 
         public void MapFrom(T spanContext)
