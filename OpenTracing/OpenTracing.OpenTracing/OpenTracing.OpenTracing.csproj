@@ -40,11 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Propagation\IContextMapper.cs" />
+    <Compile Include="Propagation\IContexTextMapMapper.cs" />
     <Compile Include="Propagation\IExtractCarrier.cs" />
     <Compile Include="Propagation\IInjectCarrier.cs" />
     <Compile Include="Propagation\MemoryTextMapCarrier.cs" />
-    <Compile Include="Propagation\TextMapFormat.cs" />
     <Compile Include="FinishSpanOptions.cs" />
     <Compile Include="ISpan.cs" />
     <Compile Include="LogData.cs" />
