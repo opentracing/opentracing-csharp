@@ -1,7 +1,7 @@
 ﻿namespace OpenTracing.Propagation
 {
-    public interface IInjectCarrier<T>
+    public interface IInjectCarrier
     {
-        void MapFrom(T spanContext);
+        void MapFrom(ISpan span);
     }
 }

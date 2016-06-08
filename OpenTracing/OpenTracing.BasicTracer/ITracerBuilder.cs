@@ -4,7 +4,7 @@ namespace OpenTracing.BasicTracer
 {
     public interface ITracerBuilder<T>
     {
-        ITracerBuilder<T> SetSpanContextFactory(ISpanContextFactory<ISpanContext> spanContextFactory);
-        ITracer<T> BuildTracer();
+        ITracerBuilder<T> SetSpanContextFactory(ISpanContextFactory<T> spanContextFactory);
+        ITracer BuildTracer();
     }
 }

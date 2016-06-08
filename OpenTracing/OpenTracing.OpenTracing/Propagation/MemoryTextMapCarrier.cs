@@ -2,26 +2,26 @@
 
 namespace OpenTracing.Propagation
 {
-    public class MemoryTextMapCarrier<T> : IInjectCarrier<T>, IExtractCarrier<T>
+    public class MemoryTextMapCarrier : IInjectCarrier, IExtractCarrier
     {
-        private IContextMapper<T, TextMapFormat> _contextMapper;
+        private ISpanMapper<TextMapFormat> _contextMapper;
 
         public IDictionary<string, string> TextMap { get; set; } = new Dictionary<string, string>() { };
 
-        public MemoryTextMapCarrier(IContextMapper<T, TextMapFormat> contextMapper, IDictionary<string, string> textMap)
+        public MemoryTextMapCarrier(ISpanMapper<TextMapFormat> contextMapper, IDictionary<string, string> textMap)
         {
             TextMap = textMap;
             _contextMapper = contextMapper;
         }
 
-        public bool TryMapTo(out T spanContext)
+        public bool TryMapTo(string operationName, out ISpan span)
         {
-            return _contextMapper.TryMapTo(new TextMapFormat(TextMap), out spanContext);
+            return _contextMapper.TryMapTo(operationName, new TextMapFormat(TextMap), out span);
         }
 
-        public void MapFrom(T spanContext)
+        public void MapFrom(ISpan span)
         {
-            TextMap = _contextMapper.MapFrom(spanContext);
+            TextMap = _contextMapper.MapFrom(span);
         }
     }
 }

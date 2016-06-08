@@ -33,15 +33,16 @@ namespace OpenTracing.BasicTracer.IntegrationTests
 
             var span = tracer.StartSpan("TestOperation");
 
-            var traceId = span.GetSpanContext().TraceId;
-            var spanId = span.GetSpanContext().SpanId;
-
             var contextMapper = new OpenTracingSpanContextToTextMapper();
-            var memoryCarrier = new MemoryTextMapCarrier<OpenTracingSpanContext>(contextMapper, new Dictionary<string, string>() { });
+            var spanMapper = new SpanMapper<OpenTracingSpanContext, TextMapFormat>(tracer, contextMapper);
+            var memoryCarrier = new MemoryTextMapCarrier(spanMapper, new Dictionary<string, string>() { });
             tracer.Inject(span, memoryCarrier);
 
-            Assert.AreEqual(traceId.ToString(), memoryCarrier.TextMap["ot-tracer-traceid"]);
-            Assert.AreEqual(spanId.ToString(), memoryCarrier.TextMap["ot-tracer-spanid"]);
+            Assert.IsTrue(memoryCarrier.TextMap.ContainsKey("ot-tracer-traceid"));
+            Assert.IsTrue(memoryCarrier.TextMap.ContainsKey("ot-tracer-spanid"));
+
+            Assert.IsTrue(ulong.Parse(memoryCarrier.TextMap["ot-tracer-traceid"]) != 0);
+            Assert.IsTrue(ulong.Parse(memoryCarrier.TextMap["ot-tracer-spanid"]) != 0);
         }
 
         [Test()]
@@ -53,9 +54,10 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             var tracer = traceBuilder.BuildTracer();
 
             var contextMapper = new OpenTracingSpanContextToTextMapper();
-            var memoryCarrier = new MemoryTextMapCarrier<OpenTracingSpanContext>(contextMapper, new Dictionary<string, string>() { });
+            var spanMapper = new SpanMapper<OpenTracingSpanContext, TextMapFormat>(tracer, contextMapper);
+            var memoryCarrier = new MemoryTextMapCarrier(spanMapper, new Dictionary<string, string>() { });
 
-            ISpan<OpenTracingContext.OpenTracingSpanContext> span;
+            ISpan span;
             var success = tracer.TryJoin("TestOperation", memoryCarrier, out span);
 
             Assert.IsFalse(success);
@@ -79,14 +81,14 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             };
 
             var contextMapper = new OpenTracingSpanContextToTextMapper();
-            var memoryCarrier = new MemoryTextMapCarrier<OpenTracingSpanContext>(contextMapper, data);
+            var spanMapper = new SpanMapper<OpenTracingSpanContext, TextMapFormat>(tracer, contextMapper);
+            var memoryCarrier = new MemoryTextMapCarrier(spanMapper, data);
 
-            ISpan<OpenTracingContext.OpenTracingSpanContext> span;
+            ISpan span;
             var success = tracer.TryJoin("TestOperation", memoryCarrier, out span);
 
             Assert.IsTrue(success);
-
-            var context = span.GetSpanContext();
+            Assert.IsTrue(span is Span<OpenTracingSpanContext>);
 
             Assert.AreEqual(testTraceId.ToString(), memoryCarrier.TextMap["ot-tracer-traceid"]);
             Assert.AreEqual(testSpanId.ToString(), memoryCarrier.TextMap["ot-tracer-spanid"]);

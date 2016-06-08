@@ -2,20 +2,20 @@
 
 namespace OpenTracing.Carrier.HttpClient
 {
-    public class HttpClientCarrier<T> : IInjectCarrier<T>
+    public class HttpClientCarrier : IInjectCarrier
     {
-        private IContextMapper<T, TextMapFormat> _contextMapper;
+        private ISpanMapper<TextMapFormat> _spanMapper;
         System.Net.Http.HttpClient _httpClient;
 
-        public HttpClientCarrier(IContextMapper<T, TextMapFormat> contextMapper, System.Net.Http.HttpClient httpClient)
+        public HttpClientCarrier(ISpanMapper<TextMapFormat> spanMapper, System.Net.Http.HttpClient httpClient)
         {
-            _contextMapper = contextMapper;
+            _spanMapper = spanMapper;
             _httpClient = httpClient;
         }
 
-        public void MapFrom(T spanContext)
+        public void MapFrom(ISpan span)
         {
-            var textMap = _contextMapper.MapFrom(spanContext);
+            var textMap = _spanMapper.MapFrom(span);
 
             var headers = _httpClient.DefaultRequestHeaders;
 

@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Propagation\IContextMapper.cs" />
+    <Compile Include="Propagation\ISpanMapper.cs" />
     <Compile Include="Propagation\IExtractCarrier.cs" />
     <Compile Include="Propagation\IInjectCarrier.cs" />
     <Compile Include="Propagation\MemoryTextMapCarrier.cs" />

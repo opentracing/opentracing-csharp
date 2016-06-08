@@ -5,19 +5,19 @@ using System.Text.RegularExpressions;
 
 namespace OpenTracing.BasicTracer
 {
-    public sealed class Span<T> : ISpan<T> where T : ISpanContext
+    public sealed class Span<T> : ISpan where T : ISpanContext
     {
-        private readonly ITracer<T> _tracer;
+        private readonly ITracer _tracer;
         private readonly T _spanContext;
 
         private ISpanRecorder<T> _spanRecorder;
 
-        public T GetSpanContext()
+        internal T GetSpanContext()
         {
             return _spanContext;
         }
 
-        internal Span(ITracer<T> tracer, ISpanRecorder<T> spanRecorder, T spanContext, string operationName, DateTime startTime)
+        internal Span(ITracer tracer, ISpanRecorder<T> spanRecorder, T spanContext, string operationName, DateTime startTime)
         {
             _tracer = tracer;
             _spanContext = spanContext;
@@ -101,7 +101,7 @@ namespace OpenTracing.BasicTracer
             return regEx.IsMatch(key);
         }
 
-        public ITracer<T> GetTracer()
+        public ITracer GetTracer()
         {
             return _tracer;
         }

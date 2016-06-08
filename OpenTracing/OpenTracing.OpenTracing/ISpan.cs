@@ -2,10 +2,8 @@
 
 namespace OpenTracing
 {
-    public interface ISpan<T> 
+    public interface ISpan
     {
-        T GetSpanContext();
-
         void Finish();
         void FinishWithOptions(DateTime finishTime);
 
@@ -16,6 +14,6 @@ namespace OpenTracing
         void Log(string message, object obj);
         void Log(DateTime dateTime, string message, object obj);
 
-        ITracer<T> GetTracer();
+        ITracer GetTracer();
     }
 }

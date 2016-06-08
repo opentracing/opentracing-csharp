@@ -1,4 +1,4 @@
-﻿namespace OpenTracing.Propagation
+﻿namespace OpenTracing.BasicTracer.Context
 {
     public interface IContextMapper<T, TFormat>
     {

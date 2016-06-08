@@ -2,12 +2,12 @@
 
 namespace OpenTracing
 {
-    public interface ITracer<T>
+    public interface ITracer
     {
-        ISpan<T> StartSpan(string operationName);
-        ISpan<T> StartSpan(StartSpanOptions startSpanOptions);
+        ISpan StartSpan(string operationName);
+        ISpan StartSpan(StartSpanOptions startSpanOptions);
 
-        void Inject(ISpan<T> span, IInjectCarrier<T> carrier);
-        bool TryJoin(string operationName, IExtractCarrier<T> carrier, out ISpan<T> span);
+        void Inject(ISpan span, IInjectCarrier carrier);
+        bool TryJoin(string operationName, IExtractCarrier carrier, out ISpan span);
     }
 }
