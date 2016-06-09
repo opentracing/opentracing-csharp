@@ -1,7 +1,7 @@
 ﻿namespace OpenTracing.Propagation
 {
-    public interface IExtractCarrier
+    public interface IExtractCarrier<T>
     {
-        bool TryMapTo(string operationName, out ISpan span);
+        bool TryMapTo(out T format);
     }
 }

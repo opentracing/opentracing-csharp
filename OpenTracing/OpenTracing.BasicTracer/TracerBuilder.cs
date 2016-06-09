@@ -1,5 +1,7 @@
 ﻿using OpenTracing.BasicTracer.Context;
+using OpenTracing.BasicTracer.OpenTracingContext;
 using System;
+using System.Collections.Generic;
 
 namespace OpenTracing.BasicTracer
 {
@@ -30,7 +32,12 @@ namespace OpenTracing.BasicTracer
                 throw new ArgumentNullException("No span context factory set.");
             }
 
-            return new Tracer<T>(_spanContextFactory, _spanRecorder);
+            var mappers = new List<object>
+            {
+                { new OpenTracingSpanContextToTextMapper() }
+            };
+
+            return new Tracer<T>(_spanContextFactory, _spanRecorder, mappers);
         }
     }
 }
