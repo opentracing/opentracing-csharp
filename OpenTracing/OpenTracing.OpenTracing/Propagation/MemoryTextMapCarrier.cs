@@ -6,6 +6,10 @@ namespace OpenTracing.Propagation
     {
         public IDictionary<string, string> TextMap { get; set; } = new Dictionary<string, string>() { };
 
+        public MemoryTextMapCarrier()
+        {
+        }
+
         public MemoryTextMapCarrier(IDictionary<string, string> textMap)
         {
             TextMap = textMap;
