@@ -4,6 +4,8 @@ namespace OpenTracing
 {
     public interface ISpan
     {
+        ISpanContext GetSpanContext();
+
         void Finish();
         void FinishWithOptions(DateTime finishTime);
 

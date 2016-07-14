@@ -19,14 +19,14 @@ namespace OpenTracing.BasicTracer
             _mappers = mappers;
         }
 
-        private Span<T> ConvertToBasicTracerSpan(ISpan span)
+        private T ConvertToBasicTracerSpan(ISpanContext spanContext)
         {
-            if (!(span is Span<T>))
+            if (!(spanContext is T))
             {
-                throw new System.Exception("Invalid span type");
+                throw new System.Exception("Invalid span context type");
             }
 
-            return span as Span<T>;
+            return (T)spanContext;
         }
 
         public void Inject<TFormat>(ISpan span, IInjectCarrier<TFormat> carrier)
@@ -38,7 +38,7 @@ namespace OpenTracing.BasicTracer
                 throw new Exception("Could not find mapper");
             }
 
-            var spanContext = ConvertToBasicTracerSpan(span).GetSpanContext();
+            var spanContext = ConvertToBasicTracerSpan(span.GetSpanContext());
 
             carrier.MapFrom(mapper.MapFrom(spanContext));
         }

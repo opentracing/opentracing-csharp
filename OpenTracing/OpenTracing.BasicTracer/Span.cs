@@ -12,7 +12,7 @@ namespace OpenTracing.BasicTracer
 
         private ISpanRecorder<T> _spanRecorder;
 
-        internal T GetSpanContext()
+        public ISpanContext GetSpanContext()
         {
             return _spanContext;
         }
@@ -44,7 +44,7 @@ namespace OpenTracing.BasicTracer
 
             var spanData = new SpanData<T>()
             {
-                Context = GetSpanContext(),
+                Context = _spanContext,
                 OperationName = OperationName,
                 StartTime = StartTime,
                 Duration = Duration,
