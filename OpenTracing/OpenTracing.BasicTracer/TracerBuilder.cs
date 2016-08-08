@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace OpenTracing.BasicTracer
 {
-    public class TracerBuilder<T> where T : ISpanContext
+    public class TracerBuilder<T> where T : Context.ISpanContext
     {
         private ISpanContextFactory<T> _spanContextFactory = null;
         private ISpanRecorder<T> _spanRecorder = null;

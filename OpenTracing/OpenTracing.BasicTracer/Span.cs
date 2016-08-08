@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace OpenTracing.BasicTracer
 {
-    public sealed class Span<T> : ISpan where T : ISpanContext
+    public sealed class Span<T> : ISpan where T : Context.ISpanContext
     {
         private readonly ITracer _tracer;
         private readonly T _spanContext;
@@ -83,6 +83,11 @@ namespace OpenTracing.BasicTracer
                 throw new ArgumentException("Invalid baggage key: '" + restrictedKey + "'");
 
             _spanContext.SetBaggageItem(restrictedKey.ToLower(), value);
+        }
+
+        public string GetBaggageItem(string restrictedKey)
+        {
+            return _spanContext.GetBaggageItems()[restrictedKey.ToLower()];
         }
 
         public void Log(string message, object obj)

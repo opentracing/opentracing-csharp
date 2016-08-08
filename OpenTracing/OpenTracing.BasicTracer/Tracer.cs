@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace OpenTracing.BasicTracer
 {
-    public class Tracer<T> : ITracer where T : ISpanContext
+    public class Tracer<T> : ITracer where T : Context.ISpanContext
     {
         private readonly ISpanContextFactory<T> _spanContextFactory;
         private ISpanRecorder<T> _spanRecorder;
