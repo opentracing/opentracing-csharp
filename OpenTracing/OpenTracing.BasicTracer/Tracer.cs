@@ -43,7 +43,7 @@ namespace OpenTracing.BasicTracer
             carrier.MapFrom(mapper.MapFrom(spanContext));
         }
 
-        public bool TryJoin<TFormat>(string operationName, IExtractCarrier<TFormat> carrier, out ISpan span)
+        public bool Extract<TFormat>(string operationName, IExtractCarrier<TFormat> carrier, out ISpan span)
         {
             span = null;
 

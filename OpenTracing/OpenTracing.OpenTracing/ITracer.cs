@@ -8,6 +8,6 @@ namespace OpenTracing
         ISpan StartSpan(StartSpanOptions startSpanOptions);
 
         void Inject<T>(ISpan span, IInjectCarrier<T> carrier);
-        bool TryJoin<T>(string operationName, IExtractCarrier<T> carrier, out ISpan span);
+        bool Extract<T>(string operationName, IExtractCarrier<T> carrier, out ISpan span);
     }
 }

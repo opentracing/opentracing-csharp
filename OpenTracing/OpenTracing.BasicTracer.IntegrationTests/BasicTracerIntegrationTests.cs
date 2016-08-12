@@ -45,7 +45,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         }
 
         [Test()]
-        public void DefaultBasicTracer_WhenJoinBadSpanToMemoryCarrier_Fails()
+        public void DefaultBasicTracer_WhenExtractBadSpanToMemoryCarrier_Fails()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
             var traceBuilder = new TracerBuilder<OpenTracingSpanContext>();
@@ -56,13 +56,13 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             var memoryCarrier = new MemoryTextMapCarrier(new Dictionary<string, string>() { });
 
             ISpan span;
-            var success = tracer.TryJoin("TestOperation", memoryCarrier, out span);
+            var success = tracer.Extract("TestOperation", memoryCarrier, out span);
 
             Assert.IsFalse(success);
         }
 
         [Test()]
-        public void DefaultBasicTracer_WhenJoinValidSpanToMemoryCarrier_Works()
+        public void DefaultBasicTracer_WhenExtractValidSpanToMemoryCarrier_Works()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
             var traceBuilder = new TracerBuilder<OpenTracingSpanContext>();
@@ -82,7 +82,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             var memoryCarrier = new MemoryTextMapCarrier(data);
 
             ISpan span;
-            var success = tracer.TryJoin("TestOperation", memoryCarrier, out span);
+            var success = tracer.Extract("TestOperation", memoryCarrier, out span);
 
             Assert.IsTrue(success);
             Assert.IsTrue(span is Span<OpenTracingSpanContext>);
