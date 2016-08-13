@@ -1,7 +1,7 @@
 ﻿namespace OpenTracing.Propagation
 {
-    public interface IExtractCarrier<T>
+    public interface IExtractCarrier<TFormat>
     {
-        ExtractCarrierResult<T> Extract();
+        ExtractCarrierResult<TFormat> Extract();
     }
 }

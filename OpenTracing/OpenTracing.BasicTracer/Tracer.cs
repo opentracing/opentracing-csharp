@@ -6,32 +6,32 @@ using System.Linq;
 
 namespace OpenTracing.BasicTracer
 {
-    public class Tracer<T> : ITracer where T : Context.ISpanContext
+    public class Tracer<TContext> : ITracer where TContext : Context.ISpanContext
     {
-        private readonly ISpanContextFactory<T> _spanContextFactory;
-        private ISpanRecorder<T> _spanRecorder;
+        private readonly ISpanContextFactory<TContext> _spanContextFactory;
+        private ISpanRecorder<TContext> _spanRecorder;
         private IList<object> _mappers;
 
-        internal Tracer(ISpanContextFactory<T> spanContextFactory, ISpanRecorder<T> spanRecorder, IList<object> mappers)
+        internal Tracer(ISpanContextFactory<TContext> spanContextFactory, ISpanRecorder<TContext> spanRecorder, IList<object> mappers)
         {
             _spanContextFactory = spanContextFactory;
             _spanRecorder = spanRecorder;
             _mappers = mappers;
         }
 
-        private T ConvertToBasicTracerSpan(ISpanContext spanContext)
+        private TContext ConvertToBasicTracerSpan(ISpanContext spanContext)
         {
-            if (!(spanContext is T))
+            if (!(spanContext is TContext))
             {
                 throw new System.Exception("Invalid span context type");
             }
 
-            return (T)spanContext;
+            return (TContext)spanContext;
         }
 
         public void Inject<TFormat>(ISpan span, IInjectCarrier<TFormat> carrier)
         {
-            var mapper = _mappers.OfType<IContextMapper<T, TFormat>>().FirstOrDefault();
+            var mapper = _mappers.OfType<IContextMapper<TContext, TFormat>>().FirstOrDefault();
 
             if (mapper == null)
             {
@@ -47,7 +47,7 @@ namespace OpenTracing.BasicTracer
         {
             ISpan span = null;
 
-            var mapper = _mappers.OfType<IContextMapper<T, TFormat>>().FirstOrDefault();
+            var mapper = _mappers.OfType<IContextMapper<TContext, TFormat>>().FirstOrDefault();
 
             if (mapper == null)
             {
@@ -97,9 +97,9 @@ namespace OpenTracing.BasicTracer
             });
         }
 
-        internal ISpan NewSpan(T spanContext, string operationName, DateTime startTime)
+        internal ISpan NewSpan(TContext spanContext, string operationName, DateTime startTime)
         {
-            return new Span<T>(this, _spanRecorder, spanContext, operationName, startTime);
+            return new Span<TContext>(this, _spanRecorder, spanContext, operationName, startTime);
         }
     }
 }

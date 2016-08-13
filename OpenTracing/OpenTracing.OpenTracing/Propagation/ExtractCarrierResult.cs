@@ -2,9 +2,9 @@
 
 namespace OpenTracing.Propagation
 {
-    public class ExtractCarrierResult<T>
+    public class ExtractCarrierResult<TFormat>
     {
-        public ExtractCarrierResult(T formatData)
+        public ExtractCarrierResult(TFormat formatData)
         {
             FormatData = formatData;
             Success = true;
@@ -13,12 +13,12 @@ namespace OpenTracing.Propagation
 
         public ExtractCarrierResult(Exception e)
         {
-            FormatData = default(T);
+            FormatData = default(TFormat);
             Success = false;
             ExtractException = e;
         }
 
-        public T FormatData { get; private set; }
+        public TFormat FormatData { get; private set; }
 
         public bool Success { get; private set; }
 

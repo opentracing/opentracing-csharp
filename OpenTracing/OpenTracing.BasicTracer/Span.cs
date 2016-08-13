@@ -5,19 +5,19 @@ using System.Text.RegularExpressions;
 
 namespace OpenTracing.BasicTracer
 {
-    public sealed class Span<T> : ISpan where T : Context.ISpanContext
+    public sealed class Span<TContext> : ISpan where TContext : Context.ISpanContext
     {
         private readonly ITracer _tracer;
-        private readonly T _spanContext;
+        private readonly TContext _spanContext;
 
-        private ISpanRecorder<T> _spanRecorder;
+        private ISpanRecorder<TContext> _spanRecorder;
 
         public ISpanContext GetSpanContext()
         {
             return _spanContext;
         }
 
-        internal Span(ITracer tracer, ISpanRecorder<T> spanRecorder, T spanContext, string operationName, DateTime startTime)
+        internal Span(ITracer tracer, ISpanRecorder<TContext> spanRecorder, TContext spanContext, string operationName, DateTime startTime)
         {
             _tracer = tracer;
             _spanContext = spanContext;
@@ -42,7 +42,7 @@ namespace OpenTracing.BasicTracer
 
             Duration = finishTime - StartTime;
 
-            var spanData = new SpanData<T>()
+            var spanData = new SpanData<TContext>()
             {
                 Context = _spanContext,
                 OperationName = OperationName,

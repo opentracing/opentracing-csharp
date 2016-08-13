@@ -8,7 +8,7 @@ namespace OpenTracing
         ISpan StartSpan(string operationName);
         ISpan StartSpan(StartSpanOptions startSpanOptions);
 
-        void Inject<T>(ISpan span, IInjectCarrier<T> carrier);
-        ExtractResult Extract<T>(string operationName, IExtractCarrier<T> carrier);
+        void Inject<TFormat>(ISpan span, IInjectCarrier<TFormat> carrier);
+        ExtractResult Extract<TFormat>(string operationName, IExtractCarrier<TFormat> carrier);
     }
 }

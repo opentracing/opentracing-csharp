@@ -2,9 +2,9 @@
 
 namespace OpenTracing.BasicTracer.Context
 {
-    public class ContextMapToResult<T>
+    public class ContextMapToResult<TContext>
     {
-        public ContextMapToResult(T spanContext)
+        public ContextMapToResult(TContext spanContext)
         {
             SpanContext = spanContext;
             Success = true;
@@ -13,12 +13,12 @@ namespace OpenTracing.BasicTracer.Context
 
         public ContextMapToResult(Exception mapException)
         {
-            SpanContext = default(T);
+            SpanContext = default(TContext);
             Success = false;
             MapException = mapException;
         }
 
-        public T SpanContext { get; private set; }
+        public TContext SpanContext { get; private set; }
 
         public bool Success { get; private set; }
 

@@ -1,8 +1,8 @@
 ﻿namespace OpenTracing.BasicTracer.Context
 {
-    public interface IContextMapper<T, TFormat>
+    public interface IContextMapper<TContext, TFormat>
     {
-        ContextMapToResult<T> MapTo(TFormat data);
-        TFormat MapFrom(T spanContext);
+        ContextMapToResult<TContext> MapTo(TFormat data);
+        TFormat MapFrom(TContext spanContext);
     }
 }

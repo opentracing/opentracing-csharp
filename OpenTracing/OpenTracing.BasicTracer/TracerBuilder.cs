@@ -5,27 +5,27 @@ using System.Collections.Generic;
 
 namespace OpenTracing.BasicTracer
 {
-    public class TracerBuilder<T> where T : Context.ISpanContext
+    public class TracerBuilder<TContext> where TContext : Context.ISpanContext
     {
-        private ISpanContextFactory<T> _spanContextFactory = null;
-        private ISpanRecorder<T> _spanRecorder = null;
+        private ISpanContextFactory<TContext> _spanContextFactory = null;
+        private ISpanRecorder<TContext> _spanRecorder = null;
 
         public TracerBuilder()
         {       
         }
 
-        public TracerBuilder<T> SetSpanContextFactory(ISpanContextFactory<T> spanContextFactory)
+        public TracerBuilder<TContext> SetSpanContextFactory(ISpanContextFactory<TContext> spanContextFactory)
         {
             _spanContextFactory = spanContextFactory;
             return this;
         }
-        public TracerBuilder<T> SetSpanRecorder(ISpanRecorder<T> spanRecorder)
+        public TracerBuilder<TContext> SetSpanRecorder(ISpanRecorder<TContext> spanRecorder)
         {
             _spanRecorder = spanRecorder;
             return this;
         }
 
-        public Tracer<T> BuildTracer()
+        public Tracer<TContext> BuildTracer()
         {
             if (_spanContextFactory == null)
             {
@@ -37,7 +37,7 @@ namespace OpenTracing.BasicTracer
                 { new OpenTracingSpanContextToTextMapper() }
             };
 
-            return new Tracer<T>(_spanContextFactory, _spanRecorder, mappers);
+            return new Tracer<TContext>(_spanContextFactory, _spanRecorder, mappers);
         }
     }
 }

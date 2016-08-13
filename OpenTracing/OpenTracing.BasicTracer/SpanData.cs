@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace OpenTracing.BasicTracer
 {
-    public class SpanData<T>
+    public class SpanData<TContext>
     {
-        public T Context { get; internal set; }
+        public TContext Context { get; internal set; }
          
         public string OperationName { get; internal set; }
         public DateTime StartTime { get; internal set; }

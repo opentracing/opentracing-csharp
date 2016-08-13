@@ -1,7 +1,7 @@
 ﻿namespace OpenTracing.Propagation
 {
-    public interface IInjectCarrier<T>
+    public interface IInjectCarrier<TFormat>
     {
-        void MapFrom(T format);
+        void MapFrom(TFormat format);
     }
 }
