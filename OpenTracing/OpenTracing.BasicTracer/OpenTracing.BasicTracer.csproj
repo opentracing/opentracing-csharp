@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\ContextMapperResult.cs" />
     <Compile Include="Context\IContextMapper.cs" />
     <Compile Include="Context\ISpanContext.cs" />
     <Compile Include="Context\ISpanContextFactory.cs" />

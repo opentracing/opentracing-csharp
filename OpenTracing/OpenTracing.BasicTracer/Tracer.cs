@@ -61,16 +61,14 @@ namespace OpenTracing.BasicTracer
                 return new ExtractResult(extractCarrierResult.ExtractException);
             }
 
-            T spanContext;
+            var contextMapToResult = mapper.MapTo(extractCarrierResult.FormatData);
 
-            var success = mapper.TryMapTo(extractCarrierResult.FormatData, out spanContext);
-
-            if (!success)
+            if (!contextMapToResult.Success)
             {
-                return new ExtractResult(new Exception("Error"));
+                return new ExtractResult(contextMapToResult.MapException);
             }
                         
-            span = NewSpan(spanContext, operationName, DateTime.Now);
+            span = NewSpan(contextMapToResult.SpanContext, operationName, DateTime.Now);
 
             return new ExtractResult(span);
         }

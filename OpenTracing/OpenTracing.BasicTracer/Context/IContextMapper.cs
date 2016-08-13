@@ -2,7 +2,7 @@
 {
     public interface IContextMapper<T, TFormat>
     {
-        bool TryMapTo(TFormat data, out T spanContext);
+        ContextMapToResult<T> MapTo(TFormat data);
         TFormat MapFrom(T spanContext);
     }
 }

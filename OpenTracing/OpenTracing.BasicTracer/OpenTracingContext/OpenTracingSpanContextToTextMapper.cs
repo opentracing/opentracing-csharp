@@ -2,6 +2,7 @@
 using System.Linq;
 using OpenTracing.Propagation;
 using OpenTracing.BasicTracer.Context;
+using System;
 
 namespace OpenTracing.BasicTracer.OpenTracingContext
 {
@@ -28,16 +29,16 @@ namespace OpenTracing.BasicTracer.OpenTracingContext
             return new TextMapFormat(baggageInfo.Union(tracerInfo).ToDictionary(p => p.Key, p => p.Value));
         }
 
-        public bool TryMapTo(TextMapFormat data, out OpenTracingSpanContext spanContext)
+        public ContextMapToResult<OpenTracingSpanContext> MapTo(TextMapFormat data)
         {
-            spanContext = null;
+            OpenTracingSpanContext spanContext = null;
 
             var lowercaseProperties = data.ToDictionary(p => p.Key.ToLower(), p => p.Value);
 
             if (!lowercaseProperties.ContainsKey(fieldNameTraceID) ||
                 !lowercaseProperties.ContainsKey(fieldNameSpanID))
             {
-                return false;
+                return new ContextMapToResult<OpenTracingSpanContext>(new Exception("No key found for traceId and/or spanId"));
             }
 
             ulong traceId;
@@ -48,7 +49,7 @@ namespace OpenTracing.BasicTracer.OpenTracingContext
 
             if (!traceIdParceResult || !parentIdParseResult)
             {
-                return false;
+                return new ContextMapToResult<OpenTracingSpanContext>(new Exception("Found but could not parse traceId and/or spanId"));
             }
 
             bool sampled;
@@ -67,7 +68,7 @@ namespace OpenTracing.BasicTracer.OpenTracingContext
 
             spanContext = new OpenTracingSpanContext(traceId, parentId, GuidFactory.Create(), sampled, baggage);
 
-            return true;
+            return new ContextMapToResult<OpenTracingSpanContext>(spanContext);
         }
     }
 }
