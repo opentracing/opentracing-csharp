@@ -43,9 +43,9 @@ namespace OpenTracing.BasicTracer
             carrier.MapFrom(mapper.MapFrom(spanContext));
         }
 
-        public bool Extract<TFormat>(string operationName, IExtractCarrier<TFormat> carrier, out ISpan span)
+        public ExtractResult Extract<TFormat>(string operationName, IExtractCarrier<TFormat> carrier)
         {
-            span = null;
+            ISpan span = null;
 
             var mapper = _mappers.OfType<IContextMapper<T, TFormat>>().FirstOrDefault();
 
@@ -54,27 +54,25 @@ namespace OpenTracing.BasicTracer
                 throw new Exception("Could not find mapper");
             }
 
-            TFormat format;
+            var extractCarrierResult = carrier.Extract();
 
-            var success = carrier.TryMapTo(out format);
-
-            if (!success)
+            if (!extractCarrierResult.Success)
             {
-                return false;
+                return new ExtractResult(extractCarrierResult.ExtractException);
             }
 
             T spanContext;
 
-            success = mapper.TryMapTo(format, out spanContext);
+            var success = mapper.TryMapTo(extractCarrierResult.FormatData, out spanContext);
 
             if (!success)
             {
-                return false;
+                return new ExtractResult(new Exception("Error"));
             }
                         
             span = NewSpan(spanContext, operationName, DateTime.Now);
 
-            return true;
+            return new ExtractResult(span);
         }
 
         public ISpan StartSpan(StartSpanOptions startSpanOptions)

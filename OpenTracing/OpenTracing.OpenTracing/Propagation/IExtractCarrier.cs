@@ -2,6 +2,6 @@
 {
     public interface IExtractCarrier<T>
     {
-        bool TryMapTo(out T format);
+        ExtractCarrierResult<T> Extract();
     }
 }

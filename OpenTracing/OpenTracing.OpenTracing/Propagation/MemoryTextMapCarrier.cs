@@ -20,10 +20,9 @@ namespace OpenTracing.Propagation
             TextMap = format;
         }
 
-        public bool TryMapTo(out TextMapFormat format)
+        public ExtractCarrierResult<TextMapFormat> Extract()
         {
-            format = new TextMapFormat(TextMap);
-            return true;
+            return new ExtractCarrierResult<TextMapFormat>(new TextMapFormat(TextMap));
         }
     }
 }

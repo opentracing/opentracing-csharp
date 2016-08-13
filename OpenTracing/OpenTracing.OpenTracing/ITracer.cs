@@ -1,4 +1,5 @@
 ﻿using OpenTracing.Propagation;
+using System;
 
 namespace OpenTracing
 {
@@ -8,6 +9,6 @@ namespace OpenTracing
         ISpan StartSpan(StartSpanOptions startSpanOptions);
 
         void Inject<T>(ISpan span, IInjectCarrier<T> carrier);
-        bool Extract<T>(string operationName, IExtractCarrier<T> carrier, out ISpan span);
+        ExtractResult Extract<T>(string operationName, IExtractCarrier<T> carrier);
     }
 }
