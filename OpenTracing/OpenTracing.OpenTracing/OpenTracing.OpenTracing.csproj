@@ -52,6 +52,8 @@
     <Compile Include="LogData.cs" />
     <Compile Include="ITracer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpanReference.cs" />
+    <Compile Include="SpanReferenceType.cs" />
     <Compile Include="StartSpanOptions.cs" />
   </ItemGroup>
   <ItemGroup />
