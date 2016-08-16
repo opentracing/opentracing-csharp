@@ -7,7 +7,6 @@ namespace OpenTracing.BasicTracer
 {
     public sealed class Span<TContext> : ISpan where TContext : Context.ISpanContext
     {
-        private readonly ITracer _tracer;
         private readonly TContext _spanContext;
 
         private ISpanRecorder<TContext> _spanRecorder;
@@ -17,9 +16,8 @@ namespace OpenTracing.BasicTracer
             return _spanContext;
         }
 
-        internal Span(ITracer tracer, ISpanRecorder<TContext> spanRecorder, TContext spanContext, string operationName, DateTime startTime)
+        internal Span(ISpanRecorder<TContext> spanRecorder, TContext spanContext, string operationName, DateTime startTime)
         {
-            _tracer = tracer;
             _spanContext = spanContext;
             OperationName = operationName;
 
@@ -104,11 +102,6 @@ namespace OpenTracing.BasicTracer
         {
             var regEx = new Regex(@"^(?i:[a-z0-9][-a-z0-9]*)$");
             return regEx.IsMatch(key);
-        }
-
-        public ITracer GetTracer()
-        {
-            return _tracer;
         }
     }
 }

@@ -16,7 +16,5 @@ namespace OpenTracing
         void SetTag(string message, bool value);
         void Log(string message, object obj);
         void Log(DateTime dateTime, string message, object obj);
-
-        ITracer GetTracer();
     }
 }

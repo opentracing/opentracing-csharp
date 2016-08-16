@@ -99,7 +99,7 @@ namespace OpenTracing.BasicTracer
 
         internal ISpan NewSpan(TContext spanContext, string operationName, DateTime startTime)
         {
-            return new Span<TContext>(this, _spanRecorder, spanContext, operationName, startTime);
+            return new Span<TContext>(_spanRecorder, spanContext, operationName, startTime);
         }
     }
 }
