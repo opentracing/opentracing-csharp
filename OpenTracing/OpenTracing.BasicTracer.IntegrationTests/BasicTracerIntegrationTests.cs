@@ -18,7 +18,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             traceBuilder.SetSpanContextFactory(spanContextFactory);
             var tracer = traceBuilder.BuildTracer();
 
-            var span = tracer.StartSpan("TestOperation");
+            var span = tracer.BuildSpan("TestOperation").Start();
 
             Assert.NotNull(span);
         }
@@ -31,7 +31,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             traceBuilder.SetSpanContextFactory(spanContextFactory);
             var tracer = traceBuilder.BuildTracer();
 
-            var span = tracer.StartSpan("TestOperation");
+            var span = tracer.BuildSpan("TestOperation").Start();
 
             var contextMapper = new OpenTracingSpanContextToTextMapper();
             var memoryCarrier = new MemoryTextMapCarrier();
@@ -83,7 +83,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             var extractResult = tracer.Extract("TestOperation", memoryCarrier);
 
             Assert.IsTrue(extractResult.Success);
-            Assert.IsTrue(extractResult.Span is Span<OpenTracingSpanContext>);
+            Assert.IsTrue(extractResult.SpanContext is OpenTracingSpanContext);
 
             Assert.AreEqual(testTraceId.ToString(), memoryCarrier.TextMap["ot-tracer-traceid"]);
             Assert.AreEqual(testSpanId.ToString(), memoryCarrier.TextMap["ot-tracer-spanid"]);

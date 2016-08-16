@@ -5,7 +5,7 @@ namespace OpenTracing
 {
     public interface ITracer
     {
-        ISpan StartSpan(string operationName);
+        SpanBuilder BuildSpan(string operationName);
         ISpan StartSpan(StartSpanOptions startSpanOptions);
 
         void Inject<TFormat>(ISpan span, IInjectCarrier<TFormat> carrier);

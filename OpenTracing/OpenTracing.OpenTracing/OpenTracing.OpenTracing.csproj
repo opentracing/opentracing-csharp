@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ExtractResult.cs" />
     <Compile Include="ISpanContext.cs" />
+    <Compile Include="ISpanFactory.cs" />
     <Compile Include="Propagation\ExtractCarrierResult.cs" />
     <Compile Include="Propagation\IExtractCarrier.cs" />
     <Compile Include="Propagation\IInjectCarrier.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="LogData.cs" />
     <Compile Include="ITracer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpanBuilder.cs" />
     <Compile Include="SpanReference.cs" />
     <Compile Include="SpanReferenceType.cs" />
     <Compile Include="StartSpanOptions.cs" />

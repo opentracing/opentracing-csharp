@@ -8,14 +8,12 @@ namespace OpenTracing.BasicTracer
 {
     public class Tracer<TContext> : ITracer where TContext : Context.ISpanContext
     {
-        private readonly ISpanContextFactory<TContext> _spanContextFactory;
-        private ISpanRecorder<TContext> _spanRecorder;
+        private readonly ISpanFactory _spanFactory;
         private IList<object> _mappers;
 
-        internal Tracer(ISpanContextFactory<TContext> spanContextFactory, ISpanRecorder<TContext> spanRecorder, IList<object> mappers)
+        internal Tracer(ISpanFactory spanFactory, IList<object> mappers)
         {
-            _spanContextFactory = spanContextFactory;
-            _spanRecorder = spanRecorder;
+            _spanFactory = spanFactory;
             _mappers = mappers;
         }
 
@@ -71,31 +69,12 @@ namespace OpenTracing.BasicTracer
 
         public ISpan StartSpan(StartSpanOptions startSpanOptions)
         {
-            ISpan span;
-
-            var rootSpanContext = _spanContextFactory.NewRootSpanContext();
-
-            span = NewSpan(rootSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
-
-            foreach (var tag in startSpanOptions.Tag)
-            {
-                span.SetTag(tag.Key, tag.Value);
-            }
-
-            return span;
+            return _spanFactory.StartSpan(startSpanOptions);
         }
 
-        public ISpan StartSpan(string operationName)
+        public SpanBuilder BuildSpan(string operationName)
         {
-            return StartSpan(new StartSpanOptions()
-            {
-                OperationName = operationName,
-            });
-        }
-
-        internal ISpan NewSpan(TContext spanContext, string operationName, DateTime startTime)
-        {
-            return new Span<TContext>(_spanRecorder, spanContext, operationName, startTime);
+            return new SpanBuilder(_spanFactory, operationName);
         }
     }
 }

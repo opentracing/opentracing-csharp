@@ -32,12 +32,14 @@ namespace OpenTracing.BasicTracer
                 throw new ArgumentNullException("No span context factory set.");
             }
 
+            var spanFactory = new SpanFactory<TContext>(_spanContextFactory, _spanRecorder);
+
             var mappers = new List<object>
             {
                 { new OpenTracingSpanContextToTextMapper() }
             };
 
-            return new Tracer<TContext>(_spanContextFactory, _spanRecorder, mappers);
+            return new Tracer<TContext>(spanFactory, mappers);
         }
     }
 }
