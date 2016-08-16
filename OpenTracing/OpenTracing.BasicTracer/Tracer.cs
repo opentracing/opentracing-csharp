@@ -45,8 +45,6 @@ namespace OpenTracing.BasicTracer
 
         public ExtractResult Extract<TFormat>(string operationName, IExtractCarrier<TFormat> carrier)
         {
-            ISpan span = null;
-
             var mapper = _mappers.OfType<IContextMapper<TContext, TFormat>>().FirstOrDefault();
 
             if (mapper == null)
@@ -67,10 +65,8 @@ namespace OpenTracing.BasicTracer
             {
                 return new ExtractResult(contextMapToResult.MapException);
             }
-                        
-            span = NewSpan(contextMapToResult.SpanContext, operationName, DateTime.Now);
 
-            return new ExtractResult(span);
+            return new ExtractResult(contextMapToResult.SpanContext);
         }
 
         public ISpan StartSpan(StartSpanOptions startSpanOptions)

@@ -4,21 +4,21 @@ namespace OpenTracing
 {
     public class ExtractResult
     {
-        public ExtractResult(ISpan span)
+        public ExtractResult(ISpanContext spanContext)
         {
-            Span = span;
+            SpanContext = spanContext;
             Success = true;
             ExtractException = null;
         }
 
         public ExtractResult(Exception e)
         {
-            Span = null;
+            SpanContext = null;
             Success = false;
             ExtractException = e;
         }
 
-        public ISpan Span { get; private set; }
+        public ISpanContext SpanContext { get; private set; }
 
         public bool Success { get; private set; }
 
