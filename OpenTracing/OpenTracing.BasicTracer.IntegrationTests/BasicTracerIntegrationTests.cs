@@ -123,6 +123,9 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             Assert.AreEqual(0, simpleMockRecorder.spanEvents.First().Context.ParentId);
             Assert.AreNotEqual(0, simpleMockRecorder.spanEvents.First().Context.TraceId);
             Assert.AreNotEqual(0, simpleMockRecorder.spanEvents.First().Context.SpanId);
+
+            Assert.AreEqual(SpanReferenceType.ChildOfRef, simpleMockRecorder.spanEvents.First().References.First().Type);
+            Assert.AreEqual(parentSpan, simpleMockRecorder.spanEvents.First().References.First().ReferencedContext);
         }
     }
 }

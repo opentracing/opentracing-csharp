@@ -12,5 +12,6 @@ namespace OpenTracing.BasicTracer
         public TimeSpan Duration { get; internal set; }
         public IReadOnlyDictionary<string, string> Tags { get; internal set; }
         public IReadOnlyList<LogData> LogData { get; internal set; }
+        public List<SpanReference> References { get; internal set; }
     }
 }

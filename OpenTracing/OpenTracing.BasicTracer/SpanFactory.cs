@@ -1,5 +1,6 @@
 ﻿using OpenTracing.BasicTracer.Context;
 using System;
+using System.Collections.Generic;
 
 namespace OpenTracing.BasicTracer
 {
@@ -20,7 +21,7 @@ namespace OpenTracing.BasicTracer
 
             var rootSpanContext = _spanContextFactory.NewRootSpanContext();
 
-            span = NewSpan(rootSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
+            span = NewSpan(rootSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime, startSpanOptions.References);
 
             foreach (var tag in startSpanOptions.Tag)
             {
@@ -30,9 +31,9 @@ namespace OpenTracing.BasicTracer
             return span;
         }
 
-        internal ISpan NewSpan(TContext spanContext, string operationName, DateTime startTime)
+        internal ISpan NewSpan(TContext spanContext, string operationName, DateTime startTime, List<SpanReference> references)
         {
-            return new Span<TContext>(_spanRecorder, spanContext, operationName, startTime);
+            return new Span<TContext>(_spanRecorder, spanContext, operationName, startTime, references);
         }
     }
 }

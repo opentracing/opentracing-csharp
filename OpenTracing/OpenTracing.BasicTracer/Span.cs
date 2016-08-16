@@ -11,19 +11,27 @@ namespace OpenTracing.BasicTracer
 
         private ISpanRecorder<TContext> _spanRecorder;
 
+        private string _operationName;
+        private DateTime _startTime;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
+        private List<LogData> _logData = new List<OpenTracing.LogData>();
+        private List<SpanReference> _references = new List<SpanReference>();
+
         public ISpanContext GetSpanContext()
         {
             return _spanContext;
         }
 
-        internal Span(ISpanRecorder<TContext> spanRecorder, TContext spanContext, string operationName, DateTime startTime)
+        internal Span(ISpanRecorder<TContext> spanRecorder, TContext spanContext, string operationName, DateTime startTime, List<SpanReference> references)
         {
             _spanContext = spanContext;
-            OperationName = operationName;
+            _operationName = operationName;
 
             _spanRecorder = spanRecorder;
 
-            StartTime = startTime;
+            _startTime = startTime;
+
+            _references = references;
         }
 
         private bool isFinished = false;
@@ -38,41 +46,36 @@ namespace OpenTracing.BasicTracer
             if (isFinished)
                 return;
 
-            Duration = finishTime - StartTime;
+            var duration = finishTime - _startTime;
 
             var spanData = new SpanData<TContext>()
             {
                 Context = _spanContext,
-                OperationName = OperationName,
-                StartTime = StartTime,
-                Duration = Duration,
-                Tags = Tags,
-                LogData = LogData,
+                OperationName = _operationName,
+                StartTime = _startTime,
+                Duration = duration,
+                Tags = _tags,
+                LogData = _logData,
+                References = _references,
             };
 
             _spanRecorder.RecordSpan(spanData);
             isFinished = true;
         }
 
-        public string OperationName { get; private set; }
-        public DateTime StartTime { get; private set; }
-        public TimeSpan Duration { get; private set; }
-        public Dictionary<string, string> Tags { get; } = new Dictionary<string, string>();
-        public List<LogData> LogData { get; } = new List<OpenTracing.LogData>();
-
         public void SetTag(string message, string value)
         {
-            Tags[message] = value;
+            _tags[message] = value;
         }
 
         public void SetTag(string message, bool value)
         {
-            SetTag(message, value);
+            SetTag(message, value.ToString());
         }
 
         public void SetTag(string message, int value)
         {
-            SetTag(message, value);
+            SetTag(message, value.ToString());
         }
 
         public void SetBaggageItem(string restrictedKey, string value)
@@ -95,7 +98,7 @@ namespace OpenTracing.BasicTracer
 
         public void Log(DateTime dateTime, string message, object obj)
         {
-            LogData.Add(new LogData(dateTime, message, obj));
+            _logData.Add(new LogData(dateTime, message, obj));
         }
 
         private bool IsValidBaggaeKey(string key)
