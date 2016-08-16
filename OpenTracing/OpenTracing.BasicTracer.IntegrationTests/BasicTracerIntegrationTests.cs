@@ -99,15 +99,13 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             traceBuilder.SetSpanRecorder(simpleMockRecorder);
             var tracer = traceBuilder.BuildTracer();
 
-            var span = tracer.StartSpan(new StartSpanOptions()
-            {
-                OperationName = "TestOperation",
-                StartTime = DateTime.Parse("2016-01-01 12:00"),
-                Tag = new Dictionary<string, string>
-                {
-                    { "inittagkey", "InitTagValue" },
-                },
-            });
+            var parentSpan = spanContextFactory.NewRootSpanContext();
+
+            var span = tracer.BuildSpan("TestOperation")
+                .WithStartTime(DateTime.Parse("2016-01-01 12:00"))
+                .WithTag("inittagkey", "InitTagValue")
+                .AsChildOf(parentSpan)
+                .Start();
 
             span.SetBaggageItem("baggagekey", "BaggageValue");
             span.SetTag("tagkey", "TagValue");

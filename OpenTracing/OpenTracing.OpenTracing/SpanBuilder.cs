@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenTracing
 {
@@ -20,6 +17,52 @@ namespace OpenTracing
         {
             _spanFactory = spanFactory;
             _operationName = operationName;
+        }
+
+        public SpanBuilder AsChildOf(ISpanContext spanContext)
+        {
+            _references.Add(SpanReference.ChildOf(spanContext));
+            return this;
+        }
+
+        public SpanBuilder AsChildOf(ISpan span)
+        {
+            return AsChildOf(span.GetSpanContext());
+        }
+
+        public SpanBuilder FollowsFrom(ISpanContext spanContext)
+        {
+            _references.Add(SpanReference.FollowsFrom(spanContext));
+            return this;
+        }
+
+        public SpanBuilder FollowsFrom(ISpan span)
+        {
+            return AsChildOf(span.GetSpanContext());
+        }
+
+        public SpanBuilder WithTag(string key, string value)
+        {
+            _tags[key] = value; 
+            return this;
+        }
+
+        public SpanBuilder WithTag(string key, int value)
+        {
+            _tags[key] = value.ToString();
+            return this;
+        }
+
+        public SpanBuilder WithTag(string key, bool value)
+        {
+            _tags[key] = value.ToString();
+            return this;
+        }
+
+        public SpanBuilder WithStartTime(DateTime startTime)
+        {
+            _startTime = startTime;
+            return this;
         }
 
         public ISpan Start()
