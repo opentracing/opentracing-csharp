@@ -27,7 +27,7 @@ namespace OpenTracing.BasicTracer
             return (TContext)spanContext;
         }
 
-        public void Inject<TFormat>(ISpan span, IInjectCarrier<TFormat> carrier)
+        public void Inject<TFormat>(ISpanContext spanContext, IInjectCarrier<TFormat> carrier)
         {
             var mapper = _mappers.OfType<IContextMapper<TContext, TFormat>>().FirstOrDefault();
 
@@ -36,9 +36,9 @@ namespace OpenTracing.BasicTracer
                 throw new Exception("Could not find mapper");
             }
 
-            var spanContext = ConvertToBasicTracerSpan(span.GetSpanContext());
+            var basicTracerSpanContext = ConvertToBasicTracerSpan(spanContext);
 
-            carrier.MapFrom(mapper.MapFrom(spanContext));
+            carrier.MapFrom(mapper.MapFrom(basicTracerSpanContext));
         }
 
         public ExtractResult Extract<TFormat>(string operationName, IExtractCarrier<TFormat> carrier)

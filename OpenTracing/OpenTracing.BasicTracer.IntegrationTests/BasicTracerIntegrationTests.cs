@@ -35,7 +35,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
 
             var contextMapper = new OpenTracingSpanContextToTextMapper();
             var memoryCarrier = new MemoryTextMapCarrier();
-            tracer.Inject(span, memoryCarrier);
+            tracer.Inject(span.GetSpanContext(), memoryCarrier);
 
             Assert.IsTrue(memoryCarrier.TextMap.ContainsKey("ot-tracer-traceid"));
             Assert.IsTrue(memoryCarrier.TextMap.ContainsKey("ot-tracer-spanid"));
