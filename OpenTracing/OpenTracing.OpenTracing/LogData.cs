@@ -4,15 +4,15 @@ namespace OpenTracing
 {
     public class LogData
     {
-        public LogData(DateTime dateTime, string message, object obj)
+        public LogData(DateTime timestamp, string logEvent, object payload)
         {
-            DateTime = dateTime;
-            Message = message;
-            Obj = obj;
+            Timestamp = timestamp;
+            LogEvent = logEvent;
+            Payload = payload;
         }
 
-        public DateTime DateTime { get; private set; }
-        public string Message { get; private set; }
-        public object Obj { get; private set; }
+        public DateTime Timestamp { get; private set; }
+        public string LogEvent { get; private set; }
+        public object Payload { get; private set; }
     }
 }
