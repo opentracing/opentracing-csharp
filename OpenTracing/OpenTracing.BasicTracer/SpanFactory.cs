@@ -15,13 +15,13 @@ namespace OpenTracing.BasicTracer
             _spanRecorder = spanRecorder;
         }
 
-        public ISpan StartSpan(StartSpanOptions startSpanOptions)
+        public ISpan StartSpan(string operationName, StartSpanOptions startSpanOptions)
         {
             ISpan span;
 
             var rootSpanContext = _spanContextFactory.NewRootSpanContext();
 
-            span = NewSpan(rootSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime, startSpanOptions.References);
+            span = NewSpan(rootSpanContext, operationName, startSpanOptions.StartTime, startSpanOptions.References);
 
             foreach (var tag in startSpanOptions.Tag)
             {

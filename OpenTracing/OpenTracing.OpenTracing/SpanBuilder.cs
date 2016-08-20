@@ -5,7 +5,7 @@ namespace OpenTracing
 {
     public class SpanBuilder
     {
-        private ISpanFactory _spanFactory;
+        private ITracer _tracer;
 
         private string _operationName;
         private DateTime? _startTime;
@@ -13,9 +13,9 @@ namespace OpenTracing
 
         private List<SpanReference> _references = new List<SpanReference> { };
 
-        public SpanBuilder(ISpanFactory spanFactory, string operationName)
+        public SpanBuilder(ITracer tracer, string operationName)
         {
-            _spanFactory = spanFactory;
+            _tracer = tracer;
             _operationName = operationName;
         }
 
@@ -67,10 +67,9 @@ namespace OpenTracing
 
         public ISpan Start()
         {
-            return _spanFactory.StartSpan(
+            return _tracer.StartSpan(_operationName,
                 new StartSpanOptions()
                 {
-                    OperationName = _operationName,
                     StartTime = _startTime ?? DateTime.Now,
                     Tag = _tags,
                     References = _references,

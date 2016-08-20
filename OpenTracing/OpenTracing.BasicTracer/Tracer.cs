@@ -67,14 +67,9 @@ namespace OpenTracing.BasicTracer
             return new ExtractResult(contextMapToResult.SpanContext);
         }
 
-        public ISpan StartSpan(StartSpanOptions startSpanOptions)
+        public ISpan StartSpan(string operationName, StartSpanOptions startSpanOptions)
         {
-            return _spanFactory.StartSpan(startSpanOptions);
-        }
-
-        public SpanBuilder BuildSpan(string operationName)
-        {
-            return new SpanBuilder(_spanFactory, operationName);
+            return _spanFactory.StartSpan(operationName, startSpanOptions);
         }
     }
 }

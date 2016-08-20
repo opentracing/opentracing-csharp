@@ -57,6 +57,7 @@
     <Compile Include="SpanReference.cs" />
     <Compile Include="SpanReferenceType.cs" />
     <Compile Include="StartSpanOptions.cs" />
+    <Compile Include="TracerExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

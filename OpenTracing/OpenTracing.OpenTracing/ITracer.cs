@@ -8,27 +8,9 @@ namespace OpenTracing
     /// </summary>
     public interface ITracer
     {
-        /// <summary>
-        ///  Return a new SpanBuilder for a Span with the given `operationName`.
-        /// </summary>
-        /// <example>
-        ///     ITracer tracer = ...
-        /// 
-        ///     ISpan parentSpan = tracer.BuildSpan("DoWork")
-        ///                          .Start();
-        /// 
-        ///     Span http = tracer.BuildSpan("HandleHTTPRequest")
-        ///                        .AsChildOf(parentSpan.context())
-        ///                        .WithTag("user_agent", req.UserAgent)
-        ///                        .WithTag("lucky_number", 42)
-        ///                        .Start();
-        /// </example>
-        /// <param name="operationName"></param>
-        /// <returns>SpanBuilder</returns>
-        SpanBuilder BuildSpan(string operationName);
-
-
-        ISpan StartSpan(StartSpanOptions startSpanOptions);
+        /// Create, start, and return a new Span with the given `operationName` and
+        /// incorporate the given StartSpanOption `opts`.
+        ISpan StartSpan(string operationName, StartSpanOptions startSpanOptions);
 
         /// <summary>
         /// Inject a SpanContext into a `carrier` of a given type, presumably for propagation across process boundaries.

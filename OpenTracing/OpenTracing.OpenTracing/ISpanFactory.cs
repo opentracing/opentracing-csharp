@@ -2,6 +2,6 @@
 {
     public interface ISpanFactory
     {
-        ISpan StartSpan(StartSpanOptions startSpanOptions);
+        ISpan StartSpan(string operationName, StartSpanOptions startSpanOptions);
     }
 }
