@@ -1,16 +1,15 @@
-﻿using NUnit.Framework;
-using OpenTracing.BasicTracer.OpenTracingContext;
-using OpenTracing.Propagation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenTracing.Propagation;
+using OpenTracing.BasicTracer.OpenTracingContext;
+using Xunit;
 
 namespace OpenTracing.BasicTracer.IntegrationTests
 {
-    [TestFixture()]
     public class BasicTracerIntegrationTests
     {
-        [Test()]
+        [Fact]
         public void DefaultBasicTracer_WhenStartSpanCalled_ReturnsSpan()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
@@ -23,7 +22,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             Assert.NotNull(span);
         }
 
-        [Test()]
+        [Fact]
         public void DefaultBasicTracer_WhenSpanInjectedToMemoryCarrier_Work()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
@@ -40,11 +39,11 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             var memoryCarrier = new MemoryTextMapCarrier<OpenTracingSpanContext>(contextMapper, new Dictionary<string, string>() { });
             tracer.Inject(span, memoryCarrier);
 
-            Assert.AreEqual(traceId.ToString(), memoryCarrier.TextMap["ot-tracer-traceid"]);
-            Assert.AreEqual(spanId.ToString(), memoryCarrier.TextMap["ot-tracer-spanid"]);
+            Assert.Equal(traceId.ToString(), memoryCarrier.TextMap["ot-tracer-traceid"]);
+            Assert.Equal(spanId.ToString(), memoryCarrier.TextMap["ot-tracer-spanid"]);
         }
 
-        [Test()]
+        [Fact]
         public void DefaultBasicTracer_WhenJoinBadSpanToMemoryCarrier_Fails()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
@@ -58,10 +57,10 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             ISpan<OpenTracingContext.OpenTracingSpanContext> span;
             var success = tracer.TryJoin("TestOperation", memoryCarrier, out span);
 
-            Assert.IsFalse(success);
+            Assert.False(success);
         }
 
-        [Test()]
+        [Fact]
         public void DefaultBasicTracer_WhenJoinValidSpanToMemoryCarrier_Works()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
@@ -84,15 +83,15 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             ISpan<OpenTracingContext.OpenTracingSpanContext> span;
             var success = tracer.TryJoin("TestOperation", memoryCarrier, out span);
 
-            Assert.IsTrue(success);
+            Assert.True(success);
 
             var context = span.GetSpanContext();
 
-            Assert.AreEqual(testTraceId.ToString(), memoryCarrier.TextMap["ot-tracer-traceid"]);
-            Assert.AreEqual(testSpanId.ToString(), memoryCarrier.TextMap["ot-tracer-spanid"]);
+            Assert.Equal(testTraceId.ToString(), memoryCarrier.TextMap["ot-tracer-traceid"]);
+            Assert.Equal(testSpanId.ToString(), memoryCarrier.TextMap["ot-tracer-spanid"]);
         }
 
-        [Test()]
+        [Fact]
         public void DefaultBasicTracer_WhenFinishSpan_CallsRecorderWithAllSpanData()
         {
             var spanContextFactory = new OpenTracingSpanContextFactory();
@@ -117,17 +116,17 @@ namespace OpenTracing.BasicTracer.IntegrationTests
 
             span.FinishWithOptions(DateTime.Parse("2016-01-01 12:00") + TimeSpan.FromMinutes(1));
 
-            Assert.AreEqual("TestOperation", simpleMockRecorder.spanEvents.First().OperationName);
-            Assert.AreEqual("InitTagValue", simpleMockRecorder.spanEvents.First().Tags["inittagkey"]);
-            Assert.AreEqual(DateTime.Parse("2016-01-01 12:00"), simpleMockRecorder.spanEvents.First().StartTime);
-            Assert.AreEqual(TimeSpan.FromMinutes(1), simpleMockRecorder.spanEvents.First().Duration);
+            Assert.Equal("TestOperation", simpleMockRecorder.spanEvents.First().OperationName);
+            Assert.Equal("InitTagValue", simpleMockRecorder.spanEvents.First().Tags["inittagkey"]);
+            Assert.Equal(DateTime.Parse("2016-01-01 12:00"), simpleMockRecorder.spanEvents.First().StartTime);
+            Assert.Equal(TimeSpan.FromMinutes(1), simpleMockRecorder.spanEvents.First().Duration);
 
-            Assert.AreEqual("BaggageValue", simpleMockRecorder.spanEvents.First().Context.Baggage["baggagekey"]);
-            Assert.AreEqual("TagValue", simpleMockRecorder.spanEvents.First().Tags["tagkey"]);
+            Assert.Equal("BaggageValue", simpleMockRecorder.spanEvents.First().Context.Baggage["baggagekey"]);
+            Assert.Equal("TagValue", simpleMockRecorder.spanEvents.First().Tags["tagkey"]);
 
-            Assert.AreEqual(0, simpleMockRecorder.spanEvents.First().Context.ParentId);
-            Assert.AreNotEqual(0, simpleMockRecorder.spanEvents.First().Context.TraceId);
-            Assert.AreNotEqual(0, simpleMockRecorder.spanEvents.First().Context.SpanId);
+            Assert.Equal((ulong)0, simpleMockRecorder.spanEvents.First().Context.ParentId);
+            Assert.NotEqual((ulong)0, simpleMockRecorder.spanEvents.First().Context.TraceId);
+            Assert.NotEqual((ulong)0, simpleMockRecorder.spanEvents.First().Context.SpanId);
         }
     }
 }
