@@ -164,17 +164,7 @@ namespace OpenTracing
         }
 
 
-        private static SpanTags Set(SpanTags tags, string key, string value)
-        {
-            if (tags == null)
-            {
-                throw new ArgumentNullException(nameof(tags));
-            }
-
-            return tags.Set(key, value);
-        }
-
-        private static SpanTags Set<T>(SpanTags tags, string key, T value) where T : struct
+        private static SpanTags Set(SpanTags tags, string key, object value)
         {
             if (tags == null)
             {

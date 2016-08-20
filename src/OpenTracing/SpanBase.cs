@@ -61,18 +61,7 @@ namespace OpenTracing
             return this;
         }
 
-        public virtual ISpan SetTag(string key, string value)
-        {
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            Tags[key] = value;
-            return this;
-        }
-
-        public virtual ISpan SetTag<T>(string key, T value) where T : struct
+        public virtual ISpan SetTag(string key, object value)
         {
             if (string.IsNullOrWhiteSpace(key))
             {

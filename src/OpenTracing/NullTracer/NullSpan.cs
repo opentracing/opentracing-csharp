@@ -29,12 +29,7 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan SetTag(string key, string value)
-        {
-            return this;
-        }
-
-        public ISpan SetTag<T>(string key, T value) where T : struct
+        public ISpan SetTag(string key, object value)
         {
             return this;
         }

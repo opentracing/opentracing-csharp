@@ -12,8 +12,7 @@ namespace OpenTracing
 
         ISpan AddReference(string referenceType, ISpanContext spanContext);
 
-        ISpan SetTag(string key, string value);
-        ISpan SetTag<T>(string key, T value) where T : struct;
+        ISpan SetTag(string key, object value);
 
         ISpan LogEvent(string eventName, object payload = null);
         ISpan LogEvent(DateTimeOffset timestamp, string eventName, object payload = null);
