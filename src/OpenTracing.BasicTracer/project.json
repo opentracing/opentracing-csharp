@@ -19,7 +19,7 @@
   },
 
   "frameworks": {
-    "netstandard1.0": {
+    "netstandard1.1": {
       "dependencies": {
         "System.Linq": "4.1.0",
         "System.ObjectModel": "4.0.12",

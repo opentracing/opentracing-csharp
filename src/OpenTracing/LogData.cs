@@ -2,17 +2,17 @@
 
 namespace OpenTracing
 {
-    public class LogData
+    public struct LogData
     {
-        public LogData(DateTime dateTime, string message, object obj)
+        public LogData(DateTimeOffset timestamp, string eventName, object payload)
         {
-            DateTime = dateTime;
-            Message = message;
-            Obj = obj;
+            Timestamp = timestamp;
+            EventName = eventName;
+            Payload = payload;
         }
 
-        public DateTime DateTime { get; private set; }
-        public string Message { get; private set; }
-        public object Obj { get; private set; }
+        public DateTimeOffset Timestamp { get; private set; }
+        public string EventName { get; private set; }
+        public object Payload { get; private set; }
     }
 }

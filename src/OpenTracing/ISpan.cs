@@ -2,20 +2,26 @@
 
 namespace OpenTracing
 {
-    public interface ISpan<T> 
+    public interface ISpan
     {
-        T GetSpanContext();
+        ISpanContext Context { get; }
+
+        ITracer Tracer { get; }
+
+        ISpan SetOperationName(string operationName);
+
+        ISpan AddReference(string referenceType, ISpanContext spanContext);
+
+        ISpan SetTag(string key, string value);
+        ISpan SetTag<T>(string key, T value) where T : struct;
+
+        ISpan LogEvent(string eventName, object payload = null);
+        ISpan LogEvent(DateTimeOffset timestamp, string eventName, object payload = null);
+
+        string GetBaggageItem(string key);
+        ISpan SetBaggageItem(string key, string value);
 
         void Finish();
-        void FinishWithOptions(DateTime finishTime);
-
-        void SetBaggageItem(string restrictedKey, string value);
-        void SetTag(string message, string value);
-        void SetTag(string message, int value);
-        void SetTag(string message, bool value);
-        void Log(string message, object obj);
-        void Log(DateTime dateTime, string message, object obj);
-
-        ITracer<T> GetTracer();
+        void Finish(DateTimeOffset finishTime);
     }
 }
