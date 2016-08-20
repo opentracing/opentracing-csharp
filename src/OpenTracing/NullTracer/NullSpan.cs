@@ -4,13 +4,15 @@ namespace OpenTracing.NullTracer
 {
     public class NullSpan : ISpan
     {
+        internal static readonly NullSpan Instance = new NullSpan(NullTracer.Instance, NullSpanContext.Instance);
+
         private readonly ITracer _tracer;
         private readonly ISpanContext _context;
 
-        public NullSpan(ITracer tracer)
+        private NullSpan(ITracer tracer, ISpanContext context)
         {
             _tracer = tracer;
-            _context = new NullSpanContext();
+            _context = context;
         }
 
         public ISpanContext Context => _context;
@@ -61,7 +63,7 @@ namespace OpenTracing.NullTracer
         {
         }
 
-        public void Finish(DateTimeOffset finishTime)
+        public void Finish(DateTimeOffset finishTimestamp)
         {
         }
     }

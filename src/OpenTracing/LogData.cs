@@ -4,9 +4,10 @@ namespace OpenTracing
 {
     public struct LogData
     {
+        // TODO should this be in this library?
         public LogData(DateTimeOffset timestamp, string eventName, object payload)
         {
-            Timestamp = timestamp;
+            Timestamp = timestamp.ToUniversalTime();
             EventName = eventName;
             Payload = payload;
         }

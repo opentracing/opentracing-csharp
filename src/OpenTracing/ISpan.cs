@@ -22,6 +22,6 @@ namespace OpenTracing
         ISpan SetBaggageItem(string key, string value);
 
         void Finish();
-        void Finish(DateTimeOffset finishTime);
+        void Finish(DateTimeOffset finishTimestamp);
     }
 }

@@ -4,7 +4,7 @@ using System;
 
 namespace OpenTracing.BasicTracer
 {
-    public class Tracer<T> : ITracer<T> where T : ISpanContext
+    public class Tracer : ITracer
     {
         private readonly ISpanContextFactory<T> _spanContextFactory;
         private ISpanRecorder<T> _spanRecorder;

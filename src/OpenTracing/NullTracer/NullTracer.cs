@@ -5,14 +5,20 @@ namespace OpenTracing.NullTracer
 {
     public class NullTracer : ITracer
     {
+        public static readonly NullTracer Instance = new NullTracer();
+
+        private NullTracer()
+        {
+        }
+
         public ISpan StartSpan(string operationName)
         {
-            return new NullSpan(this);
+            return NullSpan.Instance;
         }
 
         public ISpan StartSpan(string operationName, DateTimeOffset startTimestamp)
         {
-            return new NullSpan(this);
+            return NullSpan.Instance;
         }
 
         public void Inject(ISpanContext spanContext, IInjectCarrier carrier)
@@ -21,7 +27,7 @@ namespace OpenTracing.NullTracer
 
         public ISpanContext Extract(IExtractCarrier carrier)
         {
-            return new NullSpanContext();
+            return NullSpanContext.Instance;
         }
     }
 }

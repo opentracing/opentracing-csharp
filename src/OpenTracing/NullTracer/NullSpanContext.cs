@@ -1,11 +1,20 @@
-using System.Collections.Generic;
-
 namespace OpenTracing.NullTracer
 {
     public class NullSpanContext : ISpanContext
     {
-        private readonly IDictionary<string, string> _items = new Dictionary<string, string>();
+        internal static readonly NullSpanContext Instance = new NullSpanContext();
 
-        public IDictionary<string, string> BaggageItems => _items;
+        private NullSpanContext()
+        {
+        }
+
+        public string GetBaggageItem(string key)
+        {
+            return null;
+        }
+
+        public void SetBaggageItem(string key, string value)
+        {
+        }
     }
 }

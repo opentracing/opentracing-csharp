@@ -1,9 +1,8 @@
-using System.Collections.Generic;
-
 namespace OpenTracing
 {
     public interface ISpanContext
     {
-        IDictionary<string, string> BaggageItems { get; }
+        string GetBaggageItem(string key);
+        void SetBaggageItem(string key, string value);
     }
 }
