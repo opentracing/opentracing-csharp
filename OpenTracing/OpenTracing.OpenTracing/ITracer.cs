@@ -8,8 +8,14 @@ namespace OpenTracing
     /// </summary>
     public interface ITracer
     {
-        /// Create, start, and return a new Span with the given `operationName` and
-        /// incorporate the given StartSpanOption `opts`.
+        /// <summary>
+        /// Create, start, and return a new Span.
+        /// 
+        /// A Span with no SpanReference options becomes the root of its own trace.
+        /// </summary>
+        /// <param name="operationName"></param>
+        /// <param name="startSpanOptions"></param>
+        /// <returns></returns>
         ISpan StartSpan(string operationName, StartSpanOptions startSpanOptions);
 
         /// <summary>
