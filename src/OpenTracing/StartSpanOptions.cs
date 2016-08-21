@@ -8,6 +8,8 @@ namespace OpenTracing
         public IList<SpanReference> References { get; } = new List<SpanReference>();
 
         public DateTimeOffset? StartTimestamp { get; set; }
+        
+        #region Fluent Interface
 
         public StartSpanOptions ChildOf(ISpanContext parent)
         {
@@ -34,5 +36,7 @@ namespace OpenTracing
             StartTimestamp = startTimestamp;
             return this;
         }
+
+        #endregion Fluent Interface
     }
 }

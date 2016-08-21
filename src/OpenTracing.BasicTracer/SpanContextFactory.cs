@@ -48,7 +48,8 @@ namespace OpenTracing.BasicTracer
             {
                 foreach (var reference in references)
                 {
-                    baggage.Merge(reference.Context.GetBaggageItems());
+                    var typedContext = (SpanContext)reference.Context;
+                    baggage.Merge(typedContext.GetBaggageItems());
                 }
             }
 
