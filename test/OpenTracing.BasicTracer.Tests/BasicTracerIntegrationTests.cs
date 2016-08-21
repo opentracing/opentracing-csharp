@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace OpenTracing.BasicTracer.IntegrationTests
@@ -105,47 +103,6 @@ namespace OpenTracing.BasicTracer.IntegrationTests
 
             Assert.NotEqual(Guid.Empty, recordedSpan.Context.TraceId);
             Assert.NotEqual(Guid.Empty, recordedSpan.Context.SpanId);
-        }
-
-        [Fact]
-        public async Task Bla()
-        {
-ITracer tracer = GetTracer();
-
-// create root span
-var rootSpan = tracer.StartSpan("get_account")
-    .SetBaggageItem("user-id", "1234")
-    .SetTagComponent("AspNetCore");
-
-// create HTTP api request
-var client = new HttpClient();
-var request = new HttpRequestMessage(HttpMethod.Post, "/some_api");
-request.Content = new StringContent("{ \"userId\": 1234 }");
-
-// Inject
-tracer.InjectIntoHttpHeaders(rootSpan, request.Headers);
-
-// call api
-var response = await client.SendAsync(request);
-
-// Extract new context from response
-var spanContext = tracer.ExtractFromHttpHeaders(response);
-
-// create new span with reference
-var subSpan1 = tracer.StartSpan("sub-operation", SpanReference.ChildOf(spanContext))
-    .SetTag("custom-key", "custom-value");
-
-// create another follows_from span with StartOptions
-var options = new StartSpanOptions()
-    .FollowsFrom(rootSpan)
-    .SetStartTimestamp(new DateTime(2016, 8, 21, 14, 0, 0, DateTimeKind.Utc));
-var subSpan2 = tracer.StartSpan("sub-operation", options)
-    .SetTagHttpUrl("http://example.com/api");
-
-// finish operations
-subSpan1.Finish();
-subSpan2.Finish(new FinishSpanOptions().SetFinishTimestamp(new DateTime(2016, 8, 21, 14, 0, 5, DateTimeKind.Utc)));
-rootSpan.Finish();
         }
     }
 }
