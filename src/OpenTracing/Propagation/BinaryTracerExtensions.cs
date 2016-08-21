@@ -5,6 +5,11 @@ namespace OpenTracing
 {
     public static class BinaryTracerExtensions
     {
+        public static void InjectIntoBinary(this ITracer tracer, ISpan span, byte[] carrier)
+        {
+            InjectIntoBinary(tracer, span?.Context, carrier);
+        }
+
         public static void InjectIntoBinary(this ITracer tracer, ISpanContext spanContext, byte[] carrier)
         {
             if (tracer == null)

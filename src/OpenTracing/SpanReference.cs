@@ -7,10 +7,14 @@ namespace OpenTracing
         public const string TypeChildOf = "child_of";
         public const string TypeFollowsFrom = "follows_from";
 
+        public static SpanReference ChildOf(ISpan parent) => ChildOf(parent?.Context);
+
         public static SpanReference ChildOf(ISpanContext parent)
         {
             return parent != null ? new SpanReference(TypeChildOf, parent) : null;
         }
+
+        public static SpanReference FollowsFrom(ISpan parent) => FollowsFrom(parent?.Context);
 
         public static SpanReference FollowsFrom(ISpanContext parent)
         {

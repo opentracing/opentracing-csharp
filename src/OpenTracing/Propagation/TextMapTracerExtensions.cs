@@ -6,6 +6,11 @@ namespace OpenTracing
 {
     public static class TextMapTracerExtensions
     {
+        public static void InjectIntoTextMap(this ITracer tracer, ISpan span, IDictionary<string, string> carrier)
+        {
+            InjectIntoTextMap(tracer, span?.Context, carrier);
+        }
+
         public static void InjectIntoTextMap(this ITracer tracer, ISpanContext spanContext, IDictionary<string, string> carrier)
         {
             if (tracer == null)

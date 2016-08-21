@@ -8,12 +8,22 @@ namespace OpenTracing
         public IList<SpanReference> References { get; } = new List<SpanReference>();
 
         public DateTimeOffset? StartTimestamp { get; set; }
-        
+
         #region Fluent Interface
+
+        public StartSpanOptions ChildOf(ISpan parent)
+        {
+            return AddReference(SpanReference.ChildOf(parent));
+        }
 
         public StartSpanOptions ChildOf(ISpanContext parent)
         {
             return AddReference(SpanReference.ChildOf(parent));
+        }
+
+        public StartSpanOptions FollowsFrom(ISpan parent)
+        {
+            return AddReference(SpanReference.FollowsFrom(parent));
         }
 
         public StartSpanOptions FollowsFrom(ISpanContext parent)

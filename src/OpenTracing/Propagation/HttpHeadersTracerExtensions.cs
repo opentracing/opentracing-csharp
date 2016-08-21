@@ -7,9 +7,19 @@ namespace OpenTracing
 {
     public static class HttpHeadersTracerExtensions
     {
+        public static void InjectIntoHttpHeaders(this ITracer tracer, ISpan span, HttpRequestMessage message)
+        {
+            InjectIntoHttpHeaders(tracer, span?.Context, message?.Headers);
+        }
+
         public static void InjectIntoHttpHeaders(this ITracer tracer, ISpanContext spanContext, HttpRequestMessage message)
         {
             InjectIntoHttpHeaders(tracer, spanContext, message?.Headers);
+        }
+
+        public static void InjectIntoHttpHeaders(this ITracer tracer, ISpan span, HttpHeaders httpHeaders)
+        {
+            InjectIntoHttpHeaders(tracer, span?.Context, httpHeaders);
         }
 
         public static void InjectIntoHttpHeaders(this ITracer tracer, ISpanContext spanContext, HttpHeaders httpHeaders)
