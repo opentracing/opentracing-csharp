@@ -31,5 +31,9 @@ namespace OpenTracing.NullTracer
         public void Finish(FinishSpanOptions options = null)
         {
         }
+
+        public void Dispose()
+        {
+        }
     }
 }

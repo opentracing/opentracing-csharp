@@ -90,5 +90,10 @@ namespace OpenTracing.BasicTracer
 
             _spanRecorder.RecordSpan(spanData);
         }
+
+        public void Dispose()
+        {
+            Finish();
+        }
     }
 }

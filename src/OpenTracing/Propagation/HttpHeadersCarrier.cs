@@ -1,13 +1,13 @@
 using System;
-using System.Net.Http.Headers;
+using System.Collections.Generic;
 
 namespace OpenTracing.Propagation
 {
     public class HttpHeadersCarrier : IInjectCarrier, IExtractCarrier
     {
-        public HttpHeaders Headers { get; }
+        public IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers { get; }
 
-        public HttpHeadersCarrier(HttpHeaders headers)
+        public HttpHeadersCarrier(IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers)
         {
             if (headers == null)
             {

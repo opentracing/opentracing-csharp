@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using OpenTracing.Propagation;
 
 namespace OpenTracing
@@ -17,12 +17,14 @@ namespace OpenTracing
             InjectIntoHttpHeaders(tracer, spanContext, message?.Headers);
         }
 
-        public static void InjectIntoHttpHeaders(this ITracer tracer, ISpan span, HttpHeaders httpHeaders)
+        public static void InjectIntoHttpHeaders(this ITracer tracer, ISpan span,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> httpHeaders)
         {
             InjectIntoHttpHeaders(tracer, span?.Context, httpHeaders);
         }
 
-        public static void InjectIntoHttpHeaders(this ITracer tracer, ISpanContext spanContext, HttpHeaders httpHeaders)
+        public static void InjectIntoHttpHeaders(this ITracer tracer, ISpanContext spanContext,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> httpHeaders)
         {
             if (tracer == null)
             {
@@ -38,7 +40,8 @@ namespace OpenTracing
             return ExtractFromHttpHeaders(tracer, response?.Headers);
         }
 
-        public static ISpanContext ExtractFromHttpHeaders(this ITracer tracer, HttpHeaders headers)
+        public static ISpanContext ExtractFromHttpHeaders(this ITracer tracer,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers)
         {
             if (tracer == null)
             {

@@ -1,5 +1,5 @@
 {
-  "version": "0.8.3-*",
+  "version": "0.9.0-*",
   "packOptions": {
     "summary": "A .NET implementation of the OpenTracing API.",
     "description": "This library is a .NET implementation of the OpenTracing API. To fully understand this platform API, it's helpful to be familiar with the OpenTracing project and terminology more generally.\r\n\r\nFor the time being, \"mild\" backwards-incompatible changes may be made without changing the major version number. As OpenTracing and opentracing-csharp mature, backwards compatibility will become more of a priority.",

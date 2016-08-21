@@ -2,8 +2,10 @@
 
 namespace OpenTracing
 {
-    public interface ISpan
+    public interface ISpan : IDisposable
     {
+        // TODO IDisposable behavior?
+
         ISpanContext Context { get; }
 
         ISpan SetTag(string key, object value);

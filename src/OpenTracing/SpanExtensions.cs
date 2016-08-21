@@ -1,6 +1,7 @@
 using System;
-#if NETSTANDARD1_3
 using System.Net;
+using System.Net.Http;
+#if NETSTANDARD1_3
 using System.Net.Sockets;
 #endif
 
@@ -91,6 +92,14 @@ namespace OpenTracing
         }
 
         /// <summary>
+        ///  "http.method" records the method of the incoming request.
+        /// </summary>
+        public static ISpan SetTagHttpMethod(this ISpan span, HttpMethod httpMethod)
+        {
+            return SetTag(span, SpanTagNames.HttpUrl, httpMethod?.Method);
+        }
+
+        /// <summary>
         ///  "http.status_code" records the http status code of the response.
         /// </summary>
         public static ISpan SetTagHttpStatusCode(this ISpan span, int httpStatusCode)
@@ -98,7 +107,6 @@ namespace OpenTracing
             return SetTag(span, SpanTagNames.HttpStatusCode, httpStatusCode);
         }
 
-#if NETSTANDARD1_3
         /// <summary>
         ///  "http.status_code" records the http status code of the response.
         /// </summary>
@@ -106,7 +114,6 @@ namespace OpenTracing
         {
             return SetTag(span, SpanTagNames.HttpStatusCode, httpStatusCode);
         }
-#endif
 
         /// <summary>
         /// "peer.hostname" records the host name of the peer.
