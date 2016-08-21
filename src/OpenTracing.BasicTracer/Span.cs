@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace OpenTracing.BasicTracer
 {
@@ -85,8 +84,8 @@ namespace OpenTracing.BasicTracer
                 OperationName = OperationName,
                 StartTimestamp = StartTimestamp,
                 Duration = FinishTimestamp.Value - StartTimestamp,
-                Tags = new ReadOnlyDictionary<string, object>(Tags),
-                LogData = new ReadOnlyCollection<LogData>(Logs),
+                Tags = Tags,
+                LogData = Logs,
             };
 
             _spanRecorder.RecordSpan(spanData);

@@ -39,8 +39,8 @@ namespace OpenTracing.BasicTracer.IntegrationTests
 
             tracer.InjectIntoTextMap(span.Context, data);
 
-            Assert.Equal(traceId.ToString(), data["ot-tracer-traceid"]);
-            Assert.Equal(spanId.ToString(), data["ot-tracer-spanid"]);
+            Assert.Equal(traceId.ToString(), data["ot-traceid"]);
+            Assert.Equal(spanId.ToString(), data["ot-spanid"]);
         }
 
         [Fact]
@@ -65,8 +65,8 @@ namespace OpenTracing.BasicTracer.IntegrationTests
 
             var data = new Dictionary<string, string>()
             {
-                { "ot-tracer-traceid", testTraceId.ToString() },
-                { "ot-tracer-spanid", testSpanId.ToString() },
+                { "ot-traceid", testTraceId.ToString() },
+                { "ot-spanid", testSpanId.ToString() },
             };
 
             var spanContext = (SpanContext)tracer.ExtractFromTextMap(data);
@@ -92,11 +92,9 @@ namespace OpenTracing.BasicTracer.IntegrationTests
 
             span.Finish(finishTimestamp);
 
-
             var recordedSpan = recorder.Spans.First();
 
             Assert.Equal("TestOperation", recordedSpan.OperationName);
-            Assert.Equal("InitTagValue", recordedSpan.Tags["inittagkey"]);
             Assert.Equal(startTimestamp, recordedSpan.StartTimestamp);
             Assert.Equal(TimeSpan.FromSeconds(5), recordedSpan.Duration);
 

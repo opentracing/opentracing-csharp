@@ -22,7 +22,6 @@
     "netstandard1.1": {
       "dependencies": {
         "System.Linq": "4.1.0",
-        "System.ObjectModel": "4.0.12",
         "System.Runtime": "4.1.0",
         "System.Runtime.Extensions": "4.1.0",
         "System.Text.RegularExpressions": "4.1.0"

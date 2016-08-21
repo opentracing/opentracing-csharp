@@ -1,5 +1,6 @@
 ﻿using OpenTracing.Propagation;
 using System;
+using OpenTracing.BasicTracer.Propagation;
 
 namespace OpenTracing.BasicTracer
 {
@@ -8,7 +9,11 @@ namespace OpenTracing.BasicTracer
         private readonly ISpanContextFactory _spanContextFactory;
         private readonly ISpanRecorder _spanRecorder;
 
-        public Tracer(ISpanContextFactory spanContextFactory, ISpanRecorder spanRecorder)
+        private readonly TextMapCarrierHandler _textMapCarrierHandler = new TextMapCarrierHandler();
+
+        public Tracer(
+            ISpanContextFactory spanContextFactory,
+            ISpanRecorder spanRecorder)
         {
             if (spanContextFactory == null)
             {
@@ -43,27 +48,27 @@ namespace OpenTracing.BasicTracer
 
         public void Inject(ISpanContext spanContext, IInjectCarrier carrier)
         {
-            throw new NotImplementedException();
-            //carrier.MapFrom(span.GetSpanContext());
+            var typedContext = (SpanContext)spanContext;
+
+            var textMapCarrier = carrier as TextMapCarrier;
+            if (textMapCarrier != null)
+            {
+                _textMapCarrierHandler.MapContextToCarrier(typedContext, textMapCarrier);
+                return;
+            }
+
+            throw new NotSupportedException($"InjectCarrier type '{carrier.GetType()}' is not supported");
         }
 
         public ISpanContext Extract(IExtractCarrier carrier)
         {
-            throw new NotImplementedException();
+            var textMapCarrier = carrier as TextMapCarrier;
+            if (textMapCarrier != null)
+            {
+                return _textMapCarrierHandler.MapCarrierToContext(textMapCarrier);
+            }
 
-            // Span span = null;
-            // SpanContext spanContext;
-
-            // var couldExtractTraceInfo = carrier.TryMapTo(out spanContext);
-
-            // if (!couldExtractTraceInfo)
-            // {
-            //     return false;
-            // }
-
-            // span = NewSpan(spanContext, operationName, DateTime.Now);
-
-            // return true;
+            throw new NotSupportedException($"ExtractCarrier type '{carrier.GetType()}' is not supported");
         }
     }
 }

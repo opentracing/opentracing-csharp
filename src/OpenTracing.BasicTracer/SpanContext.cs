@@ -58,7 +58,7 @@ namespace OpenTracing.BasicTracer
 
         public void SetBaggageItem(string key, string value)
         {
-            if (!IsValidBaggaeKey(key))
+            if (!IsValidBaggageKey(key))
             {
                 throw new ArgumentException("Invalid baggage key: '" + key + "'", nameof(key));
             }
@@ -66,7 +66,7 @@ namespace OpenTracing.BasicTracer
             _baggageItems[key] = value;
         }
 
-        private bool IsValidBaggaeKey(string key)
+        private bool IsValidBaggageKey(string key)
         {
 
             return BaggageItemKeyFormat.IsMatch(key);
