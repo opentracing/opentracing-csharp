@@ -4,18 +4,6 @@ using OpenTracing.Propagation;
 
 namespace OpenTracing.BasicTracer.Propagation
 {
-    public interface IInjectCarrierHandler { }
-    public interface IInjectCarrierHandler<TCarrier> : IInjectCarrierHandler where TCarrier : IInjectCarrier
-    {
-        void MapContextToCarrier(SpanContext context, TCarrier carrier);
-    }
-
-    public interface IExtractCarrierHandler { }
-    public interface IExtractCarrierHandler<TCarrier> : IExtractCarrierHandler where TCarrier : IExtractCarrier
-    {
-        SpanContext MapCarrierToContext(TCarrier carrier);
-    }
-
     public class TextMapCarrierHandler :
         IInjectCarrierHandler<TextMapCarrier>,
         IExtractCarrierHandler<TextMapCarrier>
