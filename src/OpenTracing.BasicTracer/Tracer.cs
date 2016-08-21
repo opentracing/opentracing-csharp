@@ -1,70 +1,64 @@
-﻿using OpenTracing.BasicTracer.Context;
-using OpenTracing.Propagation;
+﻿using OpenTracing.Propagation;
 using System;
 
 namespace OpenTracing.BasicTracer
 {
     public class Tracer : ITracer
     {
-        private readonly ISpanContextFactory<T> _spanContextFactory;
-        private ISpanRecorder<T> _spanRecorder;
+        private readonly ISpanContextFactory _spanContextFactory;
+        private readonly ISpanRecorder _spanRecorder;
 
-        internal Tracer(ISpanContextFactory<T> spanContextFactory, ISpanRecorder<T> spanRecorder)
+        public Tracer(ISpanContextFactory spanContextFactory, ISpanRecorder spanRecorder)
         {
+            if (spanContextFactory == null)
+            {
+                throw new ArgumentNullException(nameof(spanContextFactory));
+            }
+
+            if (spanRecorder == null)
+            {
+                throw new ArgumentNullException(nameof(spanRecorder));
+            }
+
             _spanContextFactory = spanContextFactory;
             _spanRecorder = spanRecorder;
         }
 
-        public void Inject(ISpan<T> span, IInjectCarrier<T> carrier)
+        public ISpan StartSpan(string operationName)
         {
-            carrier.MapFrom(span.GetSpanContext());
+            return StartSpan(operationName, DateTimeOffset.UtcNow);
         }
 
-        public bool TryJoin(string operationName, IExtractCarrier<T> carrier, out ISpan<T> span)
+        public ISpan StartSpan(string operationName, DateTimeOffset startTimestamp)
         {
-            span = null;
-
-            T spanContext;
-
-            var couldExtractTraceInfo = carrier.TryMapTo(out spanContext);
-
-            if (!couldExtractTraceInfo)
-            {
-                return false;
-            }
-
-            span = NewSpan(spanContext, operationName, DateTime.Now);
-
-            return true;
-        }
-
-        public ISpan<T> StartSpan(StartSpanOptions startSpanOptions)
-        {
-            ISpan<T> span;
-
             var rootSpanContext = _spanContextFactory.NewRootSpanContext();
-
-            span = NewSpan(rootSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
-
-            foreach (var tag in startSpanOptions.Tag)
-            {
-                span.SetTag(tag.Key, tag.Value);
-            }
-
+            var span = new Span(this, _spanRecorder, rootSpanContext, operationName, startTimestamp);
             return span;
         }
 
-        public ISpan<T> StartSpan(string operationName)
+        public void Inject(ISpanContext spanContext, IInjectCarrier carrier)
         {
-            return StartSpan(new StartSpanOptions()
-            {
-                OperationName = operationName,
-            });
+            throw new NotImplementedException();
+            //carrier.MapFrom(span.GetSpanContext());
         }
 
-        private ISpan<T> NewSpan(T spanContext, string operationName, DateTime startTime)
+        public ISpanContext Extract(IExtractCarrier carrier)
         {
-            return new Span<T>(this, _spanRecorder, spanContext, operationName, startTime);
+            throw new NotImplementedException();
+
+            // Span span = null;
+            // SpanContext spanContext;
+
+            // var couldExtractTraceInfo = carrier.TryMapTo(out spanContext);
+
+            // if (!couldExtractTraceInfo)
+            // {
+            //     return false;
+            // }
+
+            // span = NewSpan(spanContext, operationName, DateTime.Now);
+
+            // return true;
         }
     }
 }

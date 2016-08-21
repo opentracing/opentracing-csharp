@@ -1,109 +1,150 @@
-﻿using OpenTracing.BasicTracer.Context;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
 namespace OpenTracing.BasicTracer
 {
-    public sealed class Span<T> : ISpan<T> where T : ISpanContext
+    public static class SpanExtensions
     {
-        private readonly ITracer<T> _tracer;
-        private readonly T _spanContext;
+        public static SpanContext TypedContext(this ISpan span) => (SpanContext)span.Context;
+    }
 
-        private ISpanRecorder<T> _spanRecorder;
+    public class Span : ISpan
+    {
+        private readonly ISpanRecorder _spanRecorder;
 
-        public T GetSpanContext()
+        public ISpanContext Context { get; }
+
+        public ITracer Tracer { get; }
+        public string OperationName { get; private set; }
+        public DateTimeOffset StartTimestamp { get; }
+        public DateTimeOffset? FinishTimestamp { get; private set; }
+
+        public bool Finished { get; private set; }
+
+        public IList<Tuple<string, ISpanContext>> References { get; } = new List<Tuple<string, ISpanContext>>();
+        public IDictionary<string, object> Tags { get; } = new Dictionary<string, object>();
+        public IList<LogData> Logs { get; } = new List<LogData>();
+
+        internal Span(ITracer tracer, ISpanRecorder spanRecorder, ISpanContext context, string operationName, DateTimeOffset startTimestamp)
         {
-            return _spanContext;
-        }
+            if (tracer == null)
+            {
+                throw new ArgumentNullException(nameof(tracer));
+            }
 
-        internal Span(ITracer<T> tracer, ISpanRecorder<T> spanRecorder, T spanContext, string operationName, DateTime startTime)
-        {
-            _tracer = tracer;
-            _spanContext = spanContext;
-            OperationName = operationName;
+            if (spanRecorder == null)
+            {
+                throw new ArgumentNullException(nameof(spanRecorder));
+            }
+
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             _spanRecorder = spanRecorder;
 
-            StartTime = startTime;
+            Tracer = tracer;
+            Context = context;
+            StartTimestamp = startTimestamp;
+
+            SetOperationName(operationName);
         }
 
-        private bool isFinished = false;
-
-        public void Finish()
+        public virtual ISpan SetOperationName(string operationName)
         {
-            FinishWithOptions(DateTime.Now);
-        }
-
-        public void FinishWithOptions(DateTime finishTime)
-        {
-            if (isFinished)
-                return;
-
-            Duration = finishTime - StartTime;
-
-            var spanData = new SpanData<T>()
+            if (string.IsNullOrWhiteSpace(operationName))
             {
-                Context = GetSpanContext(),
+                throw new ArgumentNullException(operationName);
+            }
+
+            OperationName = operationName.Trim();
+            return this;
+        }
+
+        public virtual ISpan AddReference(string referenceType, ISpanContext spanContext)
+        {
+            if (string.IsNullOrWhiteSpace(referenceType))
+            {
+                throw new ArgumentNullException(nameof(referenceType));
+            }
+
+            if (spanContext == null)
+            {
+                throw new ArgumentNullException(nameof(spanContext));
+            }
+
+            References.Add(new Tuple<string, ISpanContext>(referenceType, spanContext));
+            return this;
+        }
+
+        public virtual ISpan SetTag(string key, object value)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            Tags[key] = value;
+            return this;
+        }
+
+        public virtual ISpan LogEvent(string eventName, object payload = null)
+        {
+            return LogEvent(DateTimeOffset.UtcNow, eventName, payload);
+        }
+
+        public virtual ISpan LogEvent(DateTimeOffset timestamp, string eventName, object payload = null)
+        {
+            if (string.IsNullOrWhiteSpace(eventName))
+            {
+                throw new ArgumentNullException(nameof(eventName));
+            }
+
+            Logs.Add(new LogData(timestamp, eventName, payload));
+            return this;
+        }
+
+        public virtual string GetBaggageItem(string key)
+        {
+            return Context.GetBaggageItem(key);
+        }
+
+        public virtual ISpan SetBaggageItem(string key, string value)
+        {
+            Context.SetBaggageItem(key, value);
+            return this;
+        }
+
+        public virtual void Finish()
+        {
+            Finish(DateTimeOffset.UtcNow);
+        }
+
+        public virtual void Finish(DateTimeOffset finishTimestamp)
+        {
+            if (!Finished)
+            {
+                FinishTimestamp = finishTimestamp;
+                Finished = true;
+                OnFinished();
+            }
+        }
+
+        protected void OnFinished()
+        {
+            var spanData = new SpanData()
+            {
+                Context = (SpanContext)Context,
                 OperationName = OperationName,
-                StartTime = StartTime,
-                Duration = Duration,
-                Tags = Tags,
-                LogData = LogData,
+                StartTimestamp = StartTimestamp,
+                Duration = FinishTimestamp.Value - StartTimestamp,
+                Tags = new ReadOnlyDictionary<string, object>(Tags),
+                LogData = new ReadOnlyCollection<LogData>(Logs),
             };
 
             _spanRecorder.RecordSpan(spanData);
-            isFinished = true;
-        }
-
-        public string OperationName { get; private set; }
-        public DateTime StartTime { get; private set; }
-        public TimeSpan Duration { get; private set; }
-        public Dictionary<string, string> Tags { get; } = new Dictionary<string, string>();
-        public List<LogData> LogData { get; } = new List<OpenTracing.LogData>();
-
-        public void SetTag(string message, string value)
-        {
-            Tags[message] = value;
-        }
-
-        public void SetTag(string message, bool value)
-        {
-            SetTag(message, value);
-        }
-
-        public void SetTag(string message, int value)
-        {
-            SetTag(message, value);
-        }
-
-        public void SetBaggageItem(string restrictedKey, string value)
-        {
-            if (!IsValidBaggaeKey(restrictedKey))
-                throw new ArgumentException("Invalid baggage key: '" + restrictedKey + "'");
-
-            _spanContext.SetBaggageItem(restrictedKey.ToLower(), value);
-        }
-
-        public void Log(string message, object obj)
-        {
-            Log(DateTime.Now, message, obj);
-        }
-
-        public void Log(DateTime dateTime, string message, object obj)
-        {
-            LogData.Add(new LogData(dateTime, message, obj));
-        }
-
-        private bool IsValidBaggaeKey(string key)
-        {
-            var regEx = new Regex(@"^(?i:[a-z0-9][-a-z0-9]*)$");
-            return regEx.IsMatch(key);
-        }
-
-        public ITracer<T> GetTracer()
-        {
-            return _tracer;
         }
     }
 }

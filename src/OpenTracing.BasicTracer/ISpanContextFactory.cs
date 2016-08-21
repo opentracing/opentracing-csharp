@@ -1,8 +1,8 @@
-﻿namespace OpenTracing.BasicTracer.Context
+﻿namespace OpenTracing.BasicTracer
 {
-    public interface ISpanContextFactory<T>
+    public interface ISpanContextFactory
     {
-        T NewRootSpanContext();
-        T NewChildSpanContext(T spanContext);
+        SpanContext NewRootSpanContext();
+        SpanContext NewChildSpanContext(SpanContext spanContext);
     }
 }

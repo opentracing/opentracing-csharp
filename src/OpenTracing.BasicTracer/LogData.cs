@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace OpenTracing
+namespace OpenTracing.BasicTracer
 {
     public struct LogData
     {
-        // TODO should this be in this library?
         public LogData(DateTimeOffset timestamp, string eventName, object payload)
         {
-            Timestamp = timestamp.ToUniversalTime();
+            Timestamp = timestamp;
             EventName = eventName;
             Payload = payload;
         }

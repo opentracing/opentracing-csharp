@@ -4,11 +4,6 @@ namespace OpenTracing
 {
     public static class SpanExtensions
     {
-        public static SpanTags Tags(this ISpan span)
-        {
-            return new SpanTags(span);
-        }
-
         public static ISpan IsChildOf(this ISpan span, ISpan parent)
         {
             return IsChildOf(span, parent?.Context);

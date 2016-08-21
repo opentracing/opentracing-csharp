@@ -11,33 +11,33 @@ namespace OpenTracing
         /// <summary>
         ///  "span.kind" hints at the relationship between spans, e.g. client/server.
         /// </summary>
-        public static SpanTags SpanKind(this SpanTags tags, string spanKind)
+        public static ISpan SetTagSpanKind(this ISpan span, string spanKind)
         {
-            return Set(tags, TagNames.SpanKind, spanKind);
+            return Set(span, TagNames.SpanKind, spanKind);
         }
 
         /// <summary>
         ///  "span.kind" hints at the relationship between spans, e.g. client/server.
         /// </summary>
-        public static SpanTags SpanKindServer(this SpanTags tags)
+        public static ISpan SetTagSpanKindServer(this ISpan span)
         {
-            return SpanKind(tags, "server");
+            return SetTagSpanKind(span, "server");
         }
 
         /// <summary>
         ///  "span.kind" hints at the relationship between spans, e.g. client/server.
         /// </summary>
-        public static SpanTags SpanKindClient(this SpanTags tags)
+        public static ISpan SetTagSpanKindClient(this ISpan span)
         {
-            return SpanKind(tags, "client");
+            return SetTagSpanKind(span, "client");
         }
 
         /// <summary>
         ///  "component" is a low-cardinality identifier of the module, library, or package that is instrumented.
         /// </summary>
-        public static SpanTags Component(this SpanTags tags, string component)
+        public static ISpan SetTagComponent(this ISpan span, string component)
         {
-            return Set(tags, TagNames.Component, component);
+            return Set(span, TagNames.Component, component);
         }
 
 
@@ -45,71 +45,71 @@ namespace OpenTracing
         /// <summary>
         ///  "http.url" records the url of the incoming request.
         /// </summary>
-        public static SpanTags HttpUrl(this SpanTags tags, string httpUrl)
+        public static ISpan SetTagHttpUrl(this ISpan span, string httpUrl)
         {
-            return Set(tags, TagNames.HttpUrl, httpUrl);
+            return Set(span, TagNames.HttpUrl, httpUrl);
         }
 
         /// <summary>
         ///  "http.url" records the url of the incoming request.
         /// </summary>
-        public static SpanTags HttpUrl(this SpanTags tags, Uri httpUrl)
+        public static ISpan SetTagHttpUrl(this ISpan span, Uri httpUrl)
         {
-            return Set(tags, TagNames.HttpUrl, httpUrl?.ToString());
+            return Set(span, TagNames.HttpUrl, httpUrl?.ToString());
         }
 
         /// <summary>
         ///  "http.method" records the method of the incoming request.
         /// </summary>
-        public static SpanTags HttpMethod(this SpanTags tags, string httpMethod)
+        public static ISpan SetTagHttpMethod(this ISpan span, string httpMethod)
         {
-            return Set(tags, TagNames.HttpUrl, httpMethod);
+            return Set(span, TagNames.HttpUrl, httpMethod);
         }
 
         /// <summary>
         ///  "http.status_code" records the http status code of the response.
         /// </summary>
-        public static SpanTags HttpStatusCode(this SpanTags tags, int httpStatusCode)
+        public static ISpan SetTagHttpStatusCode(this ISpan span, int httpStatusCode)
         {
-            return Set(tags, TagNames.HttpStatusCode, httpStatusCode);
+            return Set(span, TagNames.HttpStatusCode, httpStatusCode);
         }
 
 #if NETSTANDARD1_3
         /// <summary>
         ///  "http.status_code" records the http status code of the response.
         /// </summary>
-        public static SpanTags HttpStatusCode(this SpanTags tags, HttpStatusCode httpStatusCode)
+        public static ISpan SetTagHttpStatusCode(this ISpan span, HttpStatusCode httpStatusCode)
         {
-            return Set(tags, TagNames.HttpStatusCode, httpStatusCode);
+            return Set(span, TagNames.HttpStatusCode, httpStatusCode);
         }
 #endif
 
         /// <summary>
         /// "peer.hostname" records the host name of the peer.
         /// </summary>
-        public static SpanTags PeerHostname(this SpanTags tags, string peerHostname)
+        public static ISpan SetTagPeerHostname(this ISpan span, string peerHostname)
         {
-            return Set(tags, TagNames.PeerHostname, peerHostname);
+            return Set(span, TagNames.PeerHostname, peerHostname);
         }
 
         /// <summary>
         ///  "peer.ipv4" records IPv4 host address of the peer.
         /// </summary>
-        public static SpanTags PeerIpV4(this SpanTags tags, string peerIpV4)
+        public static ISpan SetTagPeerIpV4(this ISpan span, string peerIpV4)
         {
-            return Set(tags, TagNames.PeerIpV4, peerIpV4);
+            return Set(span, TagNames.PeerIpV4, peerIpV4);
         }
 
         /// <summary>
         ///  "peer.ipv6" records the IPv6 host address of the peer.
         /// </summary>
-        public static SpanTags PeerIpV6(this SpanTags tags, string peerIpV6)
+        public static ISpan SetTagPeerIpV6(this ISpan span, string peerIpV6)
         {
-            return Set(tags, TagNames.PeerIpV6, peerIpV6);
+            return Set(span, TagNames.PeerIpV6, peerIpV6);
         }
 
 #if NETSTANDARD1_3
-        public static SpanTags PeerIp(this SpanTags tags, IPAddress peerIp)
+        public static ISpan SetTagPeerIp(this ISpan span, IPAddress peerIp)
         {
             if (peerIp == null)
             {
@@ -118,11 +118,11 @@ namespace OpenTracing
 
             if (peerIp.AddressFamily == AddressFamily.InterNetwork)
             {
-                return Set(tags, TagNames.PeerIpV4, peerIp.ToString());
+                return Set(span, TagNames.PeerIpV4, peerIp.ToString());
             }
             else if (peerIp.AddressFamily == AddressFamily.InterNetworkV6)
             {
-                return Set(tags, TagNames.PeerIpV6, peerIp.ToString());
+                return Set(span, TagNames.PeerIpV6, peerIp.ToString());
             }
             else
             {
@@ -134,44 +134,44 @@ namespace OpenTracing
         /// <summary>
         ///  "peer.port" records the port number of the peer.
         /// </summary>
-        public static SpanTags PeerPort(this SpanTags tags, int peerPort)
+        public static ISpan SetTagPeerPort(this ISpan span, int peerPort)
         {
-            return Set(tags, TagNames.PeerPort, peerPort);
+            return Set(span, TagNames.PeerPort, peerPort);
         }
 
         /// <summary>
         ///  "peer.service" records the service name of the peer.
         /// </summary>
-        public static SpanTags PeerService(this SpanTags tags, string peerService)
+        public static ISpan SetTagPeerService(this ISpan span, string peerService)
         {
-            return Set(tags, TagNames.PeerService, peerService);
+            return Set(span, TagNames.PeerService, peerService);
         }
 
         /// <summary>
         ///  "sampling.priority" determines the priority of sampling this Span.
         /// </summary>
-        public static SpanTags SamplingPriority(this SpanTags tags, int samplingPriority)
+        public static ISpan SetTagSamplingPriority(this ISpan span, int samplingPriority)
         {
-            return Set(tags, TagNames.SamplingPriority, samplingPriority);
+            return Set(span, TagNames.SamplingPriority, samplingPriority);
         }
 
         /// <summary>
         /// "error" indicates whether a Span ended in an error state.
         /// </summary>
-        public static SpanTags Error(this SpanTags tags, bool error = true)
+        public static ISpan SetTagError(this ISpan span, bool error = true)
         {
-            return Set(tags, TagNames.Error, error);
+            return Set(span, TagNames.Error, error);
         }
 
 
-        private static SpanTags Set(SpanTags tags, string key, object value)
+        private static ISpan Set(ISpan span, string key, object value)
         {
-            if (tags == null)
+            if (span == null)
             {
-                throw new ArgumentNullException(nameof(tags));
+                throw new ArgumentNullException(nameof(span));
             }
 
-            return tags.Set(key, value);
+            return span.SetTag(key, value);
         }
     }
 }
