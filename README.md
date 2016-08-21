@@ -1,16 +1,15 @@
 [![Gitter chat](http://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg)](https://gitter.im/opentracing/public)
-[![Build status](https://ci.appveyor.com/api/projects/status/github/dawallin/opentracing-csharp?branch=master&svg=true)](https://ci.appveyor.com/project/dawallin/opentracing-csharp)
 
-# OpenTracing API for .Net including a BasicTracer
+# OpenTracing API for .NET including a BasicTracer
 
-This solution includes 2 packages 
+This solution includes 2 packages
 
-    * A .Net platform API for OpenTracing.
+    * A .NET platform API for OpenTracing.
     * A basic tracer implementation using the OpenTracing API
 
 ## Required Reading
 
-In order to understand the .Net platform API, one should first be familiar with the
+In order to understand the .NET platform API, one should first be familiar with the
 [OpenTracing project](http://opentracing.io) and
 [terminology](http://opentracing.io/spec/) more generally.
 
@@ -18,7 +17,7 @@ In order to understand the .Net platform API, one should first be familiar with 
 
 If you would like to contribute code you can do so through GitHub by forking the repository and sending a pull request (on a branch other than `master` or `gh-pages`).
 
-By contributing your code, you agree to license your contribution under the terms of The MIT License (MIT): https://github.com/dawallin/opentracing-csharp/blob/master/LICENSE
+By contributing your code, you agree to license your contribution under the terms of The MIT License (MIT): https://github.com/opentracing/opentracing-csharp/blob/master/LICENSE
 
 ## API pointers for those implementing a tracing system
 
@@ -30,4 +29,4 @@ For the time being, "mild" backwards-incompatible changes may be made without ch
 
 ## License
 
-All files are released with The MIT License (MIT).
+All files are released with the MIT License (MIT).
