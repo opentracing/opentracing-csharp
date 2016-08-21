@@ -1,4 +1,3 @@
-using System;
 using OpenTracing.Propagation;
 
 namespace OpenTracing.NullTracer
@@ -11,12 +10,7 @@ namespace OpenTracing.NullTracer
         {
         }
 
-        public ISpan StartSpan(string operationName)
-        {
-            return NullSpan.Instance;
-        }
-
-        public ISpan StartSpan(string operationName, DateTimeOffset startTimestamp)
+        public ISpan StartSpan(string operationName, StartSpanOptions options = null)
         {
             return NullSpan.Instance;
         }
@@ -27,7 +21,7 @@ namespace OpenTracing.NullTracer
 
         public ISpanContext Extract(IExtractCarrier carrier)
         {
-            return NullSpanContext.Instance;
+            return null;
         }
     }
 }

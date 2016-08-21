@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenTracing.BasicTracer
@@ -36,30 +37,25 @@ namespace OpenTracing.BasicTracer
             return random % _samplingRate == 0;
         }
 
-        public SpanContext NewRootSpanContext()
+        public SpanContext CreateSpanContext(IList<SpanReference> references)
         {
-            var traceId = Guid.NewGuid();
+            var traceId = references?.FirstOrDefault()?.TypedContext()?.TraceId ?? Guid.NewGuid();
             var spanId = Guid.NewGuid();
             var shouldSample = ShouldSample();
 
-            return new SpanContext(traceId, null, spanId, shouldSample);
-        }
-
-        public SpanContext NewChildSpanContext(SpanContext parent)
-        {
-            if (parent == null)
+            var baggage = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            if (references != null)
             {
-                throw new ArgumentNullException(nameof(parent));
+                foreach (var reference in references)
+                {
+                    foreach (var kvp in reference.Context.GetBaggageItems())
+                    {
+                        baggage[kvp.Key] = kvp.Value;
+                    }
+                }
             }
 
-            var traceId = parent.TraceId;
-            var parentId = parent.SpanId;
-            var spanId = Guid.NewGuid();
-            var shouldSample = ShouldSample();
-
-            var baggage = parent.GetBaggageItems().ToDictionary(p => p.Key, p => p.Value);
-
-            return new SpanContext(traceId, parentId, spanId, shouldSample, baggage);
+            return new SpanContext(traceId, spanId, shouldSample, baggage);
         }
     }
 }

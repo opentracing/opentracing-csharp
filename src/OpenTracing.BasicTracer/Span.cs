@@ -4,35 +4,21 @@ using System.Collections.ObjectModel;
 
 namespace OpenTracing.BasicTracer
 {
-    public static class SpanExtensions
-    {
-        public static SpanContext TypedContext(this ISpan span) => (SpanContext)span.Context;
-    }
-
     public class Span : ISpan
     {
         private readonly ISpanRecorder _spanRecorder;
 
         public ISpanContext Context { get; }
 
-        public ITracer Tracer { get; }
-        public string OperationName { get; private set; }
+        public string OperationName { get; }
         public DateTimeOffset StartTimestamp { get; }
         public DateTimeOffset? FinishTimestamp { get; private set; }
 
-        public bool Finished { get; private set; }
-
-        public IList<Tuple<string, ISpanContext>> References { get; } = new List<Tuple<string, ISpanContext>>();
         public IDictionary<string, object> Tags { get; } = new Dictionary<string, object>();
         public IList<LogData> Logs { get; } = new List<LogData>();
 
-        internal Span(ITracer tracer, ISpanRecorder spanRecorder, ISpanContext context, string operationName, DateTimeOffset startTimestamp)
+        internal Span(ISpanRecorder spanRecorder, ISpanContext context, string operationName, DateTimeOffset startTimestamp)
         {
-            if (tracer == null)
-            {
-                throw new ArgumentNullException(nameof(tracer));
-            }
-
             if (spanRecorder == null)
             {
                 throw new ArgumentNullException(nameof(spanRecorder));
@@ -43,40 +29,16 @@ namespace OpenTracing.BasicTracer
                 throw new ArgumentNullException(nameof(context));
             }
 
-            _spanRecorder = spanRecorder;
-
-            Tracer = tracer;
-            Context = context;
-            StartTimestamp = startTimestamp;
-
-            SetOperationName(operationName);
-        }
-
-        public virtual ISpan SetOperationName(string operationName)
-        {
             if (string.IsNullOrWhiteSpace(operationName))
             {
                 throw new ArgumentNullException(operationName);
             }
 
+            _spanRecorder = spanRecorder;
+
+            Context = context;
             OperationName = operationName.Trim();
-            return this;
-        }
-
-        public virtual ISpan AddReference(string referenceType, ISpanContext spanContext)
-        {
-            if (string.IsNullOrWhiteSpace(referenceType))
-            {
-                throw new ArgumentNullException(nameof(referenceType));
-            }
-
-            if (spanContext == null)
-            {
-                throw new ArgumentNullException(nameof(spanContext));
-            }
-
-            References.Add(new Tuple<string, ISpanContext>(referenceType, spanContext));
-            return this;
+            StartTimestamp = startTimestamp;
         }
 
         public virtual ISpan SetTag(string key, object value)
@@ -90,12 +52,12 @@ namespace OpenTracing.BasicTracer
             return this;
         }
 
-        public virtual ISpan LogEvent(string eventName, object payload = null)
+        public virtual ISpan Log(string eventName, object payload = null)
         {
-            return LogEvent(DateTimeOffset.UtcNow, eventName, payload);
+            return Log(DateTimeOffset.UtcNow, eventName, payload);
         }
 
-        public virtual ISpan LogEvent(DateTimeOffset timestamp, string eventName, object payload = null)
+        public virtual ISpan Log(DateTimeOffset timestamp, string eventName, object payload = null)
         {
             if (string.IsNullOrWhiteSpace(eventName))
             {
@@ -106,37 +68,20 @@ namespace OpenTracing.BasicTracer
             return this;
         }
 
-        public virtual string GetBaggageItem(string key)
+        public virtual void Finish(FinishSpanOptions options = null)
         {
-            return Context.GetBaggageItem(key);
-        }
+            if (FinishTimestamp.HasValue)
+                return;
 
-        public virtual ISpan SetBaggageItem(string key, string value)
-        {
-            Context.SetBaggageItem(key, value);
-            return this;
-        }
-
-        public virtual void Finish()
-        {
-            Finish(DateTimeOffset.UtcNow);
-        }
-
-        public virtual void Finish(DateTimeOffset finishTimestamp)
-        {
-            if (!Finished)
-            {
-                FinishTimestamp = finishTimestamp;
-                Finished = true;
-                OnFinished();
-            }
+            FinishTimestamp = options?.FinishTimestamp ?? DateTimeOffset.UtcNow;
+            OnFinished();
         }
 
         protected void OnFinished()
         {
             var spanData = new SpanData()
             {
-                Context = (SpanContext)Context,
+                Context = this.TypedContext(),
                 OperationName = OperationName,
                 StartTimestamp = StartTimestamp,
                 Duration = FinishTimestamp.Value - StartTimestamp,

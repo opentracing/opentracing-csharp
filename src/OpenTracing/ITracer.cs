@@ -1,13 +1,10 @@
-﻿using System;
-using OpenTracing.Propagation;
+﻿using OpenTracing.Propagation;
 
 namespace OpenTracing
 {
     public interface ITracer
     {
-        ISpan StartSpan(string operationName);
-
-        ISpan StartSpan(string operationName, DateTimeOffset startTimestamp);
+        ISpan StartSpan(string operationName, StartSpanOptions options = null);
 
         void Inject(ISpanContext spanContext, IInjectCarrier carrier);
 

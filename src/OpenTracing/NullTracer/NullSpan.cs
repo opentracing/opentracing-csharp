@@ -4,29 +4,13 @@ namespace OpenTracing.NullTracer
 {
     public class NullSpan : ISpan
     {
-        internal static readonly NullSpan Instance = new NullSpan(NullTracer.Instance, NullSpanContext.Instance);
+        internal static readonly NullSpan Instance = new NullSpan(NullSpanContext.Instance);
 
-        private readonly ITracer _tracer;
-        private readonly ISpanContext _context;
+        public ISpanContext Context { get; }
 
-        private NullSpan(ITracer tracer, ISpanContext context)
+        private NullSpan(ISpanContext context)
         {
-            _tracer = tracer;
-            _context = context;
-        }
-
-        public ISpanContext Context => _context;
-
-        public ITracer Tracer => _tracer;
-
-        public ISpan SetOperationName(string operationName)
-        {
-            return this;
-        }
-
-        public ISpan AddReference(string referenceType, ISpanContext spanContext)
-        {
-            return this;
+            Context = context;
         }
 
         public ISpan SetTag(string key, object value)
@@ -34,31 +18,17 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan LogEvent(string eventName, object payload = null)
+        public ISpan Log(string eventName, object payload = null)
         {
             return this;
         }
 
-        public ISpan LogEvent(DateTimeOffset timestamp, string eventName, object payload = null)
+        public ISpan Log(DateTimeOffset timestamp, string eventName, object payload = null)
         {
             return this;
         }
 
-        public string GetBaggageItem(string key)
-        {
-            return null;
-        }
-
-        public ISpan SetBaggageItem(string key, string value)
-        {
-            return this;
-        }
-
-        public void Finish()
-        {
-        }
-
-        public void Finish(DateTimeOffset finishTimestamp)
+        public void Finish(FinishSpanOptions options = null)
         {
         }
     }

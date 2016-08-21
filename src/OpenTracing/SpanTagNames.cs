@@ -1,6 +1,6 @@
 namespace OpenTracing
 {
-    public static class TagNames
+    public static class SpanTagNames
     {
         /// <summary>
         ///  "component" is a low-cardinality identifier of the module, library, or package that is instrumented.

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenTracing;
-using OpenTracing.Propagation;
 using Xunit;
 
 namespace OpenTracing.BasicTracer.IntegrationTests
@@ -105,7 +103,6 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             Assert.Equal("BaggageValue", recordedSpan.Context.GetBaggageItem("baggagekey"));
             Assert.Equal("TagValue", recordedSpan.Tags["tagkey"]);
 
-            Assert.Equal(null, recordedSpan.Context.ParentId);
             Assert.NotEqual(Guid.Empty, recordedSpan.Context.TraceId);
             Assert.NotEqual(Guid.Empty, recordedSpan.Context.SpanId);
         }

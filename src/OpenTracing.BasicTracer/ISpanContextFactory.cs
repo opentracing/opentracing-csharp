@@ -1,8 +1,9 @@
-﻿namespace OpenTracing.BasicTracer
+﻿using System.Collections.Generic;
+
+namespace OpenTracing.BasicTracer
 {
     public interface ISpanContextFactory
     {
-        SpanContext NewRootSpanContext();
-        SpanContext NewChildSpanContext(SpanContext spanContext);
+        SpanContext CreateSpanContext(IList<SpanReference> references);
     }
 }

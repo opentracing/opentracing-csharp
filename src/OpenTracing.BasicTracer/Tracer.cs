@@ -26,13 +26,18 @@ namespace OpenTracing.BasicTracer
 
         public ISpan StartSpan(string operationName)
         {
-            return StartSpan(operationName, DateTimeOffset.UtcNow);
+            return StartSpan(operationName, null);
         }
 
-        public ISpan StartSpan(string operationName, DateTimeOffset startTimestamp)
+        public ISpan StartSpan(string operationName, StartSpanOptions options)
         {
-            var rootSpanContext = _spanContextFactory.NewRootSpanContext();
-            var span = new Span(this, _spanRecorder, rootSpanContext, operationName, startTimestamp);
+            options = options ?? new StartSpanOptions();
+
+            var spanContext = _spanContextFactory.CreateSpanContext(options.References);
+            var startTimestamp = options.StartTimestamp ?? DateTimeOffset.UtcNow;
+
+            var span = new Span(_spanRecorder, spanContext, operationName, startTimestamp);
+
             return span;
         }
 
