@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using OpenTracing.Propagation;
 
 namespace OpenTracing.BasicTracer.Propagation
@@ -39,14 +38,14 @@ namespace OpenTracing.BasicTracer.Propagation
                 bool.TryParse(sampledString, out sampled);
             }
             
-            var baggage = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var baggage = new Baggage();
 
             foreach (var kvp in carrier.TextMap)
             {
                 if (kvp.Key.StartsWith(BaggageKeys.BaggagePrefix, StringComparison.OrdinalIgnoreCase))
                 {
                     var key = kvp.Key.Substring(BaggageKeys.BaggagePrefix.Length);
-                    baggage[key] = kvp.Value;
+                    baggage.Set(key, kvp.Value);
                 }
             }
 

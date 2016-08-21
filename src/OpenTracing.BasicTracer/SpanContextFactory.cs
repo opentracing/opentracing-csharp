@@ -43,15 +43,12 @@ namespace OpenTracing.BasicTracer
             var spanId = Guid.NewGuid();
             var shouldSample = ShouldSample();
 
-            var baggage = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var baggage = new Baggage();
             if (references != null)
             {
                 foreach (var reference in references)
                 {
-                    foreach (var kvp in reference.Context.GetBaggageItems())
-                    {
-                        baggage[kvp.Key] = kvp.Value;
-                    }
+                    baggage.Merge(reference.Context.GetBaggageItems());
                 }
             }
 
