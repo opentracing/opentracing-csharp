@@ -1,4 +1,4 @@
-﻿namespace OpenTracing
+﻿namespace OpenTracing.BasicTracer
 {
     public interface ISpanFactory
     {

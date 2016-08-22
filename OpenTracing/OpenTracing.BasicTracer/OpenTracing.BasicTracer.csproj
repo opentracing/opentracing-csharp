@@ -45,6 +45,7 @@
     <Compile Include="Context\ISpanContext.cs" />
     <Compile Include="Context\ISpanContextFactory.cs" />
     <Compile Include="ISpanEvents.cs" />
+    <Compile Include="ISpanFactory.cs" />
     <Compile Include="ISpanRecorder.cs" />
     <Compile Include="ITracerBuilder.cs" />
     <Compile Include="OpenTracingContext\OpenTracingSpanContext.cs" />
