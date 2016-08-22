@@ -91,14 +91,9 @@ namespace OpenTracing.BasicTracer
             return _spanContext.GetBaggageItems()[restrictedKey.ToLower()];
         }
 
-        public void Log(string message, object obj)
+        public void Log(LogData logData)
         {
-            Log(DateTime.Now, message, obj);
-        }
-
-        public void Log(DateTime dateTime, string message, object obj)
-        {
-            _logData.Add(new LogData(dateTime, message, obj));
+            _logData.Add(logData);
         }
 
         private bool IsValidBaggaeKey(string key)
