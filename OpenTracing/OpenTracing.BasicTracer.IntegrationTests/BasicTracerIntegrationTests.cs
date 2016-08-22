@@ -110,7 +110,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             span.SetBaggageItem("baggagekey", "BaggageValue");
             span.SetTag("tagkey", "TagValue");
 
-            span.FinishWithOptions(DateTime.Parse("2016-01-01 12:00") + TimeSpan.FromMinutes(1));
+            span.FinishWithOptions(new FinishSpanOptions(DateTime.Parse("2016-01-01 12:00") + TimeSpan.FromMinutes(1)));
 
             Assert.AreEqual("TestOperation", simpleMockRecorder.spanEvents.First().OperationName);
             Assert.AreEqual("InitTagValue", simpleMockRecorder.spanEvents.First().Tags["inittagkey"]);

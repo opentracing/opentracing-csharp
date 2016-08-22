@@ -28,7 +28,7 @@ namespace OpenTracing
         /// FinishWithOptions is like Finish() but with explicit control over
 	    /// timestamps and log data.
         /// </summary>
-        void FinishWithOptions(DateTime finishTime);
+        void FinishWithOptions(FinishSpanOptions finishSpanOptions);
 
         void SetBaggageItem(string restrictedKey, string value);
         string GetBaggageItem(string key);

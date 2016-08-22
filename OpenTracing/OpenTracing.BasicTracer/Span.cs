@@ -38,15 +38,20 @@ namespace OpenTracing.BasicTracer
 
         public void Finish()
         {
-            FinishWithOptions(DateTime.Now);
+            FinishWithOptions(new FinishSpanOptions(DateTime.Now));
         }
 
-        public void FinishWithOptions(DateTime finishTime)
+        public void FinishWithOptions(FinishSpanOptions finshSpanOptions)
         {
             if (isFinished)
                 return;
 
-            var duration = finishTime - _startTime;
+            var duration = finshSpanOptions.FinishTime - _startTime;
+
+            if (finshSpanOptions.LogData != null)
+            {
+                _logData.AddRange(finshSpanOptions.LogData);
+            }
 
             var spanData = new SpanData<TContext>()
             {
