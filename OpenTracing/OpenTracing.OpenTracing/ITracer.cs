@@ -41,13 +41,12 @@ namespace OpenTracing
         /// <param name="carrier">The carrier type, which also parametrizes the TFormat.</param>
         /// <example>
         /// <code>
-        /// Tracer tracer = ...
-        /// MemoryTextMapCarrier memoryCarrier = new MemoryTextMapCarrier();
-        /// ExtractResult extractResult = tracer.extract(memoryCarrier);
-        /// tracer.BuildSpan('...').withChildOf(spanCtx.SpanContext).start();
+        ///     Tracer tracer = ...
+        ///     MemoryTextMapCarrier memoryCarrier = new MemoryTextMapCarrier();
+        ///     ExtractResult extractResult = tracer.extract(memoryCarrier);
+        ///     tracer.BuildSpan('...').withChildOf(spanCtx.SpanContext).start();
         /// </code>
         /// </example>
-        /// <returns>The SpanContext instance holding context to create a Span.</returns>
         ExtractResult Extract<TFormat>(string operationName, IExtractCarrier<TFormat> carrier);
     }
 }

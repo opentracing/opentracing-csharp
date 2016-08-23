@@ -20,6 +20,10 @@ namespace OpenTracing.Propagation
             TextMap = format;
         }
 
+        /// <summary>
+        /// Extract returns the SpanContext propagated through the MemoryTextMapCarrier
+        /// in a TextMapFormat.
+        /// </summary>
         public ExtractCarrierResult<TextMapFormat> Extract()
         {
             return new ExtractCarrierResult<TextMapFormat>(new TextMapFormat(TextMap));

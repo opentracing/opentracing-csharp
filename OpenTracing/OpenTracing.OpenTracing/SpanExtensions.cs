@@ -5,7 +5,7 @@ namespace OpenTracing
     public static class SpanExtensions
     {
         /// <summary>
-        /// Convenience method to simplify logging.
+        /// Adds logdata to the span.
         /// </summary>
         public static void Log(this ISpan span, string logEvent)
         {
@@ -13,11 +13,11 @@ namespace OpenTracing
         }
 
         /// <summary>
-        /// Convenience method to simplify logging.
+        /// Adds logdata to the span.
         /// </summary>
-        public static void Log(this ISpan span, string logEvent, object obj)
+        public static void Log(this ISpan span, string logEvent, object payload)
         {
-            span.Log(new LogData(DateTime.Now, logEvent, obj));
+            span.Log(new LogData(DateTime.Now, logEvent, payload));
         }
     }
 }
