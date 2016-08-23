@@ -16,7 +16,7 @@ namespace OpenTracing
         ISpanContext GetSpanContext();
 
         /// <summary>
-        /// Sets the end timestamp and finalizes Span state.
+        /// Sets the end timestamp to DateTime.Noew and finalizes Span state.
         ///
         /// With the exception of calls to Context() (which are always allowed),
         /// Finish() must be the last call made to any span instance, and to do

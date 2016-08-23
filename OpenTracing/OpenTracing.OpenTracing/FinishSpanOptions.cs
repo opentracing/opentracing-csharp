@@ -21,8 +21,7 @@ namespace OpenTracing
         }
 
         /// <summary>
-        /// FinishTime overrides the Span's finish time, or implicitly becomes
-        /// DateTime.Now() if FinishTime == null.
+        /// FinishTime overrides the Span's finish time.
         ///
         /// FinishTime must resolve to a timestamp that's >= the Span's StartTime
         /// (per StartSpanOptions).
