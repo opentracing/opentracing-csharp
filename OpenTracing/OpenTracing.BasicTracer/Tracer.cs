@@ -57,7 +57,7 @@ namespace OpenTracing.BasicTracer
                 return new ExtractResult(extractCarrierResult.ExtractException);
             }
 
-            var contextMapToResult = mapper.MapTo(extractCarrierResult.FormatData);
+            var contextMapToResult = mapper.MapTo(extractCarrierResult.Context);
 
             if (!contextMapToResult.Success)
             {

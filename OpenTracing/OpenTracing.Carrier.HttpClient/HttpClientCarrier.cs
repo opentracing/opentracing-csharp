@@ -11,9 +11,9 @@ namespace OpenTracing.Carrier.HttpClient
             _httpClient = httpClient;
         }
 
-        public void MapFrom(TextMapFormat format)
+        public void MapFrom(TextMapFormat context)
         {
-            var textMap = format;
+            var textMap = context;
 
             var headers = _httpClient.DefaultRequestHeaders;
 

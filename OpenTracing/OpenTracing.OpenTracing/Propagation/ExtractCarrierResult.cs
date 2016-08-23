@@ -8,21 +8,27 @@ namespace OpenTracing.Propagation
     /// <typeparam name="TFormat"></typeparam>
     public class ExtractCarrierResult<TFormat>
     {
-        public ExtractCarrierResult(TFormat formatData)
+        public ExtractCarrierResult(TFormat context)
         {
-            FormatData = formatData;
+            Context = context;
             Success = true;
             ExtractException = null;
         }
 
         public ExtractCarrierResult(Exception e)
         {
-            FormatData = default(TFormat);
+            Context = default(TFormat);
             Success = false;
             ExtractException = e;
         }
 
-        public TFormat FormatData { get; private set; }
+        /// <summary>
+        /// If extraction was successful this contains the extracted context data 
+        /// in the TFormat type.
+
+        /// If extraction was unsuccessful, then SpanContext == null
+        /// </summary>
+        public TFormat Context { get; private set; }
 
         /// <summary>
         /// True if the extraction was successful
