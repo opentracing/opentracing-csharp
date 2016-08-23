@@ -2,7 +2,7 @@
 
 namespace OpenTracing.Carrier.HttpClient
 {
-    public class HttpClientCarrier : IInjectCarrier<TextMapFormat>
+    public class HttpClientCarrier : IInjectCarrier<HttpHeaderFormat>
     {
         System.Net.Http.HttpClient _httpClient;
 
@@ -11,7 +11,7 @@ namespace OpenTracing.Carrier.HttpClient
             _httpClient = httpClient;
         }
 
-        public void MapFrom(TextMapFormat context)
+        public void MapFrom(HttpHeaderFormat context)
         {
             var textMap = context;
 

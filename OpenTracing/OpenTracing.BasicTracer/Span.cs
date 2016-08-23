@@ -85,9 +85,6 @@ namespace OpenTracing.BasicTracer
 
         public void SetBaggageItem(string restrictedKey, string value)
         {
-            if (!IsValidBaggaeKey(restrictedKey))
-                throw new ArgumentException("Invalid baggage key: '" + restrictedKey + "'");
-
             _spanContext.SetBaggageItem(restrictedKey.ToLower(), value);
         }
 
@@ -99,12 +96,6 @@ namespace OpenTracing.BasicTracer
         public void Log(LogData logData)
         {
             _logData.Add(logData);
-        }
-
-        private bool IsValidBaggaeKey(string key)
-        {
-            var regEx = new Regex(@"^(?i:[a-z0-9][-a-z0-9]*)$");
-            return regEx.IsMatch(key);
         }
     }
 }

@@ -45,8 +45,10 @@
     <Compile Include="Propagation\ExtractCarrierResult.cs" />
     <Compile Include="Propagation\IExtractCarrier.cs" />
     <Compile Include="Propagation\IInjectCarrier.cs" />
+    <Compile Include="Propagation\MemoryHttpHeaderCarrier.cs" />
     <Compile Include="Propagation\MemoryTextMapCarrier.cs" />
     <Compile Include="Propagation\TextMapFormat.cs" />
+    <Compile Include="Propagation\HttpHeaderFormat.cs" />
     <Compile Include="FinishSpanOptions.cs" />
     <Compile Include="ISpan.cs" />
     <Compile Include="LogData.cs" />
