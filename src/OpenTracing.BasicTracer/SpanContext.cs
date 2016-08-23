@@ -29,9 +29,10 @@ namespace OpenTracing.BasicTracer
             return _baggage.Get(key);
         }
 
-        public void SetBaggageItem(string key, string value)
+        public ISpanContext SetBaggageItem(string key, string value)
         {
             _baggage.Set(key, value);
+            return this;
         }
     }
 }

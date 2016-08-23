@@ -34,7 +34,7 @@ namespace OpenTracing.AspNetCore
             }
 
             // see if this request is already part of a trace
-            var existingSpanContext = tracer.ExtractFromHttpHeaders(context);
+            var existingSpanContext = tracer.ExtractHttpHeaders(context);
             ISpan requestSpan = null;
 
             try

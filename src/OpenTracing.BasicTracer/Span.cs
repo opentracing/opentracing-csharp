@@ -67,12 +67,23 @@ namespace OpenTracing.BasicTracer
             return this;
         }
 
-        public virtual void Finish(FinishSpanOptions options = null)
+        public ISpan SetBaggageItem(string key, string value)
+        {
+            Context.SetBaggageItem(key, value);
+            return this;
+        }
+
+        public string GetBaggageItem(string key)
+        {
+            return Context.GetBaggageItem(key);
+        }
+
+        public virtual void Finish(DateTimeOffset? finishTimestamp = null)
         {
             if (FinishTimestamp.HasValue)
                 return;
 
-            FinishTimestamp = options?.FinishTimestamp ?? DateTimeOffset.UtcNow;
+            FinishTimestamp = finishTimestamp ?? DateTimeOffset.UtcNow;
             OnFinished();
         }
 

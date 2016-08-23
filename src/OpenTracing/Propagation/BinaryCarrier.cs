@@ -2,18 +2,23 @@ using System;
 
 namespace OpenTracing.Propagation
 {
+    /// <summary>
+    /// A <see cref="ITextMapCarrier"/> which allows a byte array to be used as a carrier object.
+    /// </summary>
     public class BinaryCarrier : IInjectCarrier, IExtractCarrier
     {
-        public byte[] Data { get; }
+        // TODO is using byte[] a good solution?
 
-        public BinaryCarrier(byte[] data)
+        public byte[] Payload { get; }
+
+        public BinaryCarrier(byte[] payload)
         {
-            if (data == null)
+            if (payload == null)
             {
-                throw new ArgumentNullException(nameof(data));
+                throw new ArgumentNullException(nameof(payload));
             }
 
-            Data = data;
+            Payload = payload;
         }
     }
 }

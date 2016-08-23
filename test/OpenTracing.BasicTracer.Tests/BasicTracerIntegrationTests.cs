@@ -37,7 +37,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
 
             var data = new Dictionary<string, string>();
 
-            tracer.InjectIntoTextMap(span.Context, data);
+            tracer.InjectTextMap(span.Context, data);
 
             Assert.Equal(traceId.ToString(), data["ot-traceid"]);
             Assert.Equal(spanId.ToString(), data["ot-spanid"]);
@@ -50,7 +50,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
 
             var data = new Dictionary<string, string>();
 
-            var spanContext = tracer.ExtractFromTextMap(data);
+            var spanContext = tracer.ExtractTextMap(data);
 
             Assert.Null(spanContext);
         }
@@ -69,7 +69,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
                 { "ot-spanid", testSpanId.ToString() },
             };
 
-            var spanContext = (SpanContext)tracer.ExtractFromTextMap(data);
+            var spanContext = (SpanContext)tracer.ExtractTextMap(data);
 
             Assert.NotNull(spanContext);
 

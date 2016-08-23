@@ -7,38 +7,17 @@ using System.Net.Sockets;
 
 namespace OpenTracing
 {
-    public static class SpanExtensions
+    /// <summary>
+    /// Typed extension methods for common tags.
+    /// </summary>
+    public static class SpanTagExtensions
     {
-        public static ISpan SetBaggageItem(this ISpan span, string key, string value)
-        {
-            if (span == null)
-            {
-                throw new ArgumentNullException(nameof(span));
-            }
-
-            span.Context.SetBaggageItem(key, value);
-            return span;
-        }
-
-        public static void Finish(this ISpan span, DateTimeOffset finishTimestamp)
-        {
-            if (span == null)
-            {
-                throw new ArgumentNullException(nameof(span));
-            }
-
-            var options = new FinishSpanOptions()
-                .SetFinishTimestamp(finishTimestamp);
-
-            span.Finish(options);
-        }
-
         /// <summary>
         ///  "span.kind" hints at the relationship between spans, e.g. client/server.
         /// </summary>
         public static ISpan SetTagSpanKind(this ISpan span, string spanKind)
         {
-            return SetTag(span, SpanTagNames.SpanKind, spanKind);
+            return SetTag(span, SpanTags.SpanKind, spanKind);
         }
 
         /// <summary>
@@ -62,7 +41,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagComponent(this ISpan span, string component)
         {
-            return SetTag(span, SpanTagNames.Component, component);
+            return SetTag(span, SpanTags.Component, component);
         }
 
 
@@ -72,7 +51,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagHttpUrl(this ISpan span, string httpUrl)
         {
-            return SetTag(span, SpanTagNames.HttpUrl, httpUrl);
+            return SetTag(span, SpanTags.HttpUrl, httpUrl);
         }
 
         /// <summary>
@@ -80,7 +59,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagHttpUrl(this ISpan span, Uri httpUrl)
         {
-            return SetTag(span, SpanTagNames.HttpUrl, httpUrl?.ToString());
+            return SetTag(span, SpanTags.HttpUrl, httpUrl?.ToString());
         }
 
         /// <summary>
@@ -88,7 +67,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagHttpMethod(this ISpan span, string httpMethod)
         {
-            return SetTag(span, SpanTagNames.HttpUrl, httpMethod);
+            return SetTag(span, SpanTags.HttpUrl, httpMethod);
         }
 
         /// <summary>
@@ -96,7 +75,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagHttpMethod(this ISpan span, HttpMethod httpMethod)
         {
-            return SetTag(span, SpanTagNames.HttpUrl, httpMethod?.Method);
+            return SetTag(span, SpanTags.HttpUrl, httpMethod?.Method);
         }
 
         /// <summary>
@@ -104,7 +83,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagHttpStatusCode(this ISpan span, int httpStatusCode)
         {
-            return SetTag(span, SpanTagNames.HttpStatusCode, httpStatusCode);
+            return SetTag(span, SpanTags.HttpStatusCode, httpStatusCode);
         }
 
         /// <summary>
@@ -112,7 +91,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagHttpStatusCode(this ISpan span, HttpStatusCode httpStatusCode)
         {
-            return SetTag(span, SpanTagNames.HttpStatusCode, httpStatusCode);
+            return SetTag(span, SpanTags.HttpStatusCode, httpStatusCode);
         }
 
         /// <summary>
@@ -120,7 +99,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagPeerHostname(this ISpan span, string peerHostname)
         {
-            return SetTag(span, SpanTagNames.PeerHostname, peerHostname);
+            return SetTag(span, SpanTags.PeerHostname, peerHostname);
         }
 
         /// <summary>
@@ -128,7 +107,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagPeerIpV4(this ISpan span, string peerIpV4)
         {
-            return SetTag(span, SpanTagNames.PeerIpV4, peerIpV4);
+            return SetTag(span, SpanTags.PeerIpV4, peerIpV4);
         }
 
         /// <summary>
@@ -136,7 +115,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagPeerIpV6(this ISpan span, string peerIpV6)
         {
-            return SetTag(span, SpanTagNames.PeerIpV6, peerIpV6);
+            return SetTag(span, SpanTags.PeerIpV6, peerIpV6);
         }
 
 #if NETSTANDARD1_3
@@ -149,11 +128,11 @@ namespace OpenTracing
 
             if (peerIp.AddressFamily == AddressFamily.InterNetwork)
             {
-                return SetTag(span, SpanTagNames.PeerIpV4, peerIp.ToString());
+                return SetTag(span, SpanTags.PeerIpV4, peerIp.ToString());
             }
             else if (peerIp.AddressFamily == AddressFamily.InterNetworkV6)
             {
-                return SetTag(span, SpanTagNames.PeerIpV6, peerIp.ToString());
+                return SetTag(span, SpanTags.PeerIpV6, peerIp.ToString());
             }
             else
             {
@@ -167,7 +146,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagPeerPort(this ISpan span, int peerPort)
         {
-            return SetTag(span, SpanTagNames.PeerPort, peerPort);
+            return SetTag(span, SpanTags.PeerPort, peerPort);
         }
 
         /// <summary>
@@ -175,7 +154,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagPeerService(this ISpan span, string peerService)
         {
-            return SetTag(span, SpanTagNames.PeerService, peerService);
+            return SetTag(span, SpanTags.PeerService, peerService);
         }
 
         /// <summary>
@@ -183,7 +162,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagSamplingPriority(this ISpan span, int samplingPriority)
         {
-            return SetTag(span, SpanTagNames.SamplingPriority, samplingPriority);
+            return SetTag(span, SpanTags.SamplingPriority, samplingPriority);
         }
 
         /// <summary>
@@ -191,7 +170,7 @@ namespace OpenTracing
         /// </summary>
         public static ISpan SetTagError(this ISpan span, bool error = true)
         {
-            return SetTag(span, SpanTagNames.Error, error);
+            return SetTag(span, SpanTags.Error, error);
         }
 
 

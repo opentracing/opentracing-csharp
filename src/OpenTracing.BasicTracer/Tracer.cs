@@ -46,29 +46,55 @@ namespace OpenTracing.BasicTracer
             return span;
         }
 
-        public void Inject(ISpanContext spanContext, IInjectCarrier carrier)
+        public void Inject(ISpanContext spanContext, string format, IInjectCarrier carrier)
+        {
+            switch (format)
+            {
+                case Formats.TextMap:
+                    InjectTextMap(spanContext, carrier);
+                    break;
+                // TODO add other formats
+                default:
+                    throw new UnsupportedFormatException($"The format '{format}' is not supported.");
+            }
+        }
+
+        private void InjectTextMap(ISpanContext spanContext, IInjectCarrier carrier)
         {
             var typedContext = (SpanContext)spanContext;
 
-            var textMapCarrier = carrier as TextMapCarrier;
+            var textMapCarrier = carrier as ITextMapCarrier;
             if (textMapCarrier != null)
             {
                 _textMapCarrierHandler.MapContextToCarrier(typedContext, textMapCarrier);
                 return;
             }
 
-            throw new NotSupportedException($"InjectCarrier type '{carrier.GetType()}' is not supported");
+            throw new InvalidCarrierException($"The carrier '{carrier.GetType()}' is not supported for the format '{Formats.TextMap}'.");
         }
 
-        public ISpanContext Extract(IExtractCarrier carrier)
+
+        public ISpanContext Extract(string format, IExtractCarrier carrier)
         {
-            var textMapCarrier = carrier as TextMapCarrier;
+            switch (format)
+            {
+                case Formats.TextMap:
+                    return ExtractTextMap(carrier);
+                // TODO add other formats
+                default:
+                    throw new UnsupportedFormatException($"The format '{format}' is not supported.");
+            }
+        }
+
+        private ISpanContext ExtractTextMap(IExtractCarrier carrier)
+        {
+            var textMapCarrier = carrier as ITextMapCarrier;
             if (textMapCarrier != null)
             {
                 return _textMapCarrierHandler.MapCarrierToContext(textMapCarrier);
             }
 
-            throw new NotSupportedException($"ExtractCarrier type '{carrier.GetType()}' is not supported");
+            throw new InvalidCarrierException($"The carrier '{carrier.GetType()}' is not supported for the format '{Formats.TextMap}'.");
         }
     }
 }

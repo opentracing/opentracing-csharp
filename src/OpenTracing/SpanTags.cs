@@ -1,6 +1,9 @@
 namespace OpenTracing
 {
-    public static class SpanTagNames
+    /// <summary>
+    /// Provides access to a list of common tag keys.
+    /// </summary>
+    public static class SpanTags
     {
         /// <summary>
         ///  "component" is a low-cardinality identifier of the module, library, or package that is instrumented.

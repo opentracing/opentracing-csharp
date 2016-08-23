@@ -28,7 +28,17 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public void Finish(FinishSpanOptions options = null)
+        public ISpan SetBaggageItem(string key, string value)
+        {
+            return this;
+        }
+
+        public string GetBaggageItem(string key)
+        {
+            return null;
+        }
+
+        public void Finish(DateTimeOffset? finishTimestamp = null)
         {
         }
 

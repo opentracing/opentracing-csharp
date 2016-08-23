@@ -13,8 +13,9 @@ namespace OpenTracing.NullTracer
             return null;
         }
 
-        public void SetBaggageItem(string key, string value)
+        public ISpanContext SetBaggageItem(string key, string value)
         {
+            return this;
         }
     }
 }
