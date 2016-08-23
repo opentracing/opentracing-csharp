@@ -2,26 +2,39 @@
 
 namespace OpenTracing.Propagation
 {
-    public class MemoryTextMapCarrier<T> : IInjectCarrier<T>, IExtractCarrier<T>
+    /// <summary>
+    /// MemoryTextMapCarrier is a built-in carrier for Tracer.Inject() and 
+    /// Tracer.Extract() using the TextMap format.
+    /// </summary>
+    public class MemoryTextMapCarrier : IInjectCarrier<TextMapFormat>, IExtractCarrier<TextMapFormat>
     {
-        private IContextMapper<T, TextMapFormat> _contextMapper;
-
         public IDictionary<string, string> TextMap { get; set; } = new Dictionary<string, string>() { };
 
-        public MemoryTextMapCarrier(IContextMapper<T, TextMapFormat> contextMapper, IDictionary<string, string> textMap)
+        public MemoryTextMapCarrier()
+        {
+        }
+
+        public MemoryTextMapCarrier(IDictionary<string, string> textMap)
         {
             TextMap = textMap;
-            _contextMapper = contextMapper;
         }
 
-        public bool TryMapTo(out T spanContext)
+        /// <summary>
+        /// MapFrom takes the SpanContext instance in a TextMapFormat and injects it 
+        /// for propagation within the MemoryTextMapCarrier. 
+        /// </summary>
+        public void MapFrom(TextMapFormat context)
         {
-            return _contextMapper.TryMapTo(new TextMapFormat(TextMap), out spanContext);
+            TextMap = context;
         }
 
-        public void MapFrom(T spanContext)
+        /// <summary>
+        /// Extract returns the SpanContext propagated through the MemoryTextMapCarrier
+        /// in a TextMapFormat.
+        /// </summary>
+        public ExtractCarrierResult<TextMapFormat> Extract()
         {
-            TextMap = _contextMapper.MapFrom(spanContext);
+            return new ExtractCarrierResult<TextMapFormat>(new TextMapFormat(TextMap));
         }
     }
 }

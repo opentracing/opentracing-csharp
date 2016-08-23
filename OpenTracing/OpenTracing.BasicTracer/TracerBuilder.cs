@@ -1,36 +1,45 @@
 ﻿using OpenTracing.BasicTracer.Context;
+using OpenTracing.BasicTracer.OpenTracingContext;
 using System;
+using System.Collections.Generic;
 
 namespace OpenTracing.BasicTracer
 {
-    public class TracerBuilder<T> where T : ISpanContext
+    public class TracerBuilder<TContext> where TContext : Context.ISpanContext
     {
-        private ISpanContextFactory<T> _spanContextFactory = null;
-        private ISpanRecorder<T> _spanRecorder = null;
+        private ISpanContextFactory<TContext> _spanContextFactory = null;
+        private ISpanRecorder<TContext> _spanRecorder = null;
 
         public TracerBuilder()
         {       
         }
 
-        public TracerBuilder<T> SetSpanContextFactory(ISpanContextFactory<T> spanContextFactory)
+        public TracerBuilder<TContext> SetSpanContextFactory(ISpanContextFactory<TContext> spanContextFactory)
         {
             _spanContextFactory = spanContextFactory;
             return this;
         }
-        public TracerBuilder<T> SetSpanRecorder(ISpanRecorder<T> spanRecorder)
+        public TracerBuilder<TContext> SetSpanRecorder(ISpanRecorder<TContext> spanRecorder)
         {
             _spanRecorder = spanRecorder;
             return this;
         }
 
-        public Tracer<T> BuildTracer()
+        public Tracer<TContext> BuildTracer()
         {
             if (_spanContextFactory == null)
             {
                 throw new ArgumentNullException("No span context factory set.");
             }
 
-            return new Tracer<T>(_spanContextFactory, _spanRecorder);
+            var spanFactory = new SpanFactory<TContext>(_spanContextFactory, _spanRecorder);
+
+            var mappers = new List<object>
+            {
+                { new OpenTracingSpanContextToTextMapper() }
+            };
+
+            return new Tracer<TContext>(spanFactory, mappers);
         }
     }
 }

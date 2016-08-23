@@ -1,5 +1,4 @@
 [![Gitter chat](http://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg)](https://gitter.im/opentracing/public)
-[![Build status](https://ci.appveyor.com/api/projects/status/github/dawallin/opentracing-csharp?branch=master&svg=true)](https://ci.appveyor.com/project/dawallin/opentracing-csharp)
 
 # OpenTracing API for .Net including a BasicTracer
 
@@ -30,4 +29,4 @@ For the time being, "mild" backwards-incompatible changes may be made without ch
 
 ## License
 
-All files are released with The MIT License (MIT).
+All files are released with The MIT License (MIT).All files are released with The MIT License (MIT).

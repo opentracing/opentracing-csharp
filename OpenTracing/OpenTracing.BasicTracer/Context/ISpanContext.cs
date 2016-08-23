@@ -2,9 +2,8 @@
 
 namespace OpenTracing.BasicTracer.Context
 {
-    public interface ISpanContext
+    public interface ISpanContext : OpenTracing.ISpanContext
     {
-        IReadOnlyDictionary<string, string> GetBaggageItems();
         void SetBaggageItem(string restrictedKey, string value);
     }
 }

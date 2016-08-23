@@ -1,7 +1,11 @@
 ﻿namespace OpenTracing.Propagation
 {
-    public interface IExtractCarrier<T>
+    public interface IExtractCarrier<TFormat>
     {
-        bool TryMapTo(out T spanContext);
+        /// <summary>
+        /// Extract returns the SpanContext propagated through the `carrier`. 
+        /// The actual format of context depends on the type of TFormat.
+        /// </summary>
+        ExtractCarrierResult<TFormat> Extract();
     }
 }

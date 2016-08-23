@@ -5,105 +5,97 @@ using System.Text.RegularExpressions;
 
 namespace OpenTracing.BasicTracer
 {
-    public sealed class Span<T> : ISpan<T> where T : ISpanContext
+    public sealed class Span<TContext> : ISpan where TContext : Context.ISpanContext
     {
-        private readonly ITracer<T> _tracer;
-        private readonly T _spanContext;
+        private readonly TContext _spanContext;
 
-        private ISpanRecorder<T> _spanRecorder;
+        private ISpanRecorder<TContext> _spanRecorder;
 
-        public T GetSpanContext()
+        private string _operationName;
+        private DateTime _startTime;
+        private Dictionary<string, string> _tags = new Dictionary<string, string>();
+        private List<LogData> _logData = new List<OpenTracing.LogData>();
+        private List<SpanReference> _references = new List<SpanReference>();
+
+        public ISpanContext GetSpanContext()
         {
             return _spanContext;
         }
 
-        internal Span(ITracer<T> tracer, ISpanRecorder<T> spanRecorder, T spanContext, string operationName, DateTime startTime)
+        internal Span(ISpanRecorder<TContext> spanRecorder, TContext spanContext, string operationName, DateTime startTime, List<SpanReference> references)
         {
-            _tracer = tracer;
             _spanContext = spanContext;
-            OperationName = operationName;
+            _operationName = operationName;
 
             _spanRecorder = spanRecorder;
 
-            StartTime = startTime;
+            _startTime = startTime;
+
+            _references = references;
         }
 
         private bool isFinished = false;
 
         public void Finish()
         {
-            FinishWithOptions(DateTime.Now);
+            FinishWithOptions(new FinishSpanOptions(DateTime.Now));
         }
 
-        public void FinishWithOptions(DateTime finishTime)
+        public void FinishWithOptions(FinishSpanOptions finshSpanOptions)
         {
             if (isFinished)
                 return;
 
-            Duration = finishTime - StartTime;
+            var duration = finshSpanOptions.FinishTime - _startTime;
 
-            var spanData = new SpanData<T>()
+            if (finshSpanOptions.LogData != null)
             {
-                Context = GetSpanContext(),
-                OperationName = OperationName,
-                StartTime = StartTime,
-                Duration = Duration,
-                Tags = Tags,
-                LogData = LogData,
+                _logData.AddRange(finshSpanOptions.LogData);
+            }
+
+            var spanData = new SpanData<TContext>()
+            {
+                Context = _spanContext,
+                OperationName = _operationName,
+                StartTime = _startTime,
+                Duration = duration,
+                Tags = _tags,
+                LogData = _logData,
+                References = _references,
             };
 
             _spanRecorder.RecordSpan(spanData);
             isFinished = true;
         }
 
-        public string OperationName { get; private set; }
-        public DateTime StartTime { get; private set; }
-        public TimeSpan Duration { get; private set; }
-        public Dictionary<string, string> Tags { get; } = new Dictionary<string, string>();
-        public List<LogData> LogData { get; } = new List<OpenTracing.LogData>();
-
         public void SetTag(string message, string value)
         {
-            Tags[message] = value;
+            _tags[message] = value;
         }
 
         public void SetTag(string message, bool value)
         {
-            SetTag(message, value);
+            SetTag(message, value.ToString());
         }
 
         public void SetTag(string message, int value)
         {
-            SetTag(message, value);
+            SetTag(message, value.ToString());
         }
 
         public void SetBaggageItem(string restrictedKey, string value)
         {
-            if (!IsValidBaggaeKey(restrictedKey))
-                throw new ArgumentException("Invalid baggage key: '" + restrictedKey + "'");
-
             _spanContext.SetBaggageItem(restrictedKey.ToLower(), value);
         }
 
-        public void Log(string message, object obj)
+        public string GetBaggageItem(string restrictedKey)
         {
-            Log(DateTime.Now, message, obj);
+            return _spanContext.GetBaggageItems()[restrictedKey.ToLower()];
         }
 
-        public void Log(DateTime dateTime, string message, object obj)
+        public void Log(LogData logData)
         {
-            LogData.Add(new LogData(dateTime, message, obj));
-        }
-
-        private bool IsValidBaggaeKey(string key)
-        {
-            var regEx = new Regex(@"^(?i:[a-z0-9][-a-z0-9]*)$");
-            return regEx.IsMatch(key);
-        }
-
-        public ITracer<T> GetTracer()
-        {
-            return _tracer;
+            _logData.Add(logData);
         }
     }
 }

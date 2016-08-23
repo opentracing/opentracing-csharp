@@ -1,70 +1,75 @@
 ﻿using OpenTracing.BasicTracer.Context;
 using OpenTracing.Propagation;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenTracing.BasicTracer
 {
-    public class Tracer<T> : ITracer<T> where T : ISpanContext
+    public class Tracer<TContext> : ITracer where TContext : Context.ISpanContext
     {
-        private readonly ISpanContextFactory<T> _spanContextFactory;
-        private ISpanRecorder<T> _spanRecorder;
+        private readonly ISpanFactory _spanFactory;
+        private IList<object> _mappers;
 
-        internal Tracer(ISpanContextFactory<T> spanContextFactory, ISpanRecorder<T> spanRecorder)
+        internal Tracer(ISpanFactory spanFactory, IList<object> mappers)
         {
-            _spanContextFactory = spanContextFactory;
-            _spanRecorder = spanRecorder;
+            _spanFactory = spanFactory;
+            _mappers = mappers;
         }
 
-        public void Inject(ISpan<T> span, IInjectCarrier<T> carrier)
+        private TContext ConvertToBasicTracerSpan(ISpanContext spanContext)
         {
-            carrier.MapFrom(span.GetSpanContext());
-        }
-
-        public bool TryJoin(string operationName, IExtractCarrier<T> carrier, out ISpan<T> span)
-        {
-            span = null;
-
-            T spanContext;
-
-            var couldExtractTraceInfo = carrier.TryMapTo(out spanContext);
-
-            if (!couldExtractTraceInfo)
+            if (!(spanContext is TContext))
             {
-                return false;
+                throw new System.Exception("Invalid span context type");
             }
 
-            span = NewSpan(spanContext, operationName, DateTime.Now);
-
-            return true;
+            return (TContext)spanContext;
         }
 
-        public ISpan<T> StartSpan(StartSpanOptions startSpanOptions)
+        public void Inject<TFormat>(ISpanContext spanContext, IInjectCarrier<TFormat> carrier)
         {
-            ISpan<T> span;
+            var mapper = _mappers.OfType<IContextMapper<TContext, TFormat>>().FirstOrDefault();
 
-            var rootSpanContext = _spanContextFactory.NewRootSpanContext();
-
-            span = NewSpan(rootSpanContext, startSpanOptions.OperationName, startSpanOptions.StartTime);
-
-            foreach (var tag in startSpanOptions.Tag)
+            if (mapper == null)
             {
-                span.SetTag(tag.Key, tag.Value);
+                throw new Exception("Could not find mapper");
             }
 
-            return span;
+            var basicTracerSpanContext = ConvertToBasicTracerSpan(spanContext);
+
+            carrier.MapFrom(mapper.MapFrom(basicTracerSpanContext));
         }
 
-        public ISpan<T> StartSpan(string operationName)
+        public ExtractResult Extract<TFormat>(string operationName, IExtractCarrier<TFormat> carrier)
         {
-            return StartSpan(new StartSpanOptions()
+            var mapper = _mappers.OfType<IContextMapper<TContext, TFormat>>().FirstOrDefault();
+
+            if (mapper == null)
             {
-                OperationName = operationName,
-            });
+                throw new Exception("Could not find mapper");
+            }
+
+            var extractCarrierResult = carrier.Extract();
+
+            if (!extractCarrierResult.Success)
+            {
+                return new ExtractResult(extractCarrierResult.ExtractException);
+            }
+
+            var contextMapToResult = mapper.MapTo(extractCarrierResult.Context);
+
+            if (!contextMapToResult.Success)
+            {
+                return new ExtractResult(contextMapToResult.MapException);
+            }
+
+            return new ExtractResult(contextMapToResult.SpanContext);
         }
 
-        private ISpan<T> NewSpan(T spanContext, string operationName, DateTime startTime)
+        public ISpan StartSpan(string operationName, StartSpanOptions startSpanOptions)
         {
-            return new Span<T>(this, _spanRecorder, spanContext, operationName, startTime);
+            return _spanFactory.StartSpan(operationName, startSpanOptions);
         }
     }
 }

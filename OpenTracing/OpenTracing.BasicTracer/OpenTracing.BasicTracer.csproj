@@ -40,9 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\ContextMapperResult.cs" />
+    <Compile Include="Context\IContextMapper.cs" />
     <Compile Include="Context\ISpanContext.cs" />
     <Compile Include="Context\ISpanContextFactory.cs" />
     <Compile Include="ISpanEvents.cs" />
+    <Compile Include="ISpanFactory.cs" />
     <Compile Include="ISpanRecorder.cs" />
     <Compile Include="ITracerBuilder.cs" />
     <Compile Include="OpenTracingContext\OpenTracingSpanContext.cs" />
@@ -52,6 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Span.cs" />
     <Compile Include="SpanData.cs" />
+    <Compile Include="SpanFactory.cs" />
     <Compile Include="Tracer.cs" />
     <Compile Include="TracerBuilder.cs" />
   </ItemGroup>
