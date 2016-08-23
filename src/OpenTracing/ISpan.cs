@@ -9,7 +9,8 @@ namespace OpenTracing
     public interface ISpan : IDisposable
     {
         // TODO IDisposable behavior?
-        // TODO Log() or LogEvent() ?
+        // TODO SetOperationName() ?
+        // TODO DateTimeOffset vs ticks ?
 
         /// <summary>
         /// Returns the <see cref="ISpanContext"/> for this Span. Note that the return
