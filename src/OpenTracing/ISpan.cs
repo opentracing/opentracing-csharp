@@ -36,7 +36,7 @@ namespace OpenTracing
         /// <param name="eventName">Name of the event.</param>
         /// <param name="payload">An optional payload object.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan Log(string eventName, object payload = null);
+        ISpan LogEvent(string eventName, object payload = null);
 
         /// <summary>
         /// Records an event with optional payload data for this Span.
@@ -45,7 +45,7 @@ namespace OpenTracing
         /// <param name="eventName">Name of the event.</param>
         /// <param name="payload">An optional payload object.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan Log(DateTimeOffset timestamp, string eventName, object payload = null);
+        ISpan LogEvent(DateTimeOffset timestamp, string eventName, object payload = null);
 
         /// <summary>
         /// <para>Sets a baggage item in the Span (and its SpanContext) as a key/value pair.</para>
