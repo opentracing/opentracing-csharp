@@ -7,7 +7,9 @@ namespace OpenTracing.BasicTracer
     {
         private readonly ISpanRecorder _spanRecorder;
 
-        public ISpanContext Context { get; }
+        private readonly SpanContext _context;
+
+        public ISpanContext Context => _context;
 
         public string OperationName { get; }
         public DateTimeOffset StartTimestamp { get; }
@@ -16,7 +18,7 @@ namespace OpenTracing.BasicTracer
         public IDictionary<string, object> Tags { get; } = new Dictionary<string, object>();
         public IList<LogData> Logs { get; } = new List<LogData>();
 
-        internal Span(ISpanRecorder spanRecorder, ISpanContext context, string operationName, DateTimeOffset startTimestamp)
+        internal Span(ISpanRecorder spanRecorder, SpanContext context, string operationName, DateTimeOffset startTimestamp)
         {
             if (spanRecorder == null)
             {
@@ -35,7 +37,7 @@ namespace OpenTracing.BasicTracer
 
             _spanRecorder = spanRecorder;
 
-            Context = context;
+            _context = context;
             OperationName = operationName.Trim();
             StartTimestamp = startTimestamp;
         }
@@ -51,12 +53,12 @@ namespace OpenTracing.BasicTracer
             return this;
         }
 
-        public virtual ISpan Log(string eventName, object payload = null)
+        public virtual ISpan LogEvent(string eventName, object payload = null)
         {
-            return Log(DateTimeOffset.UtcNow, eventName, payload);
+            return LogEvent(DateTimeOffset.UtcNow, eventName, payload);
         }
 
-        public virtual ISpan Log(DateTimeOffset timestamp, string eventName, object payload = null)
+        public virtual ISpan LogEvent(DateTimeOffset timestamp, string eventName, object payload = null)
         {
             if (string.IsNullOrWhiteSpace(eventName))
             {
@@ -69,13 +71,13 @@ namespace OpenTracing.BasicTracer
 
         public ISpan SetBaggageItem(string key, string value)
         {
-            Context.SetBaggageItem(key, value);
+            _context.SetBaggageItem(key, value);
             return this;
         }
 
         public string GetBaggageItem(string key)
         {
-            return Context.GetBaggageItem(key);
+            return _context.GetBaggageItem(key);
         }
 
         public virtual void Finish(DateTimeOffset? finishTimestamp = null)
