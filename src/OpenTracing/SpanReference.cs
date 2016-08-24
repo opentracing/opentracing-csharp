@@ -7,6 +7,8 @@ namespace OpenTracing
     /// </summary>
     public class SpanReference
     {
+        // TODO enum for types? (should the reference type be open?)
+
         /// <summary>
         /// Constant for the builtin reference type "child_of".
         /// </summary>
