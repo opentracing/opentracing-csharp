@@ -35,7 +35,7 @@ namespace OpenTracing
                 throw new ArgumentNullException(nameof(tracer));
             }
 
-            tracer.Inject(spanContext, Formats.Binary, new BinaryCarrier(data));
+            tracer.Inject(spanContext, Formats.Binary, data);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace OpenTracing
                 throw new ArgumentNullException(nameof(tracer));
             }
 
-            return tracer.Extract(Formats.Binary, new BinaryCarrier(data));
+            return tracer.Extract(Formats.Binary, data);
         }
     }
 }

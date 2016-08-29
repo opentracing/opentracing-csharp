@@ -7,12 +7,12 @@ using OpenTracing.Propagation;
 namespace OpenTracing.AspNetCore
 {
     /// <summary>
-    /// A <see cref="ITextMapCarrier"/> which allows <see cref="IHeaderDictionary"/> implementations to be used as carrier objects.
+    /// A <see cref="ITextMap"/> which allows <see cref="IHeaderDictionary"/> implementations to be used as carrier objects.
     /// </summary>
     /// <remarks>
     /// <see cref="IHeaderDictionary"/> is a multi-value dictionary. Since most other platforms represent http headers as regular
     /// dictionaries, this carrier represents it as a regular dictionary to tracer implementations.</remarks>
-    public class HeaderDictionaryCarrier : ITextMapCarrier
+    public class HeaderDictionaryCarrier : ITextMap
     {
         private readonly IHeaderDictionary _headers;
 

@@ -79,7 +79,7 @@ namespace OpenTracing
                 throw new ArgumentNullException(nameof(tracer));
             }
 
-            tracer.Inject(spanContext, Formats.HttpHeaders, new TextMapCarrier(headers));
+            tracer.Inject(spanContext, Formats.HttpHeaders, new DictionaryCarrier(headers));
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace OpenTracing
                 throw new ArgumentNullException(nameof(tracer));
             }
 
-            return tracer.Extract(Formats.HttpHeaders, new TextMapCarrier(headers));
+            return tracer.Extract(Formats.HttpHeaders, new DictionaryCarrier(headers));
         }
     }
 }

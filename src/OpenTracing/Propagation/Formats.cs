@@ -1,5 +1,8 @@
 ﻿namespace OpenTracing.Propagation
 {
+    /// <summary>
+    /// Provides access to the builtin <see cref="Format" />s.
+    /// </summary>
     public static class Formats
     {
         /// <summary>
@@ -8,7 +11,7 @@
         /// byte array instance. <see cref="ITracer.Inject"/> must append to the byte array carrier
         /// (rather than replace its contents).</para>
         /// </summary>
-        public const string Binary = "binary";
+        public static readonly Format<byte[]> Binary = new Format<byte[]>("binary");
 
         /// <summary>
         /// <para>The TEXT_MAP format represents SpanContexts in a dictionary of string to string.</para>
@@ -16,7 +19,7 @@
         /// <para>NOTE: The TEXT_MAP carrier dict may contain unrelated data (e.g., arbitrary gRPC metadata). 
         /// As such, the Tracer implementation should use a prefix or other convention to distinguish Tracer-specific key:value pairs.</para>
         /// </summary>
-        public const string TextMap = "text_map";
+        public static readonly Format<ITextMap> TextMap = new Format<ITextMap>("text_map");
 
         /// <summary>
         /// <para>The HTTP_HEADERS format represents SpanContexts in a dictionary of character-restricted string to string.</para>
@@ -26,6 +29,8 @@
         /// <para>NOTE: The HTTP_HEADERS carrier dict may contain unrelated data (e.g., arbitrary gRPC metadata). 
         /// As such, the Tracer implementation should use a prefix or other convention to distinguish Tracer-specific key:value pairs.</para>
         /// </summary>
-        public const string HttpHeaders = "http_headers";
+        public static readonly Format<ITextMap> HttpHeaders = new Format<ITextMap>("http_headers");
     }
+
+    
 }

@@ -46,55 +46,32 @@ namespace OpenTracing.BasicTracer
             return span;
         }
 
-        public void Inject(ISpanContext spanContext, string format, IInjectCarrier carrier)
+        public void Inject<TCarrier>(ISpanContext spanContext, Format<TCarrier> format, TCarrier carrier)
         {
-            switch (format)
-            {
-                case Formats.TextMap:
-                    InjectTextMap(spanContext, carrier);
-                    break;
-                // TODO add other formats
-                default:
-                    throw new UnsupportedFormatException($"The format '{format}' is not supported.");
-            }
-        }
+            // TODO add other formats (and maybe don't use if/else :D )
 
-        private void InjectTextMap(ISpanContext spanContext, IInjectCarrier carrier)
-        {
             var typedContext = (SpanContext)spanContext;
 
-            var textMapCarrier = carrier as ITextMapCarrier;
-            if (textMapCarrier != null)
+            if (format.Equals(Formats.TextMap))
             {
-                _textMapCarrierHandler.MapContextToCarrier(typedContext, textMapCarrier);
-                return;
+                _textMapCarrierHandler.MapContextToCarrier(typedContext, (ITextMap) carrier);
             }
-
-            throw new InvalidCarrierException($"The carrier '{carrier.GetType()}' is not supported for the format '{Formats.TextMap}'.");
-        }
-
-
-        public ISpanContext Extract(string format, IExtractCarrier carrier)
-        {
-            switch (format)
+            else
             {
-                case Formats.TextMap:
-                    return ExtractTextMap(carrier);
-                // TODO add other formats
-                default:
-                    throw new UnsupportedFormatException($"The format '{format}' is not supported.");
+                throw new UnsupportedFormatException($"The format '{format}' is not supported.");
             }
         }
 
-        private ISpanContext ExtractTextMap(IExtractCarrier carrier)
+        public ISpanContext Extract<TCarrier>(Format<TCarrier> format, TCarrier carrier)
         {
-            var textMapCarrier = carrier as ITextMapCarrier;
-            if (textMapCarrier != null)
-            {
-                return _textMapCarrierHandler.MapCarrierToContext(textMapCarrier);
-            }
+            // TODO add other formats (and maybe don't use if/else :D )
 
-            throw new InvalidCarrierException($"The carrier '{carrier.GetType()}' is not supported for the format '{Formats.TextMap}'.");
+            if (format.Equals(Formats.TextMap))
+            {
+                return _textMapCarrierHandler.MapCarrierToContext((ITextMap) carrier);
+            }
+            
+            throw new UnsupportedFormatException($"The format '{format}' is not supported.");
         }
     }
 }

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 namespace OpenTracing.Propagation
 {
     /// <summary>
-    /// The default <see cref="ITextMapCarrier"/> implementation which wraps an arbitrary <see cref="IDictionary{TKey,TValue}"/>.
+    /// The default <see cref="ITextMap"/> implementation which wraps an arbitrary <see cref="IDictionary{TKey,TValue}"/>.
     /// </summary>
-    public class TextMapCarrier : ITextMapCarrier
+    public class DictionaryCarrier : ITextMap
     {
         private readonly IDictionary<string, string> _payload;
 
-        public TextMapCarrier(IDictionary<string, string> payload)
+        public DictionaryCarrier(IDictionary<string, string> payload)
         {
             if (payload == null)
             {

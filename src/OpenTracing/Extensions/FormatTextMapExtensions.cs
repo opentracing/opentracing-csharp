@@ -36,23 +36,23 @@ namespace OpenTracing
                 throw new ArgumentNullException(nameof(tracer));
             }
 
-            tracer.Inject(spanContext, Formats.TextMap, new TextMapCarrier(data));
+            tracer.Inject(spanContext, Formats.TextMap, new DictionaryCarrier(data));
         }
 
         /// <summary>
-        /// Returns a new <see cref="ISpanContext"/> containing the baggage of the given <paramref name="dictionary"/>
+        /// Returns a new <see cref="ISpanContext"/> containing the baggage of the given <paramref name="data"/>
         /// (using the format <see cref="Formats.HttpHeaders"/>), or null if there was no baggage found.
         /// </summary>
         /// <param name="tracer">A <see cref="ITracer"/> instance.</param>
-        /// <param name="dictionary">The dictionary will be used as a carrier for the propagation.</param>
-        public static ISpanContext ExtractTextMap(this ITracer tracer, IDictionary<string, string> dictionary)
+        /// <param name="data">The dictionary will be used as a carrier for the propagation.</param>
+        public static ISpanContext ExtractTextMap(this ITracer tracer, IDictionary<string, string> data)
         {
             if (tracer == null)
             {
                 throw new ArgumentNullException(nameof(tracer));
             }
 
-            return tracer.Extract(Formats.TextMap, new TextMapCarrier(dictionary));
+            return tracer.Extract(Formats.TextMap, new DictionaryCarrier(data));
         }
     }
 }

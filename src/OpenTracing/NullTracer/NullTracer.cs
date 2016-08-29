@@ -15,11 +15,11 @@ namespace OpenTracing.NullTracer
             return NullSpan.Instance;
         }
 
-        public void Inject(ISpanContext spanContext, string format, IInjectCarrier carrier)
+        public void Inject<TCarrier>(ISpanContext spanContext, Format<TCarrier> format, TCarrier carrier)
         {
         }
 
-        public ISpanContext Extract(string format, IExtractCarrier carrier)
+        public ISpanContext Extract<TCarrier>(Format<TCarrier> format, TCarrier carrier)
         {
             return null;
         }

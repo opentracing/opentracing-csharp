@@ -3,11 +3,9 @@ using OpenTracing.Propagation;
 
 namespace OpenTracing.BasicTracer.Propagation
 {
-    public class TextMapCarrierHandler :
-        IInjectCarrierHandler<ITextMapCarrier>,
-        IExtractCarrierHandler<ITextMapCarrier>
+    public class TextMapCarrierHandler
     {
-        public void MapContextToCarrier(SpanContext context, ITextMapCarrier carrier)
+        public void MapContextToCarrier(SpanContext context, ITextMap carrier)
         {
             carrier.Add(BaggageKeys.TraceId, context.TraceId.ToString());
             carrier.Add(BaggageKeys.SpanId, context.SpanId.ToString());
@@ -19,7 +17,7 @@ namespace OpenTracing.BasicTracer.Propagation
             }
         }
 
-        public SpanContext MapCarrierToContext(ITextMapCarrier carrier)
+        public SpanContext MapCarrierToContext(ITextMap carrier)
         {
             // we can't create a reference without a trace-id
             Guid? traceId = TryGetGuid(carrier, BaggageKeys.TraceId);
@@ -48,7 +46,7 @@ namespace OpenTracing.BasicTracer.Propagation
             return new SpanContext(traceId.Value, spanId.Value, sampled, baggage);
         }
 
-        private Guid? TryGetGuid(ITextMapCarrier carrier, string key)
+        private Guid? TryGetGuid(ITextMap carrier, string key)
         {
             string strValue = carrier.Get(key);
             

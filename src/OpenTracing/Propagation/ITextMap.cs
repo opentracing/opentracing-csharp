@@ -6,7 +6,7 @@ namespace OpenTracing.Propagation
     /// <see cref="ITextMapCarrier"/> is a built-in carrier for <see cref="ITracer.Inject"/> and <see cref="ITracer.Extract"/>. 
     /// TextMap implementations allow Tracers to read and write key:value String pairs from arbitrary underlying sources of data.
     /// </summary>
-    public interface ITextMapCarrier : IInjectCarrier, IExtractCarrier
+    public interface ITextMap
     {
         /// <summary>
         /// Returns all key:value pairs from the underlying source.
