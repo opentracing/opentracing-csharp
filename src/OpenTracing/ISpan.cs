@@ -8,8 +8,6 @@ namespace OpenTracing
     /// </summary>
     public interface ISpan : IDisposable
     {
-        // TODO IDisposable behavior?
-        // TODO SetOperationName() ?
         // TODO DateTimeOffset vs ticks ?
 
         /// <summary>
@@ -18,6 +16,11 @@ namespace OpenTracing
         /// a call to <see cref="Context"/> after a call to <see cref="Finish"/>.
         /// </summary>
         ISpanContext Context { get; } // TODO property or method?
+
+        /// <summary>
+        /// Sets or changes the operation name.
+        /// </summary>
+        ISpan SetOperationName(string operationName);
 
         /// <summary>
         /// Adds a tag to the Span.

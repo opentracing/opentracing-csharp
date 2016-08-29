@@ -4,13 +4,17 @@ namespace OpenTracing.NullTracer
 {
     public class NullSpan : ISpan
     {
-        internal static readonly NullSpan Instance = new NullSpan(NullSpanContext.Instance);
+        internal static readonly NullSpan Instance = new NullSpan();
 
-        public ISpanContext Context { get; }
+        public ISpanContext Context => NullSpanContext.Instance;
 
-        private NullSpan(ISpanContext context)
+        private NullSpan()
         {
-            Context = context;
+        }
+
+        public ISpan SetOperationName(string operationName)
+        {
+            return this;
         }
 
         public ISpan SetTag(string key, object value)

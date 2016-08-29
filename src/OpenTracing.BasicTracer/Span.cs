@@ -11,7 +11,7 @@ namespace OpenTracing.BasicTracer
 
         public ISpanContext Context => _context;
 
-        public string OperationName { get; }
+        public string OperationName { get; private set; }
         public DateTimeOffset StartTimestamp { get; }
         public DateTimeOffset? FinishTimestamp { get; private set; }
 
@@ -40,6 +40,17 @@ namespace OpenTracing.BasicTracer
             _context = context;
             OperationName = operationName.Trim();
             StartTimestamp = startTimestamp;
+        }
+
+        public virtual ISpan SetOperationName(string operationName)
+        {
+            if (string.IsNullOrWhiteSpace(operationName))
+            {
+                throw new ArgumentNullException(nameof(operationName));
+            }
+
+            OperationName = operationName;
+            return this;
         }
 
         public virtual ISpan SetTag(string key, object value)
