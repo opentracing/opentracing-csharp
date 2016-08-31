@@ -18,7 +18,12 @@ namespace OpenTracing.BasicTracer
         public IDictionary<string, object> Tags { get; } = new Dictionary<string, object>();
         public IList<LogData> Logs { get; } = new List<LogData>();
 
-        internal Span(ISpanRecorder spanRecorder, SpanContext context, string operationName, DateTimeOffset startTimestamp)
+        internal Span(
+            ISpanRecorder spanRecorder,
+            SpanContext context,
+            string operationName,
+            DateTimeOffset startTimestamp,
+            IDictionary<string, object> tags)
         {
             if (spanRecorder == null)
             {
@@ -40,6 +45,14 @@ namespace OpenTracing.BasicTracer
             _context = context;
             OperationName = operationName.Trim();
             StartTimestamp = startTimestamp;
+
+            if (tags != null)
+            {
+                foreach (var tag in tags)
+                {
+                    Tags.Add(tag);
+                }
+            }
         }
 
         public virtual ISpan SetOperationName(string operationName)

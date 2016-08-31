@@ -20,7 +20,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         {
             var tracer = GetTracer();
 
-            var span = tracer.StartSpan("TestOperation");
+            var span = tracer.BuildSpan("TestOperation").Start();
 
             Assert.NotNull(span);
         }
@@ -30,7 +30,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         {
             var tracer = GetTracer();
 
-            var span = tracer.StartSpan("TestOperation");
+            var span = tracer.BuildSpan("TestOperation").Start();
 
             var traceId = span.TypedContext().TraceId;
             var spanId = span.TypedContext().SpanId;
@@ -86,7 +86,9 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             var startTimestamp = new DateTime(2016, 1, 1, 12, 0, 0, DateTimeKind.Utc);
             var finishTimestamp = new DateTime(2016, 1, 1, 12, 0, 5, DateTimeKind.Utc);
 
-            var span = tracer.StartSpan("TestOperation", startTimestamp)
+            var span = tracer.BuildSpan("TestOperation")
+                .WithStartTimestamp(startTimestamp)
+                .Start()
                 .SetTag("tagkey", "TagValue")
                 .SetBaggageItem("baggagekey", "BaggageValue");
 
