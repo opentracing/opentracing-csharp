@@ -1,0 +1,34 @@
+{
+  "version": "0.9.0-*",
+  "packOptions": {
+    "summary": "A Basic Tracer implementaion of the OpenTracing API.",
+    "description": "This library is a Basic Tracer implementation of the OpenTracing API. To fully understand this platform API, it's helpful to be familiar with the OpenTracing project and terminology more generally.\r\n\r\nFor the time being, \"mild\" backwards-incompatible changes may be made without changing the major version number. As OpenTracing and opentracing-csharp mature, backwards compatibility will become more of a priority.",
+    "authors": [ "The OpenTracing Authors" ],
+    "projectUrl": "https://github.com/opentracing/opentracing-csharp",
+    "iconUrl": "https://avatars0.githubusercontent.com/u/15482765",
+    "licenseUrl": "https://raw.githubusercontent.com/opentracing/opentracing-csharp/master/LICENSE",
+    "tags": [ "opentracing", "distributed-tracing", "tracing", "logging" ],
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/opentracing/opentracing-csharp"
+    }
+  },
+
+  "dependencies": {
+    "OpenTracing": "0.9.0-*"
+  },
+
+  "frameworks": {
+    "netstandard1.1": {
+      "dependencies": {
+        "System.Linq": "4.1.0",
+        "System.Runtime": "4.1.0",
+        "System.Runtime.Extensions": "4.1.0"
+      }
+    }
+  },
+
+  "buildOptions": {
+    "warningsAsErrors": true
+  }
+}
