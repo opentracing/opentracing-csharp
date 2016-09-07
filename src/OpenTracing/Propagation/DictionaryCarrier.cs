@@ -1,39 +1,40 @@
-using System;
 using System.Collections.Generic;
 
 namespace OpenTracing.Propagation
 {
     /// <summary>
-    /// The default <see cref="ITextMap"/> implementation which wraps an arbitrary <see cref="IDictionary{TKey,TValue}"/>.
+    /// MemoryTextMapCarrier is a built-in carrier for Tracer.Inject() and 
+    /// Tracer.Extract() using the TextMap format.
     /// </summary>
-    public class DictionaryCarrier : ITextMap
+    public class DictionaryCarrier : IInjectCarrier<TextMapFormat>, IExtractCarrier<TextMapFormat>
     {
-        private readonly IDictionary<string, string> _payload;
+        public IDictionary<string, string> TextMap { get; set; } = new Dictionary<string, string>() { };
 
-        public DictionaryCarrier(IDictionary<string, string> payload)
+        public DictionaryCarrier()
         {
-            if (payload == null)
-            {
-                throw new ArgumentNullException(nameof(payload));
-            }
-
-            _payload = payload;
         }
 
-        public IEnumerable<KeyValuePair<string, string>> GetEntries()
+        public DictionaryCarrier(IDictionary<string, string> textMap)
         {
-            return _payload;
+            TextMap = textMap;
         }
 
-        public string Get(string key)
+        /// <summary>
+        /// MapFrom takes the SpanContext instance in a TextMapFormat and injects it 
+        /// for propagation within the MemoryTextMapCarrier. 
+        /// </summary>
+        public void MapFrom(TextMapFormat context)
         {
-            string value;
-            return _payload.TryGetValue(key, out value) ? value : null;
+            TextMap = context;
         }
 
-        public void Add(string key, string value)
+        /// <summary>
+        /// Extract returns the SpanContext propagated through the MemoryTextMapCarrier
+        /// in a TextMapFormat.
+        /// </summary>
+        public TextMapFormat Extract()
         {
-            _payload[key] = value;
+            return new TextMapFormat(TextMap);
         }
     }
 }

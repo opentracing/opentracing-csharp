@@ -5,17 +5,19 @@ using System.Net.Http.Headers;
 namespace OpenTracing.Propagation
 {
     /// <summary>
-    /// A <see cref="ITextMap"/> which allows <see cref="HttpHeaders"/> implementations to be used as carrier objects.
+    /// MemoryHttpHeaderCarrier is a built-in carrier for Tracer.Inject() and 
+    /// Tracer.Extract() using the HttpHeaderFormat format.
     /// </summary>
     /// <remarks>
     /// <see cref="HttpHeaders"/> is a multi-value dictionary. Since most other platforms represent http headers as regular
     /// dictionaries, this carrier represents it as a regular dictionary to tracer implementations.</remarks>
-    public class HttpHeadersCarrier : ITextMap
+    public class HttpHeadersCarrier : IInjectCarrier<HttpHeaderFormat>, IExtractCarrier<HttpHeaderFormat>
     {
         // TODO should this class be internal/private? It's name is misleading because this only works with the .NET framework class "HttpHeaders"
         // (The headers from ASP.NET Core are not compatible with this class.)
 
-        private readonly HttpHeaders _headers;
+        private IDictionary<string, string> _textMap { get; set; } = new Dictionary<string, string>() { };
+        public IEnumerable<KeyValuePair<string, string>> TextMap => _textMap;
 
         public HttpHeadersCarrier(HttpHeaders headers)
         {
@@ -24,32 +26,28 @@ namespace OpenTracing.Propagation
                 throw new ArgumentNullException(nameof(headers));
             }
 
-            _headers = headers;
-        }
-
-        public IEnumerable<KeyValuePair<string, string>> GetEntries()
-        {
-            foreach (var kvp in _headers)
+            foreach (var kvp in headers)
             {
-                yield return new KeyValuePair<string, string>(kvp.Key, kvp.ToString());
+                _textMap.Add(kvp.Key, string.Join(",", kvp.Value));
             }
         }
 
-        public string Get(string key)
+        /// <summary>
+        /// MapFrom takes the SpanContext instance in a HttpHeaderFormat and injects it 
+        /// for propagation within the MemoryHttpHeaderCarrier. 
+        /// </summary>
+        public void MapFrom(HttpHeaderFormat context)
         {
-            IEnumerable<string> values;
-            if (_headers.TryGetValues(key, out values))
-            {
-                // TODO correct behavior?
-                return string.Join(",", values);
-            }
-
-            return null;
+            _textMap = context;
         }
 
-        public void Add(string key, string value)
+        /// <summary>
+        /// Extract returns the SpanContext propagated through the MemoryHttpHeaderCarrier
+        /// in a HttpHeaderFormat.
+        /// </summary>
+        public HttpHeaderFormat Extract()
         {
-            _headers.Add(key, value);
+            return new HttpHeaderFormat(_textMap);
         }
     }
 }
