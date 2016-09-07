@@ -1,3 +1,5 @@
+using OpenTracing.BasicTracer.Context;
+
 namespace OpenTracing.BasicTracer
 {
     public static class TypedContextExtensions

@@ -1,19 +1,23 @@
-﻿using OpenTracing.Propagation;
+﻿using OpenTracing.BasicTracer.Context;
+using OpenTracing.Propagation;
 using System;
-using OpenTracing.BasicTracer.Propagation;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenTracing.BasicTracer
 {
     public class Tracer : ITracer
     {
-        private readonly ISpanContextFactory _spanContextFactory;
+        private readonly ISpanContextFactory<SpanContext> _spanContextFactory;
         private readonly ISpanRecorder _spanRecorder;
 
-        private readonly TextMapCarrierHandler _textMapCarrierHandler = new TextMapCarrierHandler();
+        private readonly IList<object> _mappers = new List<object>
+            {
+                { new SpanContextToTextMapMapper() }
+            };
 
         public Tracer(
-            ISpanContextFactory spanContextFactory,
+            ISpanContextFactory<SpanContext> spanContextFactory,
             ISpanRecorder spanRecorder)
         {
             if (spanContextFactory == null)
@@ -41,39 +45,46 @@ namespace OpenTracing.BasicTracer
             IList<SpanReference> references,
             IDictionary<string, object> tags)
         {
-            var spanContext = _spanContextFactory.CreateSpanContext(references);
+            SpanContext spanContext;
 
-            var span = new Span(_spanRecorder, spanContext, operationName, startTimestamp ?? DateTimeOffset.UtcNow, tags);
+            if (!references?.Any() ?? true)
+            {
+                spanContext = _spanContextFactory.NewRootSpanContext();
+            }
+            else
+            {
+                spanContext = _spanContextFactory.NewChildSpanContext(references);
+            }
+
+            ISpan span = new Span(_spanRecorder, spanContext, operationName, startTimestamp ?? DateTimeOffset.UtcNow, tags);
 
             return span;
         }
 
-        public void Inject<TCarrier>(ISpanContext spanContext, Format<TCarrier> format, TCarrier carrier)
+        public void Inject<TFormat>(ISpanContext spanContext, IInjectCarrier<TFormat> carrier)
         {
-            // TODO add other formats (and maybe don't use if/else :D )
-
             var typedContext = (SpanContext)spanContext;
 
-            if (format.Equals(Formats.TextMap))
+            var mapper = _mappers.OfType<IContextMapper<TFormat>>().FirstOrDefault();
+
+            if (mapper == null)
             {
-                _textMapCarrierHandler.MapContextToCarrier(typedContext, (ITextMap) carrier);
+                throw new UnsupportedFormatException($"The format '{typeof(TFormat)}' is not supported.");
             }
-            else
-            {
-                throw new UnsupportedFormatException($"The format '{format}' is not supported.");
-            }
+
+            carrier.MapFrom(mapper.MapFrom(typedContext));
         }
 
-        public ISpanContext Extract<TCarrier>(Format<TCarrier> format, TCarrier carrier)
+        public ISpanContext Extract<TFormat>(IExtractCarrier<TFormat> carrier)
         {
-            // TODO add other formats (and maybe don't use if/else :D )
+            var mapper = _mappers.OfType<IContextMapper<TFormat>>().FirstOrDefault();
 
-            if (format.Equals(Formats.TextMap))
+            if (mapper == null)
             {
-                return _textMapCarrierHandler.MapCarrierToContext((ITextMap) carrier);
+                throw new UnsupportedFormatException($"The format '{typeof(TFormat)}' is not supported.");
             }
-            
-            throw new UnsupportedFormatException($"The format '{format}' is not supported.");
+
+            return mapper.MapTo(carrier.Extract());
         }
     }
 }

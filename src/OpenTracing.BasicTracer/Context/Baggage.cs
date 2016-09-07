@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OpenTracing.BasicTracer
+namespace OpenTracing.BasicTracer.Context
 {
     public class Baggage
     {
