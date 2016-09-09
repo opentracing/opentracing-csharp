@@ -1,6 +1,7 @@
 ﻿using OpenTracing.Propagation;
 using System;
 using OpenTracing.BasicTracer.Propagation;
+using System.Collections.Generic;
 
 namespace OpenTracing.BasicTracer
 {
@@ -29,19 +30,20 @@ namespace OpenTracing.BasicTracer
             _spanRecorder = spanRecorder;
         }
 
-        public ISpan StartSpan(string operationName)
+        public ISpanBuilder BuildSpan(string operationName)
         {
-            return StartSpan(operationName, null);
+            return new SpanBuilder(this, operationName);
         }
 
-        public ISpan StartSpan(string operationName, StartSpanOptions options)
+        public ISpan StartSpan(
+            string operationName,
+            DateTimeOffset? startTimestamp,
+            IList<SpanReference> references,
+            IDictionary<string, object> tags)
         {
-            options = options ?? new StartSpanOptions();
+            var spanContext = _spanContextFactory.CreateSpanContext(references);
 
-            var spanContext = _spanContextFactory.CreateSpanContext(options.References);
-            var startTimestamp = options.StartTimestamp ?? DateTimeOffset.UtcNow;
-
-            var span = new Span(_spanRecorder, spanContext, operationName, startTimestamp);
+            var span = new Span(_spanRecorder, spanContext, operationName, startTimestamp ?? DateTimeOffset.UtcNow, tags);
 
             return span;
         }

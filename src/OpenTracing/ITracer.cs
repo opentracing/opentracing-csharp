@@ -5,11 +5,10 @@ namespace OpenTracing
     public interface ITracer
     {
         /// <summary>
-        /// Create, start, and return a new Span.
+        /// Returns a new <see cref="ISpanBuilder" /> for a Span with the given <paramref name="operationName" />.
         /// </summary>
         /// <param name="operationName">The operation name of the Span.</param>
-        /// <param name="options">Gives control over the start timestamp and references to other Spans.</param>
-        ISpan StartSpan(string operationName, StartSpanOptions options = null);
+        ISpanBuilder BuildSpan(string operationName);
 
         /// <summary>
         /// This takes the <paramref name="spanContext"/> and injects it for propagation within <paramref name="carrier"/>. 

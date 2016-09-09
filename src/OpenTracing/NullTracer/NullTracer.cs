@@ -10,9 +10,9 @@ namespace OpenTracing.NullTracer
         {
         }
 
-        public ISpan StartSpan(string operationName, StartSpanOptions options = null)
+        public ISpanBuilder BuildSpan(string operationName)
         {
-            return NullSpan.Instance;
+            return NullSpanBuilder.Instance;
         }
 
         public void Inject<TCarrier>(ISpanContext spanContext, Format<TCarrier> format, TCarrier carrier)
