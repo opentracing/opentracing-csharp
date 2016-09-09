@@ -45,24 +45,19 @@ namespace OpenTracing
         ISpan SetTag(string key, string value);
 
         /// <summary>
-        /// Records an event with optional payload data for this Span.
+        /// Log key:value pairs to the Span with the current timestamp.
         /// </summary>
-        /// <param name="eventName">Name of the event.</param>
-        /// <param name="payload">An optional payload object.</param>
+        /// <param name="fields">A list of key:value pairs.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan LogEvent(string eventName, object payload = null);
+        ISpan Log(params LogField[] fields);
 
         /// <summary>
-        /// Records an event with optional payload data for this Span.
+        /// Log key:value pairs to the Span with an explicit timestamp.
         /// </summary>
-        /// <param name="timestamp">
-        ///   The timestamp of when the event occured.
-        ///   Use <see cref="DateTimeKind.Utc"/> whenever possible. The behavior of other kinds is not defined.
-        /// </param>
-        /// <param name="eventName">Name of the event.</param>
-        /// <param name="payload">An optional payload object.</param>
+        /// <param name="timestamp">The timestamp to be used for the log.</param>
+        /// <param name="fields">A list of key:value pairs.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan LogEvent(DateTime timestamp, string eventName, object payload = null);
+        ISpan Log(DateTime timestamp, params LogField[] fields);
 
         /// <summary>
         /// <para>Sets a baggage item in the Span (and its SpanContext) as a key/value pair.</para>
@@ -84,7 +79,6 @@ namespace OpenTracing
         /// </summary>
         /// <param name="key">The name of the key which was used to store the baggage item.</param>
         string GetBaggageItem(string key);
-
 
         /// <summary>
         /// <para>Sets the end timestamp and finalizes Span state.</para>

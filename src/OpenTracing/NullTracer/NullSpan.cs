@@ -32,12 +32,12 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan LogEvent(string eventName, object payload = null)
+        public ISpan Log(params LogField[] fields)
         {
             return this;
         }
 
-        public ISpan LogEvent(DateTime timestamp, string eventName, object payload = null)
+        public ISpan Log(DateTime timestamp, params LogField[] fields)
         {
             return this;
         }
