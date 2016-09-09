@@ -27,7 +27,7 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan LogEvent(DateTimeOffset timestamp, string eventName, object payload = null)
+        public ISpan LogEvent(DateTime timestamp, string eventName, object payload = null)
         {
             return this;
         }
@@ -42,7 +42,7 @@ namespace OpenTracing.NullTracer
             return null;
         }
 
-        public void Finish(DateTimeOffset? finishTimestamp = null)
+        public void Finish(DateTime? finishTimestamp = null)
         {
         }
 

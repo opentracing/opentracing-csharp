@@ -35,7 +35,7 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpanBuilder WithStartTimestamp(DateTimeOffset startTimestamp)
+        public ISpanBuilder WithStartTimestamp(DateTime startTimestamp)
         {
             return this;
         }

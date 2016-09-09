@@ -12,8 +12,8 @@ namespace OpenTracing.BasicTracer
         public ISpanContext Context => _context;
 
         public string OperationName { get; private set; }
-        public DateTimeOffset StartTimestamp { get; }
-        public DateTimeOffset? FinishTimestamp { get; private set; }
+        public DateTime StartTimestamp { get; }
+        public DateTime? FinishTimestamp { get; private set; }
 
         public IDictionary<string, object> Tags { get; } = new Dictionary<string, object>();
         public IList<LogData> Logs { get; } = new List<LogData>();
@@ -22,7 +22,7 @@ namespace OpenTracing.BasicTracer
             ISpanRecorder spanRecorder,
             SpanContext context,
             string operationName,
-            DateTimeOffset startTimestamp,
+            DateTime startTimestamp,
             IDictionary<string, object> tags)
         {
             if (spanRecorder == null)
@@ -79,10 +79,10 @@ namespace OpenTracing.BasicTracer
 
         public virtual ISpan LogEvent(string eventName, object payload = null)
         {
-            return LogEvent(DateTimeOffset.UtcNow, eventName, payload);
+            return LogEvent(DateTime.UtcNow, eventName, payload);
         }
 
-        public virtual ISpan LogEvent(DateTimeOffset timestamp, string eventName, object payload = null)
+        public virtual ISpan LogEvent(DateTime timestamp, string eventName, object payload = null)
         {
             if (string.IsNullOrWhiteSpace(eventName))
             {
@@ -104,12 +104,12 @@ namespace OpenTracing.BasicTracer
             return _context.GetBaggageItem(key);
         }
 
-        public virtual void Finish(DateTimeOffset? finishTimestamp = null)
+        public virtual void Finish(DateTime? finishTimestamp = null)
         {
             if (FinishTimestamp.HasValue)
                 return;
 
-            FinishTimestamp = finishTimestamp ?? DateTimeOffset.UtcNow;
+            FinishTimestamp = finishTimestamp ?? DateTime.UtcNow;
             OnFinished();
         }
 
