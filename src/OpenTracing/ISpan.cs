@@ -8,8 +8,6 @@ namespace OpenTracing
     /// </summary>
     public interface ISpan : IDisposable
     {
-        // TODO DateTimeOffset vs ticks ?
-
         /// <summary>
         /// Returns the <see cref="ISpanContext"/> for this Span. Note that the return
         /// value of <see cref="Context"/> is still valid after a call to <see cref="Finish"/>, as is
@@ -45,11 +43,14 @@ namespace OpenTracing
         /// <summary>
         /// Records an event with optional payload data for this Span.
         /// </summary>
-        /// <param name="timestamp">The timestamp at which the event occured.</param>
+        /// <param name="timestamp">
+        ///   The timestamp of when the event occured.
+        ///   Use <see cref="DateTimeKind.Utc"/> whenever possible. The behavior of other kinds is not defined.
+        /// </param>
         /// <param name="eventName">Name of the event.</param>
         /// <param name="payload">An optional payload object.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan LogEvent(DateTimeOffset timestamp, string eventName, object payload = null);
+        ISpan LogEvent(DateTime timestamp, string eventName, object payload = null);
 
         /// <summary>
         /// <para>Sets a baggage item in the Span (and its SpanContext) as a key/value pair.</para>
@@ -81,7 +82,10 @@ namespace OpenTracing
         /// otherwise leads to undefined behavior.
         /// </para>
         /// </summary>
-        /// <param name="finishTimestamp">The timestamp which should be used for the finish time of the Span.</param>
-        void Finish(DateTimeOffset? finishTimestamp = null);
+        /// <param name="finishTimestamp">
+        ///   The timestamp which should be used for the finish time of the Span.
+        ///   Use <see cref="DateTimeKind.Utc"/> whenever possible. The behavior of other kinds is not defined.
+        /// </param>
+        void Finish(DateTime? finishTimestamp = null);
     }
 }
