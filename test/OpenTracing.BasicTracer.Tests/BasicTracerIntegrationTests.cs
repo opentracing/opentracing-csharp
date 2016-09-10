@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenTracing.BasicTracer.Context;
+using OpenTracing.Propagation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -35,12 +37,12 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             var traceId = span.TypedContext().TraceId;
             var spanId = span.TypedContext().SpanId;
 
-            var data = new Dictionary<string, string>();
+            var dictionaryCarrier = new MemoryTextMapCarrier();
 
-            tracer.InjectTextMap(span.Context, data);
+            tracer.Inject(span.Context, dictionaryCarrier);
 
-            Assert.Equal(traceId.ToString(), data["ot-traceid"]);
-            Assert.Equal(spanId.ToString(), data["ot-spanid"]);
+            Assert.Equal(traceId.ToString(), dictionaryCarrier.TextMap["ot-tracer-traceid"]);
+            Assert.Equal(spanId.ToString(), dictionaryCarrier.TextMap["ot-tracer-spanid"]);
         }
 
         [Fact]
@@ -48,9 +50,9 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         {
             var tracer = GetTracer();
 
-            var data = new Dictionary<string, string>();
+            var dictionaryCarrier = new MemoryTextMapCarrier();
 
-            var spanContext = tracer.ExtractTextMap(data);
+            var spanContext = tracer.Extract(dictionaryCarrier);
 
             Assert.Null(spanContext);
         }
@@ -60,21 +62,26 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         {
             var tracer = GetTracer();
 
-            var testTraceId = Guid.NewGuid();
-            var testSpanId = Guid.NewGuid();
+            var testTraceId = (ulong)123;
+            var testParentId = (ulong)456;
+            var testSpanId = (ulong)789;
 
             var data = new Dictionary<string, string>()
             {
-                { "ot-traceid", testTraceId.ToString() },
-                { "ot-spanid", testSpanId.ToString() },
+                { "ot-tracer-traceid", testTraceId.ToString() },
+                { "ot-tracer-spanid", testSpanId.ToString() },
+                { "ot-tracer-parentid", testParentId.ToString() },
             };
 
-            var spanContext = (SpanContext)tracer.ExtractTextMap(data);
+            var dictionaryCarrier = new MemoryTextMapCarrier(data);
+
+            var spanContext = (SpanContext)tracer.Extract(dictionaryCarrier);
 
             Assert.NotNull(spanContext);
 
             Assert.Equal(testTraceId, spanContext.TraceId);
             Assert.Equal(testSpanId, spanContext.SpanId);
+            Assert.Equal(testParentId, spanContext.ParentId);
         }
 
         [Fact]
@@ -102,9 +109,6 @@ namespace OpenTracing.BasicTracer.IntegrationTests
 
             Assert.Equal("BaggageValue", recordedSpan.Context.GetBaggageItem("baggagekey"));
             Assert.Equal("TagValue", recordedSpan.Tags["tagkey"]);
-
-            Assert.NotEqual(Guid.Empty, recordedSpan.Context.TraceId);
-            Assert.NotEqual(Guid.Empty, recordedSpan.Context.SpanId);
         }
     }
 }

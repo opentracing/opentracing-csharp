@@ -1,21 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace OpenTracing.BasicTracer
+namespace OpenTracing.BasicTracer.Context
 {
     public class SpanContext : ISpanContext
     {
         private readonly Baggage _baggage = new Baggage();
 
-        public Guid TraceId { get; }
-        public Guid SpanId { get; }
-        public bool Sampled { get; }
+        public ulong TraceId { get; private set; }
+        public ulong ParentId { get; private set; }
+        public ulong SpanId { get; private set; }
 
-        public SpanContext(Guid traceId, Guid spanId, bool sampled, Baggage baggage = null)
+        public bool Sampled { get; private set; }
+
+        public SpanContext(ulong traceId, ulong parentId, ulong spanId, bool sampled, Baggage baggage)
         {
             TraceId = traceId;
+            ParentId = parentId;
             SpanId = spanId;
             Sampled = sampled;
+
             _baggage.Merge(baggage);
         }
 
