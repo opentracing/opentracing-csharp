@@ -6,15 +6,15 @@ namespace OpenTracing.Propagation
     /// MemoryTextMapCarrier is a built-in carrier for Tracer.Inject() and 
     /// Tracer.Extract() using the TextMap format.
     /// </summary>
-    public class DictionaryCarrier : IInjectCarrier<TextMapFormat>, IExtractCarrier<TextMapFormat>
+    public class MemoryTextMapCarrier : IInjectCarrier<TextMapFormat>, IExtractCarrier<TextMapFormat>
     {
         public IDictionary<string, string> TextMap { get; set; } = new Dictionary<string, string>() { };
 
-        public DictionaryCarrier()
+        public MemoryTextMapCarrier()
         {
         }
 
-        public DictionaryCarrier(IDictionary<string, string> textMap)
+        public MemoryTextMapCarrier(IDictionary<string, string> textMap)
         {
             TextMap = textMap;
         }

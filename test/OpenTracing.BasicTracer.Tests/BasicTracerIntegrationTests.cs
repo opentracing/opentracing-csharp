@@ -37,7 +37,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
             var traceId = span.TypedContext().TraceId;
             var spanId = span.TypedContext().SpanId;
 
-            var dictionaryCarrier = new DictionaryCarrier();
+            var dictionaryCarrier = new MemoryTextMapCarrier();
 
             tracer.Inject(span.Context, dictionaryCarrier);
 
@@ -50,7 +50,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
         {
             var tracer = GetTracer();
 
-            var dictionaryCarrier = new DictionaryCarrier();
+            var dictionaryCarrier = new MemoryTextMapCarrier();
 
             var spanContext = tracer.Extract(dictionaryCarrier);
 
@@ -73,7 +73,7 @@ namespace OpenTracing.BasicTracer.IntegrationTests
                 { "ot-tracer-parentid", testParentId.ToString() },
             };
 
-            var dictionaryCarrier = new DictionaryCarrier(data);
+            var dictionaryCarrier = new MemoryTextMapCarrier(data);
 
             var spanContext = (SpanContext)tracer.Extract(dictionaryCarrier);
 
