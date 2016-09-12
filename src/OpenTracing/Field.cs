@@ -33,7 +33,7 @@ namespace OpenTracing
         /// </summary>
         /// <param name="key">The key of a <see cref="ISpan.Log"/> record.</param>
         /// <param name="value">The value of a <see cref="ISpan.Log"/> record.</param>
-        public static Field Of<TValue>(string key, TValue value)
+        public static Field Of(string key, object value)
         {
             return new Field(key, value);
         }
