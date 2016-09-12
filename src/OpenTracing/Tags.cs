@@ -1,9 +1,12 @@
 namespace OpenTracing
 {
     /// <summary>
-    /// Provides access to a list of common tag keys.
+    /// <para>The following span tags are recommended for instrumentors who are trying to capture more
+    /// semantic information about the spans. Tracers may expose additional features based on these
+    /// standardized data points. Tag names follow a general structure of namespacing.</para>
+    /// <para>See http://opentracing.io/data-semantics/ for details.</para>
     /// </summary>
-    public static class SpanTags
+    public static class Tags
     {
         /// <summary>
         ///  "component" is a low-cardinality identifier of the module, library, or package that is instrumented.
