@@ -32,12 +32,12 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan Log(params LogField[] fields)
+        public ISpan Log(params Field[] fields)
         {
             return this;
         }
 
-        public ISpan Log(DateTime timestamp, params LogField[] fields)
+        public ISpan Log(DateTime timestamp, params Field[] fields)
         {
             return this;
         }

@@ -49,7 +49,7 @@ namespace OpenTracing
         /// </summary>
         /// <param name="fields">A list of key:value pairs.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan Log(params LogField[] fields);
+        ISpan Log(params Field[] fields);
 
         /// <summary>
         /// Log key:value pairs to the Span with an explicit timestamp.
@@ -57,7 +57,7 @@ namespace OpenTracing
         /// <param name="timestamp">The timestamp to be used for the log.</param>
         /// <param name="fields">A list of key:value pairs.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan Log(DateTime timestamp, params LogField[] fields);
+        ISpan Log(DateTime timestamp, params Field[] fields);
 
         /// <summary>
         /// <para>Sets a baggage item in the Span (and its SpanContext) as a key/value pair.</para>
