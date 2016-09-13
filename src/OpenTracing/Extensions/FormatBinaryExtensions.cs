@@ -7,7 +7,7 @@ namespace OpenTracing
     /// Contains <see cref="ITracer.Inject"/> and <see cref="ITracer.Extract"/> extension methods for types 
     /// from the .NET framework which have to be sent using the format <see cref="Formats.Binary"/>.
     /// </summary>
-    public static class FormatBinaryTracerExtensions
+    public static class FormatBinaryExtensions
     {
         /// <summary>
         /// This takes the <paramref name="span"/>s SpanContext and injects it for propagation within the given <paramref name="data"/>

@@ -7,13 +7,13 @@ namespace OpenTracing.BasicTracer.Propagation
     {
         public void MapContextToCarrier(SpanContext context, ITextMap carrier)
         {
-            carrier.Add(BaggageKeys.TraceId, context.TraceId.ToString());
-            carrier.Add(BaggageKeys.SpanId, context.SpanId.ToString());
-            carrier.Add(BaggageKeys.Sampled, context.Sampled.ToString());
+            carrier.Set(BaggageKeys.TraceId, context.TraceId.ToString());
+            carrier.Set(BaggageKeys.SpanId, context.SpanId.ToString());
+            carrier.Set(BaggageKeys.Sampled, context.Sampled.ToString());
 
             foreach (var kvp in context.GetBaggageItems())
             {
-                carrier.Add(BaggageKeys.BaggagePrefix + kvp.Key, kvp.Value);
+                carrier.Set(BaggageKeys.BaggagePrefix + kvp.Key, kvp.Value);
             }
         }
 

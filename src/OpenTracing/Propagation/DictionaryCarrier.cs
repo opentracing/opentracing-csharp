@@ -31,7 +31,7 @@ namespace OpenTracing.Propagation
             return _payload.TryGetValue(key, out value) ? value : null;
         }
 
-        public void Add(string key, string value)
+        public void Set(string key, string value)
         {
             _payload[key] = value;
         }
