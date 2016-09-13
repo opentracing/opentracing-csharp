@@ -10,14 +10,11 @@ namespace OpenTracing.Propagation
     /// <remarks>
     /// <see cref="HttpHeaders"/> is a multi-value dictionary. Since most other platforms represent http headers as regular
     /// dictionaries, this carrier represents it as a regular dictionary to tracer implementations.</remarks>
-    public class HttpHeadersCarrier : ITextMap
+    public class SystemNetHttpHeadersCarrier : ITextMap
     {
-        // TODO should this class be internal/private? It's name is misleading because this only works with the .NET framework class "HttpHeaders"
-        // (The headers from ASP.NET Core are not compatible with this class.)
-
         private readonly HttpHeaders _headers;
 
-        public HttpHeadersCarrier(HttpHeaders headers)
+        public SystemNetHttpHeadersCarrier(HttpHeaders headers)
         {
             if (headers == null)
             {
@@ -47,8 +44,13 @@ namespace OpenTracing.Propagation
             return null;
         }
 
-        public void Add(string key, string value)
+        public void Set(string key, string value)
         {
+            if (_headers.Contains(key))
+            {
+                _headers.Remove(key);
+            }
+
             _headers.Add(key, value);
         }
     }

@@ -62,7 +62,7 @@ namespace OpenTracing
                 throw new ArgumentNullException(nameof(tracer));
             }
 
-            tracer.Inject(spanContext, Formats.HttpHeaders, new HttpHeadersCarrier(headers));
+            tracer.Inject(spanContext, Formats.HttpHeaders, new SystemNetHttpHeadersCarrier(headers));
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace OpenTracing
                 throw new ArgumentNullException(nameof(tracer));
             }
 
-            return tracer.Extract(Formats.HttpHeaders, new HttpHeadersCarrier(headers));
+            return tracer.Extract(Formats.HttpHeaders, new SystemNetHttpHeadersCarrier(headers));
         }
 
         /// <summary>
