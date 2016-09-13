@@ -8,32 +8,33 @@ namespace OpenTracing
     public interface ISpanBuilder
     {
         /// <summary>
-        /// A shorthand for <see cref="AddReference(SpanReference.TypeChildOf, parent.Context)" />.
+        /// A shorthand for <see cref="AddReference(References.ChildOf, parent.Context)" />.
         /// </summary>
         ISpanBuilder AsChildOf(ISpan parent);
 
         /// <summary>
-        /// A shorthand for <see cref="AddReference(SpanReference.TypeChildOf, parent)" />.
+        /// A shorthand for <see cref="AddReference(References.ChildOf, parent)" />.
         /// </summary>
         ISpanBuilder AsChildOf(ISpanContext parent);
 
         /// <summary>
-        /// A shorthand for <see cref="AddReference(SpanReference.TypeFollowsFrom, parent.Context)" />.
+        /// A shorthand for <see cref="AddReference(References.FollowsFrom, parent.Context)" />.
         /// </summary>
         ISpanBuilder FollowsFrom(ISpan parent);
 
         /// <summary>
-        /// A shorthand for <see cref="AddReference(SpanReference.TypeFollowsFrom, parent)" />.
+        /// A shorthand for <see cref="AddReference(References.FollowsFrom, parent)" />.
         /// </summary>
         ISpanBuilder FollowsFrom(ISpanContext parent);
 
         /// <summary>
         /// Add a reference from the Span being built to a distinct (usually parent) Span.
         /// May be called multiple times to represent multiple such references.
-        /// If the <paramref name="reference"/> is null, the option has no effect.
         /// </summary>
-        /// <param name="reference">The reference that should be added to the new Span.</param>
-        ISpanBuilder AddReference(SpanReference reference);
+        /// <param name="referenceType">The reference type, typically one of the constants defined in References.</param>
+        /// <param name="referencedContext">The <see cref="ISpanContext"/> being referenced; 
+        /// e.g., for a References.ChildOf referenceType, the referencedContext is the parent.</param>
+        ISpanBuilder AddReference(string referenceType, ISpanContext referencedContext);
 
         /// <summary>
         /// Same as <see cref="ISpan.SetTag" />, but for the span being built.

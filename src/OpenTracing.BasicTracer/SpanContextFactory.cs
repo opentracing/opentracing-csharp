@@ -37,9 +37,9 @@ namespace OpenTracing.BasicTracer
             return random % _samplingRate == 0;
         }
 
-        public SpanContext CreateSpanContext(IList<SpanReference> references)
+        public SpanContext CreateSpanContext(IList<Tuple<string, ISpanContext>> references)
         {
-            var traceId = references?.FirstOrDefault()?.TypedContext()?.TraceId ?? Guid.NewGuid();
+            var traceId = references?.FirstOrDefault()?.Item2?.TypedContext()?.TraceId ?? Guid.NewGuid();
             var spanId = Guid.NewGuid();
             var shouldSample = ShouldSample();
 
@@ -48,7 +48,7 @@ namespace OpenTracing.BasicTracer
             {
                 foreach (var reference in references)
                 {
-                    var typedContext = (SpanContext)reference.Context;
+                    var typedContext = (SpanContext)reference.Item2;
                     baggage.Merge(typedContext.GetBaggageItems());
                 }
             }

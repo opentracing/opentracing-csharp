@@ -12,7 +12,7 @@ namespace OpenTracing.BasicTracer
         private readonly string _operationName;
 
         // not initialized to save allocations in case there are no references.
-        private List<SpanReference> _references;
+        private List<Tuple<string, ISpanContext>> _references;
 
         // not initialized to save allocations in case there are no tags.
         private IDictionary<string, object> _tags;
@@ -36,7 +36,7 @@ namespace OpenTracing.BasicTracer
 
         public ISpanBuilder AsChildOf(ISpanContext spanContext)
         {
-            return AddReference(SpanReference.ChildOf(spanContext));
+            return AddReference(References.ChildOf, spanContext);
         }
 
         public ISpanBuilder AsChildOf(ISpan span)
@@ -46,7 +46,7 @@ namespace OpenTracing.BasicTracer
 
         public ISpanBuilder FollowsFrom(ISpanContext spanContext)
         {
-            return AddReference(SpanReference.FollowsFrom(spanContext));
+            return AddReference(References.FollowsFrom, spanContext);
         }
 
         public ISpanBuilder FollowsFrom(ISpan span)
@@ -54,16 +54,21 @@ namespace OpenTracing.BasicTracer
             return FollowsFrom(span?.Context);
         }
 
-        public ISpanBuilder AddReference(SpanReference reference)
+        public ISpanBuilder AddReference(string referenceType, ISpanContext referencedContext)
         {
-            if (reference != null)
+            if (string.IsNullOrWhiteSpace(referenceType))
+            {
+                throw new ArgumentNullException(nameof(referenceType));
+            }
+
+            if (referencedContext != null)
             {
                 if (_references == null)
                 {
-                    _references = new List<SpanReference>();
+                    _references = new List<Tuple<string, ISpanContext>>();
                 }
 
-                _references.Add(reference);
+                _references.Add(Tuple.Create(referenceType, referencedContext));
             }
 
             return this;

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenTracing.BasicTracer
 {
     public interface ISpanContextFactory
     {
-        SpanContext CreateSpanContext(IList<SpanReference> references);
+        SpanContext CreateSpanContext(IList<Tuple<string, ISpanContext>> references);
     }
 }

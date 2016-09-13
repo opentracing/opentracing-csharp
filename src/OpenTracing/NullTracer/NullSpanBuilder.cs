@@ -30,7 +30,7 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpanBuilder AddReference(SpanReference reference)
+        public ISpanBuilder AddReference(string referenceType, ISpanContext referencedContext)
         {
             return this;
         }

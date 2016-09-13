@@ -38,7 +38,7 @@ namespace OpenTracing.BasicTracer
         public ISpan StartSpan(
             string operationName,
             DateTime? startTimestamp,
-            IList<SpanReference> references,
+            IList<Tuple<string, ISpanContext>> references,
             IDictionary<string, object> tags)
         {
             var spanContext = _spanContextFactory.CreateSpanContext(references);

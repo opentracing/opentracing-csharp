@@ -4,6 +4,6 @@ namespace OpenTracing.BasicTracer
     {
         public static SpanContext TypedContext(this ISpan span) => (SpanContext)span?.Context;
 
-        public static SpanContext TypedContext(this SpanReference reference) => (SpanContext)reference?.Context;
+        public static SpanContext TypedContext(this ISpanContext context) => (SpanContext)context;
     }
 }
