@@ -13,7 +13,7 @@ namespace OpenTracing
         /// value of <see cref="Context"/> is still valid after a call to <see cref="Finish"/>, as is
         /// a call to <see cref="Context"/> after a call to <see cref="Finish"/>.
         /// </summary>
-        ISpanContext Context { get; } // TODO property or method?
+        ISpanContext Context { get; }
 
         /// <summary>
         /// Sets or changes the operation name.
