@@ -1,4 +1,4 @@
-[![Gitter chat](http://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg)](https://gitter.im/opentracing/public)
+[![Gitter chat][gitter-img]][gitter] [![Build Status][ci-img]][ci]
 
 # OpenTracing API for .NET including a BasicTracer
 
@@ -30,3 +30,8 @@ For the time being, "mild" backwards-incompatible changes may be made without ch
 ## License
 
 All files are released with the MIT License (MIT).
+
+  [gitter-img]: http://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg
+  [gitter]: https://gitter.im/opentracing/public
+  [ci-img]: https://travis-ci.org/opentracing/opentracing-csharp.svg?branch=master
+  [ci]: https://travis-ci.org/opentracing/opentracing-csharp
