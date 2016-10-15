@@ -1,11 +1,10 @@
 [![Gitter chat][gitter-img]][gitter] [![Build Status][ci-img]][ci]
 
-# OpenTracing API for .NET including a BasicTracer
+# OpenTracing API for .NET
 
-This solution includes 2 packages
+This solution includes the .NET platform API for OpenTracing.
 
-    * A .NET platform API for OpenTracing.
-    * A basic tracer implementation using the OpenTracing API
+A basic tracer implementation using this OpenTracing API can be found at [basictracer-csharp](https://github.com/opentracing/basictracer-csharp).
 
 ## Required Reading
 
@@ -21,7 +20,7 @@ By contributing your code, you agree to license your contribution under the term
 
 ## API pointers for those implementing a tracing system
 
-Tracing system implementors may look at the included BasicTracer package to be able to reuse or copy-paste-modify. 
+Tracing system implementors may look at the included BasicTracer package to be able to reuse or copy-paste-modify.
 
 ## API compatibility
 
