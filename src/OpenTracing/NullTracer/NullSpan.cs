@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace OpenTracing.NullTracer
 {
@@ -32,12 +33,22 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan Log(params Field[] fields)
+        public ISpan Log(IEnumerable<KeyValuePair<string, object>> fields)
         {
             return this;
         }
 
-        public ISpan Log(DateTime timestamp, params Field[] fields)
+        public ISpan Log(DateTime timestamp, IEnumerable<KeyValuePair<string, object>> fields)
+        {
+            return this;
+        }
+
+        public ISpan Log(string @event)
+        {
+            return this;
+        }
+
+        public ISpan Log(DateTime timestamp, string @event)
         {
             return this;
         }
