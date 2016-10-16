@@ -24,13 +24,25 @@ namespace OpenTracing
         /// Adds a tag to the Span.
         /// </summary>
         /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
-        /// <param name="value">
-        /// Tag values can be numeric types, strings, or bools. The behavior of other tag value types is undefined 
-        /// at the OpenTracing level. If a tracing system does not know how to handle a particular value type, it
-        /// may ignore the tag, but shall not panic.
-        /// </param>
+        /// <param name="value">The value to be stored.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan SetTag(string key, object value);
+        ISpan SetTag(string key, bool value);
+
+        /// <summary>
+        /// Adds a tag to the Span.
+        /// </summary>
+        /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
+        /// <param name="value">The value to be stored.</param>
+        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
+        ISpan SetTag(string key, double value);
+
+        /// <summary>
+        /// Adds a tag to the Span.
+        /// </summary>
+        /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
+        /// <param name="value">The value to be stored.</param>
+        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
+        ISpan SetTag(string key, string value);
 
         /// <summary>
         /// Records an event with optional payload data for this Span.
