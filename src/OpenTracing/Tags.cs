@@ -19,6 +19,16 @@ namespace OpenTracing
         public const string SpanKind = "span.kind";
 
         /// <summary>
+        /// A constant for setting the span kind to indicate that it represents a server span.
+        /// </summary>
+        public const string SpanKindClient = "client";
+
+        /// <summary>
+        /// A constant for setting the span kind to indicate that it represents a client span.
+        /// </summary>
+        public const string SpanKindServer = "server";
+
+        /// <summary>
         ///  "http.url" records the url of the incoming request.
         /// </summary>
         public const string HttpUrl = "http.url";
