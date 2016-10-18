@@ -18,15 +18,6 @@
     "netstandard1.1": {
       "dependencies": {
         "System.Collections": "4.0.11",
-        "System.Net.Http": "4.1.0",
-        "System.Runtime": "4.1.0"
-      }
-    },
-    "netstandard1.3": {
-      "dependencies": {
-        "System.Collections": "4.0.11",
-        "System.Net.Http": "4.1.0",
-        "System.Net.Primitives": "4.0.11",
         "System.Runtime": "4.1.0"
       }
     }
