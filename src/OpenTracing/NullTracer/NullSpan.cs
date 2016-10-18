@@ -17,7 +17,17 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan SetTag(string key, object value)
+        public ISpan SetTag(string key, bool value)
+        {
+            return this;
+        }
+
+        public ISpan SetTag(string key, double value)
+        {
+            return this;
+        }
+
+        public ISpan SetTag(string key, string value)
         {
             return this;
         }

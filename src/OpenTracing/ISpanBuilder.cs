@@ -32,14 +32,33 @@ namespace OpenTracing
         /// May be called multiple times to represent multiple such references.
         /// </summary>
         /// <param name="referenceType">The reference type, typically one of the constants defined in References.</param>
-        /// <param name="referencedContext">The <see cref="ISpanContext"/> being referenced; 
+        /// <param name="referencedContext">The <see cref="ISpanContext"/> being referenced;
         /// e.g., for a References.ChildOf referenceType, the referencedContext is the parent.</param>
         ISpanBuilder AddReference(string referenceType, ISpanContext referencedContext);
 
         /// <summary>
-        /// Same as <see cref="ISpan.SetTag" />, but for the span being built.
+        /// Adds a tag to the Span.
         /// </summary>
-        ISpanBuilder WithTag(string key, object value);
+        /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
+        /// <param name="value">The value to be stored.</param>
+        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
+        ISpanBuilder WithTag(string key, bool value);
+
+        /// <summary>
+        /// Adds a tag to the Span.
+        /// </summary>
+        /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
+        /// <param name="value">The value to be stored.</param>
+        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
+        ISpanBuilder WithTag(string key, double value);
+
+        /// <summary>
+        /// Adds a tag to the Span.
+        /// </summary>
+        /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
+        /// <param name="value">The value to be stored.</param>
+        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
+        ISpanBuilder WithTag(string key, string value);
 
         /// <summary>
         /// Specify a timestamp of when the Span was started.
