@@ -46,31 +46,20 @@ namespace OpenTracing
         ISpan SetTag(string key, string value);
 
         /// <summary>
-        /// Log key:value pairs to the Span with the current timestamp.
         /// <para>Log key:value pairs to the Span with the current UTC timestamp.</para>
-        /// <para>CAUTIONARY NOTE: not all Tracer implementations support key:value log fields end-to-end.
+        /// <para>CAUTIONARY NOTE: Not all Tracer implementations support key:value log fields end-to-end.
+        /// It's possible to pass a list of key:value pairs instead of a dictionary. However, the behavior
+        /// for lists with duplicate keys is not defined.
         /// Caveat emptor.</para>
         /// </summary>
         /// <param name="fields">
         ///   <para>key:value log fields. Tracer implementations should support string, numeric, and boolean values;
         ///   some may also support arbitrary objects.</para>
-        ///   <para>Use <see cref="Fields"/> to easily pass key:value pairs without unique key validations - 
-        ///   e.g. <c>Fields.Create("event", "soft error", "waited.millis", 1500)</c>.</para>
+        ///   <para>The behavior for lists with duplicate keys is not defined.</param>
         /// </param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
         /// <example>
         /// <code>
-        /// // Using a Fields collection initializer (does not do unique key checks).
-        /// span.Log(new Fields {
-        ///     { "event", "soft error" },
-        ///     { "type", "cache timeout" },
-        ///     { "waited.millis", 1500 }
-        /// });
-        ///
-        /// // Using the Fields factory methods (does not do unique key checks).
-        /// span.Log(Fields.Create("event", "soft error", "type", "cache timeout", "waited.millis", 1500));
-        ///
-        /// // Using an arbitrary dictionary (does unique key checks).
         /// span.Log(new Dictionary&lt;string, object&gt; {
         ///     { "event", "soft error" },
         ///     { "type", "cache timeout" },
@@ -81,8 +70,10 @@ namespace OpenTracing
         ISpan Log(IEnumerable<KeyValuePair<string, object>> fields);
 
         /// <summary>
-        /// <para>Log key:value pairs to the Span with the a specific timestamp.</para>
-        /// <para>CAUTIONARY NOTE: not all Tracer implementations support key:value log fields end-to-end.
+        /// <para>Log key:value pairs to the Span with the specific timestamp.</para>
+        /// <para>CAUTIONARY NOTE: Not all Tracer implementations support key:value log fields end-to-end.
+        /// It's possible to pass a list of key:value pairs instead of a dictionary. However, the behavior
+        /// for lists with duplicate keys is not defined.
         /// Caveat emptor.</para>
         /// </summary>
         /// <param name="timestamp">The explicit timestamp for the log record. Must be greater than or equal to the
@@ -90,23 +81,11 @@ namespace OpenTracing
         /// <param name="fields">
         ///   <para>key:value log fields. Tracer implementations should support string, numeric, and boolean values;
         ///   some may also support arbitrary objects.</para>
-        ///   <para>Use <see cref="Fields"/> to easily pass key:value pairs without unique key validations - 
-        ///   e.g. <c>Fields.Create("event", "soft error", "waited.millis", 1500)</c>.</para>
+        ///   <para>The behavior for lists with duplicate keys is not defined.</param>
         /// </param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
         /// <example>
         /// <code>
-        /// // Using a Fields collection initializer (does not do unique key checks).
-        /// span.Log(new Fields {
-        ///     { "event", "soft error" },
-        ///     { "type", "cache timeout" },
-        ///     { "waited.millis", 1500 }
-        /// });
-        ///
-        /// // Using the Fields factory methods (does not do unique key checks).
-        /// span.Log(Fields.Create("event", "soft error", "type", "cache timeout", "waited.millis", 1500));
-        ///
-        /// // Using an arbitrary dictionary (does unique key checks).
         /// span.Log(new Dictionary&lt;string, object&gt; {
         ///     { "event", "soft error" },
         ///     { "type", "cache timeout" },
