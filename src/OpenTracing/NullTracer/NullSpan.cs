@@ -28,6 +28,11 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
+        public ISpan SetTag(string key, int value)
+        {
+            return this;
+        }
+
         public ISpan SetTag(string key, string value)
         {
             return this;
@@ -63,7 +68,11 @@ namespace OpenTracing.NullTracer
             return null;
         }
 
-        public void Finish(DateTime? finishTimestamp = null)
+        public void Finish()
+        {
+        }
+
+        public void Finish(DateTime finishTimestamp)
         {
         }
 

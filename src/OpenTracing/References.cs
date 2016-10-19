@@ -2,7 +2,7 @@ namespace OpenTracing
 {
     /// <summary>
     /// <para>References is essentially a namespace for the official OpenTracing reference types.</para>
-    /// <para>References are used by <see cref="ISpanBuilder.AddReference"/> to describe the relationships between Spans.</para>
+    /// <para>References are used by <see cref="ISpanBuilder.AddReference"/> to describe the relationships between spans.</para>
     /// </summary>
     public static class References
     {

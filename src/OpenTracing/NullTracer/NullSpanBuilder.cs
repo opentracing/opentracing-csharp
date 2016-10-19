@@ -50,6 +50,11 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
+        public ISpanBuilder WithTag(string key, int value)
+        {
+            return this;
+        }
+
         public ISpanBuilder WithTag(string key, string value)
         {
             return this;
