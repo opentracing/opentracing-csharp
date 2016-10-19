@@ -103,7 +103,7 @@ namespace OpenTracing
         ISpan Log(string @event);
 
         /// <summary>
-        /// Record an event at the current UTC timestamp.
+        /// Record an event at a specific timestamp.
         /// </summary>
         /// <param name="timestamp">The explicit timestamp for the log record. Must be greater than or equal to the
         /// Span's start timestamp.</param>
