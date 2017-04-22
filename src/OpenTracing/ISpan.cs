@@ -63,7 +63,7 @@ namespace OpenTracing
         /// <param name="fields">
         ///   <para>key:value log fields. Tracer implementations should support string, numeric, and boolean values;
         ///   some may also support arbitrary objects.</para>
-        ///   <para>The behavior for lists with duplicate keys is undefined.</param>
+        ///   <para>The behavior for lists with duplicate keys is undefined.</para>
         /// </param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
         /// <example>
@@ -89,7 +89,7 @@ namespace OpenTracing
         /// <param name="fields">
         ///   <para>key:value log fields. Tracer implementations should support string, numeric, and boolean values;
         ///   some may also support arbitrary objects.</para>
-        ///   <para>The behavior for lists with duplicate keys is undefined.</param>
+        ///   <para>The behavior for lists with duplicate keys is undefined.</para>
         /// </param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
         /// <example>
