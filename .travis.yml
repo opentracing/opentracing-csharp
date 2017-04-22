@@ -6,7 +6,7 @@ matrix:
       dist: trusty
       sudo: required
       mono: none
-      dotnet: 1.0.0-preview2-003131
+      dotnet: 1.0.3
 
 env:
   global:
@@ -15,5 +15,5 @@ env:
 
 script:
   - dotnet restore
-  - dotnet build **/project.json
-  - dotnet test test/OpenTracing.Tests --no-build
+  - dotnet build -c Release
+  - dotnet test test/OpenTracing.Tests/OpenTracing.Tests.csproj --no-build

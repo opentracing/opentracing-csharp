@@ -8,7 +8,7 @@ Properties {
     $BuildConfiguration = "Release"
 
     # The folder in which all output packages should be placed
-    $ArtifactsPath = "artifacts"
+    $ArtifactsPath = Join-Path $PWD "artifacts"
 
     # Artifacts-subfolder in which test results will be placed
     $ArtifactsPathTests = "tests"
@@ -73,7 +73,7 @@ Task dotnet-restore {
 
 Task dotnet-build {
 
-    exec { dotnet build **\project.json -c $BuildConfiguration --version-suffix $BuildNumber }
+    exec { dotnet build -c $BuildConfiguration --version-suffix $BuildNumber }
 }
 
 Task dotnet-test {
@@ -83,23 +83,18 @@ Task dotnet-test {
 
     $testsFailed = $false
 
-    Get-ChildItem -Filter project.json -Recurse | ForEach-Object {
+    Get-ChildItem .\test -Filter *.csproj -Recurse | ForEach-Object {
 
-        $projectJson = Get-Content -Path $_.FullName -Raw -ErrorAction Ignore | ConvertFrom-Json -ErrorAction Ignore
+        $library = Split-Path $_.DirectoryName -Leaf
+        $testResultOutput = Join-Path $testOutput "$library.trx"
 
-        if ($projectJson -and $projectJson.testRunner -ne $null)
-        {
-            $library = Split-Path $_.DirectoryName -Leaf
-            $testResultOutput = Join-Path $testOutput "$library.xml"
+        Write-Host ""
+        Write-Host "Testing $library"
+        Write-Host ""
 
-            Write-Host ""
-            Write-Host "Testing $library"
-            Write-Host ""
-
-            dotnet test $_.Directory -c $BuildConfiguration --no-build -xml $testResultOutput
-            if ($LASTEXITCODE -ne 0) {
-                $testsFailed = $true
-            }
+        dotnet test $_.FullName -c $BuildConfiguration --no-build --logger "trx;LogFileName=$testResultOutput"
+        if ($LASTEXITCODE -ne 0) {
+            $testsFailed = $true
         }
     }
 
@@ -124,6 +119,6 @@ Task dotnet-pack {
         Write-Host "Packaging $library to $libraryOutput"
         Write-Host ""
 
-        exec { dotnet pack $library -c $BuildConfiguration --version-suffix $BuildNumber --no-build -o $libraryOutput }
+        exec { dotnet pack $library -c $BuildConfiguration --version-suffix $BuildNumber --no-build --include-symbols -o $libraryOutput }
     }
 }
