@@ -16,4 +16,4 @@ env:
 script:
   - dotnet restore
   - dotnet build -c Release
-  - dotnet test test/OpenTracing.Tests/OpenTracing.Tests.csproj --no-build
+  - dotnet test test/OpenTracing.Tests/OpenTracing.Tests.csproj -c Release --no-build
