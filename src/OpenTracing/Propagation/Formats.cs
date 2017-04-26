@@ -1,7 +1,7 @@
 ﻿namespace OpenTracing.Propagation
 {
     /// <summary>
-    /// Provides access to the builtin <see cref="Format" />s.
+    /// Provides access to the builtin <see cref="Format{TCarrier}" />s.
     /// </summary>
     public static class Formats
     {

@@ -11,8 +11,8 @@ namespace OpenTracing
     {
         /// <summary>
         /// Returns the <see cref="ISpanContext"/> that encapsulates span state that should propagate across process boundaries.
-        /// Note that the return value of <see cref="Context"/> is still valid after a call to <see cref="Finish"/>, as is
-        /// a call to <see cref="Context"/> after a call to <see cref="Finish"/>.
+        /// Note that the return value of <see cref="Context"/> is still valid after a call to <see cref="Finish()"/>, as is
+        /// a call to <see cref="Context"/> after a call to <see cref="Finish()"/>.
         /// </summary>
         ISpanContext Context { get; }
 

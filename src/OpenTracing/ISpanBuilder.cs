@@ -8,22 +8,22 @@ namespace OpenTracing
     public interface ISpanBuilder
     {
         /// <summary>
-        /// A shorthand for <see cref="AddReference(References.ChildOf, parent.Context)" />.
+        /// A shorthand for <see cref="AddReference(string, ISpanContext)" /> using <see cref="References.ChildOf"/>.
         /// </summary>
         ISpanBuilder AsChildOf(ISpan parent);
 
         /// <summary>
-        /// A shorthand for <see cref="AddReference(References.ChildOf, parent)" />.
+        /// A shorthand for <see cref="AddReference(string, ISpanContext)" /> using <see cref="References.ChildOf"/>.
         /// </summary>
         ISpanBuilder AsChildOf(ISpanContext parent);
 
         /// <summary>
-        /// A shorthand for <see cref="AddReference(References.FollowsFrom, parent.Context)" />.
+        /// A shorthand for <see cref="AddReference(string, ISpanContext)" /> using <see cref="References.FollowsFrom"/>.
         /// </summary>
         ISpanBuilder FollowsFrom(ISpan parent);
 
         /// <summary>
-        /// A shorthand for <see cref="AddReference(References.FollowsFrom, parent)" />.
+        /// A shorthand for <see cref="AddReference(string, ISpanContext)" /> using <see cref="References.FollowsFrom"/>.
         /// </summary>
         ISpanBuilder FollowsFrom(ISpanContext parent);
 

@@ -9,4 +9,8 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/opentracing/opentracing-csharp</RepositoryUrl>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
 </Project>
