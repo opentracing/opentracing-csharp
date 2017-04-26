@@ -7,12 +7,14 @@ namespace OpenTracing
     public static class References
     {
         /// <summary>
-        /// See http://opentracing.io/spec/#causal-span-references for more information about CHILD_OF references.
+        /// See https://github.com/opentracing/specification/blob/master/specification.md#references-between-spans
+        /// for more information about CHILD_OF references.
         /// </summary>
         public const string ChildOf = "child_of";
 
         /// <summary>
-        /// See http://opentracing.io/spec/#causal-span-references for more information about FOLLOWS_FROM references.
+        /// See https://github.com/opentracing/specification/blob/master/specification.md#references-between-spans
+        /// for more information about FOLLOWS_FROM references.
         /// </summary>
         public const string FollowsFrom = "follows_from";
     }
