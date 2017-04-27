@@ -35,6 +35,11 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
+        public ISpanBuilder IgnoreActiveSpan()
+        {
+            return this;
+        }
+
         public ISpanBuilder WithStartTimestamp(DateTime startTimestamp)
         {
             return this;

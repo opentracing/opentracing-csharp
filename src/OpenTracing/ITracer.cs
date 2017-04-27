@@ -8,6 +8,13 @@ namespace OpenTracing
     public interface ITracer
     {
         /// <summary>
+        /// <para>Returns the currently active span. It is used for intra-process propagation and follows the async execution flow.</para>
+        /// <para>Any newly started span will inherit this span as a parent unless <see cref="ISpanBuilder.IgnoreActiveSpan"/>
+        /// is called before the span is started.</para>
+        /// </summary>
+        ISpan ActiveSpan { get; }
+
+        /// <summary>
         /// Returns a new <see cref="ISpanBuilder" /> for a span with the given <paramref name="operationName" />.
         /// </summary>
         /// <param name="operationName">The operation name of the span.</param>
