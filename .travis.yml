@@ -6,7 +6,7 @@ matrix:
       dist: trusty
       sudo: required
       mono: none
-      dotnet: 1.0.3
+      dotnet: 1.0.4
 
 env:
   global:
@@ -14,6 +14,4 @@ env:
     - DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 script:
-  - dotnet restore
-  - dotnet build -c Release
-  - dotnet test test/OpenTracing.Tests/OpenTracing.Tests.csproj -c Release --no-build
+  - ./build.sh
