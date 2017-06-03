@@ -10,6 +10,8 @@ namespace OpenTracing.NullTracer
         {
         }
 
+        public ISpan ActiveSpan => NullSpan.Instance;
+
         public ISpanBuilder BuildSpan(string operationName)
         {
             return NullSpanBuilder.Instance;

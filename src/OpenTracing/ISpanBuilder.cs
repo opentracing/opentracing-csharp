@@ -37,6 +37,11 @@ namespace OpenTracing
         ISpanBuilder AddReference(string referenceType, ISpanContext referencedContext);
 
         /// <summary>
+        /// When used, the newly created span will NOT inherit <see cref="ITracer.ActiveSpan"/> as a parent.
+        /// </summary>
+        ISpanBuilder IgnoreActiveSpan();
+
+        /// <summary>
         /// Adds a tag to the span.
         /// </summary>
         /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
