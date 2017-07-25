@@ -71,11 +71,8 @@ namespace OpenTracing
         /// <summary>
         /// Specify a timestamp of when the span was started.
         /// </summary>
-        /// <param name="startTimestamp">
-        /// An explicit start timestamp for the span.
-        /// The behavior for kinds other than <see cref="DateTimeKind.Utc"/> is undefined.
-        /// </param>
-        ISpanBuilder WithStartTimestamp(DateTime startTimestamp);
+        /// <param name="startTimestamp">An explicit start timestamp for the span.</param>
+        ISpanBuilder WithStartTimestamp(DateTimeOffset startTimestamp);
 
         /// <summary>
         /// Returns the started span.

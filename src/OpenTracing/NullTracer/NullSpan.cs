@@ -43,7 +43,7 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan Log(DateTime timestamp, IEnumerable<KeyValuePair<string, object>> fields)
+        public ISpan Log(DateTimeOffset timestamp, IEnumerable<KeyValuePair<string, object>> fields)
         {
             return this;
         }
@@ -53,7 +53,7 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan Log(DateTime timestamp, string @event)
+        public ISpan Log(DateTimeOffset timestamp, string @event)
         {
             return this;
         }
@@ -72,7 +72,7 @@ namespace OpenTracing.NullTracer
         {
         }
 
-        public void Finish(DateTime finishTimestamp)
+        public void Finish(DateTimeOffset finishTimestamp)
         {
         }
 
