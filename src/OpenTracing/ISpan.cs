@@ -101,7 +101,7 @@ namespace OpenTracing
         /// });
         /// </code>
         /// </example>
-        ISpan Log(DateTime timestamp, IEnumerable<KeyValuePair<string, object>> fields);
+        ISpan Log(DateTimeOffset timestamp, IEnumerable<KeyValuePair<string, object>> fields);
 
         /// <summary>
         /// Record an event at the current timestamp.
@@ -117,7 +117,7 @@ namespace OpenTracing
         /// span's start timestamp.</param>
         /// <param name="eventName">The event value; often a stable identifier for a moment in the span lifecycle.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan Log(DateTime timestamp, string eventName);
+        ISpan Log(DateTimeOffset timestamp, string eventName);
 
         /// <summary>
         /// <para>Sets a baggage item in the span (and its SpanContext) as a key/value pair.</para>
@@ -157,11 +157,8 @@ namespace OpenTracing
         /// this should be the last call made to the span instance, and to do otherwise
         /// leads to undefined behavior.
         /// </para>
-        /// <param name="finishTimestamp">
-        /// An explicit finish timestamp.
-        /// The behavior for kinds other than <see cref="DateTimeKind.Utc"/> is undefined.
-        /// </param>
+        /// <param name="finishTimestamp">An explicit finish timestamp.</param>
         /// </summary>
-        void Finish(DateTime finishTimestamp);
+        void Finish(DateTimeOffset finishTimestamp);
     }
 }
