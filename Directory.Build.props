@@ -8,9 +8,14 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/opentracing/opentracing-csharp/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/opentracing/opentracing-csharp</RepositoryUrl>
+
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NoWarn>1591</NoWarn>
+  <!-- Create XML documentation for libraries -->
+  <PropertyGroup Condition="'$(OutputType)'=='library' and '$(Configuration)'=='Release'">
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 </Project>

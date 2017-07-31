@@ -68,12 +68,15 @@ Task dotnet-install {
 
 Task dotnet-restore {
 
-    exec { dotnet restore -v Minimal }
+    # If VersionSuffix isn't supplied here, dotnet pack will use wrong version numbers
+    # for dependant packages: https://github.com/NuGet/Home/issues/4337
+    exec { dotnet restore -v Minimal /p:VersionSuffix=$BuildNumber }
 }
 
 Task dotnet-build {
 
-    exec { dotnet build -c $BuildConfiguration --version-suffix $BuildNumber }
+    # --no-incremental to ensure that CI builds always result in a clean build
+    exec { dotnet build -c $BuildConfiguration --version-suffix $BuildNumber --no-incremental }
 }
 
 Task dotnet-test {
@@ -119,6 +122,8 @@ Task dotnet-pack {
         Write-Host "Packaging $library to $libraryOutput"
         Write-Host ""
 
-        exec { dotnet pack $library -c $BuildConfiguration --version-suffix $BuildNumber --no-build --include-symbols -o $libraryOutput }
+        $versionSuffixArg = if ([String]::IsNullOrWhiteSpace($BuildNumber)) { "" } else { "--version-suffix $BuildNumber" }
+
+        exec { dotnet pack $library -c $BuildConfiguration $versionSuffixArg --no-build --include-source --include-symbols -o $libraryOutput }
     }
 }
