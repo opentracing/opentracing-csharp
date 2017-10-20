@@ -1,7 +1,7 @@
-using System;
-
 namespace OpenTracing.Propagation
 {
+    using System;
+
     /// <summary>
     /// Format instances control the behavior of <see cref="ITracer.Inject" /> and <see cref="ITracer.Extract" /> 
     /// (and also constrain the type of the carrier parameter to same).

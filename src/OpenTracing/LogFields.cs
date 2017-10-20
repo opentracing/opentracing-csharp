@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenTracing
+﻿namespace OpenTracing
 {
     /// <summary>
     /// <para>Every Span log has a specific timestamp and one or more fields.

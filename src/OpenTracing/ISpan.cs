@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenTracing
+﻿namespace OpenTracing
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents an in-flight span in the opentracing system.
     /// Spans are created by the <see cref="ITracer"/> interface.

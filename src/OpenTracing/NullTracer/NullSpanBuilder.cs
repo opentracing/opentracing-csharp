@@ -1,7 +1,7 @@
-using System;
-
 namespace OpenTracing.NullTracer
 {
+    using System;
+
     public class NullSpanBuilder : ISpanBuilder
     {
         public static readonly NullSpanBuilder Instance = new NullSpanBuilder();

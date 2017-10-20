@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace OpenTracing
+﻿namespace OpenTracing
 {
+    using System;
+
     /// <summary>
     /// This exception should be used when the underlying span context state is seemingly present but not well-formed.
     /// </summary>

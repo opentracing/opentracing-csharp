@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 namespace OpenTracing.Propagation
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// The default <see cref="ITextMap"/> implementation which wraps an arbitrary <see cref="IDictionary{TKey,TValue}"/>.
     /// </summary>

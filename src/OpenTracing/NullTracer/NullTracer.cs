@@ -1,7 +1,7 @@
-using OpenTracing.Propagation;
-
 namespace OpenTracing.NullTracer
 {
+    using OpenTracing.Propagation;
+
     public class NullTracer : ITracer
     {
         public static readonly NullTracer Instance = new NullTracer();

@@ -1,7 +1,7 @@
-using System;
-
 namespace OpenTracing
 {
+    using System;
+
     /// <summary>
     /// This is the base type for all OpenTracing specific exceptions.
     /// </summary>
