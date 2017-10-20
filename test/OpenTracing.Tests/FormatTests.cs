@@ -1,8 +1,8 @@
-using OpenTracing.Propagation;
-using Xunit;
-
 namespace OpenTracing.Tests
 {
+    using OpenTracing.Propagation;
+    using Xunit;
+
     public class FormatTests
     {
         [Fact]

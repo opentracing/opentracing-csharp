@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-
 namespace OpenTracing
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// <para>A SpanContext represents span state that must propagate to descendant spans and across process boundaries.</para>
     /// <para>SpanContext is logically divided into two pieces: (1) the user-level "Baggage" that propagates across span

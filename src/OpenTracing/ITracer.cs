@@ -1,7 +1,7 @@
-﻿using OpenTracing.Propagation;
-
-namespace OpenTracing
+﻿namespace OpenTracing
 {
+    using OpenTracing.Propagation;
+
     /// <summary>
     /// <see cref="ITracer"/> is a simple, thin interface for span creation and propagation across arbitrary transports.
     /// </summary>

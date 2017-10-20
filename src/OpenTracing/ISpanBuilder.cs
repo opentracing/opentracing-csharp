@@ -1,7 +1,6 @@
-using System;
-
 namespace OpenTracing
 {
+    using System;
     /// <summary>
     /// Builds a new <see cref="ISpan" />.
     /// </summary>

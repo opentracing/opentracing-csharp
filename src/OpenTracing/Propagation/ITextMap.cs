@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-
 namespace OpenTracing.Propagation
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// <see cref="ITextMap"/> is a built-in carrier for <see cref="ITracer.Inject"/> and <see cref="ITracer.Extract"/>. 
     /// ITextMap implementations allow Tracers to read and write key:value String pairs from arbitrary underlying sources of data.

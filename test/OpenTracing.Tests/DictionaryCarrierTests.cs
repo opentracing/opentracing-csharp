@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenTracing.Propagation;
-using Xunit;
-
 namespace OpenTracing.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using OpenTracing.Propagation;
+    using Xunit;
+
     public class DictionaryCarrierTests
     {
         private IDictionary<string, string> GetDictionary(int items)

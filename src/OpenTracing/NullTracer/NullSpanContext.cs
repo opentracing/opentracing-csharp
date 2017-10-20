@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-
 namespace OpenTracing.NullTracer
 {
+    using System.Collections.Generic;
+
     public class NullSpanContext : ISpanContext
     {
         internal static readonly NullSpanContext Instance = new NullSpanContext();
