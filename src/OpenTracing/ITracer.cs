@@ -1,4 +1,6 @@
 ﻿using OpenTracing.Propagation;
+using System;
+using System.Collections.Generic;
 
 namespace OpenTracing
 {
@@ -8,10 +10,17 @@ namespace OpenTracing
     public interface ITracer
     {
         /// <summary>
-        /// Returns a new <see cref="ISpanBuilder" /> for a span with the given <paramref name="operationName" />.
+        /// Starts a new Span
         /// </summary>
         /// <param name="operationName">The operation name of the span.</param>
-        ISpanBuilder BuildSpan(string operationName);
+        ISpan StartSpan(
+            string operationName,
+            IEnumerable<Tuple<string, ISpanContext>> references = null,
+            DateTimeOffset? explicitStartTime = null,
+            IEnumerable<KeyValuePair<string, string>> stringTags = null,
+            IEnumerable<KeyValuePair<string, bool>> boolTags = null,
+            IEnumerable<KeyValuePair<string, double>> doubleTags = null,
+            IEnumerable<KeyValuePair<string, int>> intTags = null);
 
         /// <summary>
         /// Inject a <see cref="ISpanContext"/> into a <paramref name="carrier"/> of a given type,
