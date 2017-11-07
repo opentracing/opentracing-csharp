@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace OpenTracing
 {
+    using System.Linq;
+
     public static class TracerSpanBuilderExtensions
     {
         public static ISpanBuilder BuildSpan(ITracer tracer, string operationName)
@@ -17,20 +19,14 @@ namespace OpenTracing
             private string operationName;
             private ICollection<Tuple<string, ISpanContext>> references;
             private DateTimeOffset? explicitStartTime;
-            private ICollection<KeyValuePair<string, string>> stringTags;
-            private ICollection<KeyValuePair<string, bool>> boolTags;
-            private ICollection<KeyValuePair<string, double>> doubleTags;
-            private ICollection<KeyValuePair<string, int>> intTags;
+            private IDictionary<string, object> tags;
 
             public SpanBuilder(ITracer tracer, string operationName)
             {
                 this.tracer = tracer;
                 this.operationName = operationName;
                 this.references = new List<Tuple<string, ISpanContext>>();
-                this.stringTags = new List<KeyValuePair<string, string>>();
-                this.boolTags = new List<KeyValuePair<string, bool>>();
-                this.doubleTags = new List<KeyValuePair<string, double>>();
-                this.intTags = new List<KeyValuePair<string, int>>();
+                this.tags = new Dictionary<string, object>();
             }
 
             public ISpanBuilder AsChildOf(ISpan parent)
@@ -61,25 +57,25 @@ namespace OpenTracing
 
             public ISpanBuilder WithTag(string key, bool value)
             {
-                this.boolTags.Add(new KeyValuePair<string, bool>(key, value));
+                this.tags.Add(key, value);
                 return this;
             }
 
             public ISpanBuilder WithTag(string key, double value)
             {
-                this.doubleTags.Add(new KeyValuePair<string, double>(key, value));
+                this.tags.Add(key, value);
                 return this;
             }
 
             public ISpanBuilder WithTag(string key, int value)
             {
-                this.intTags.Add(new KeyValuePair<string, int>(key, value));
+                this.tags.Add(key, value);
                 return this;
             }
 
             public ISpanBuilder WithTag(string key, string value)
             {
-                this.stringTags.Add(new KeyValuePair<string, string>(key, value));
+                this.tags.Add(key, value);
                 return this;
             }
 
@@ -95,10 +91,10 @@ namespace OpenTracing
                     this.operationName,
                     this.references,
                     this.explicitStartTime,
-                    this.stringTags,
-                    this.boolTags,
-                    this.doubleTags,
-                    this.intTags);
+                    this.tags.Where(kvp => kvp.Value is string).Select(kvp => new KeyValuePair<string, string>(kvp.Key, (string) kvp.Value)),
+                    this.tags.Where(kvp => kvp.Value is bool).Select(kvp => new KeyValuePair<string, bool>(kvp.Key, (bool)kvp.Value)),
+                    this.tags.Where(kvp => kvp.Value is double).Select(kvp => new KeyValuePair<string, double>(kvp.Key, (double)kvp.Value)),
+                    this.tags.Where(kvp => kvp.Value is int).Select(kvp => new KeyValuePair<string, int>(kvp.Key, (int)kvp.Value)));
             }
         }
     }
