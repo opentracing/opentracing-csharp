@@ -1,5 +1,6 @@
 ﻿namespace OpenTracing.Propagation
 {
+    using System;
     using System.IO;
 
     public static class BuiltinFormats
@@ -37,7 +38,7 @@
         /// <seealso cref="IFormat{T}" />
         public static readonly IFormat<Stream> Binary = new Builtin<Stream>("BINARY");
 
-        private struct Builtin<T> : IFormat<T>
+        private struct Builtin<T> : IFormat<T>, IEquatable<Builtin<T>>
         {
             private readonly string name;
 
@@ -52,6 +53,32 @@
             public override string ToString()
             {
                 return $"{this.GetType().Name}.{this.name}";
+            }
+
+            public bool Equals(Builtin<T> other)
+            {
+                return string.Equals(this.name, other.name);
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                return obj is Builtin<T> && Equals((Builtin<T>) obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return (this.name != null ? this.name.GetHashCode() : 0);
+            }
+
+            public static bool operator ==(Builtin<T> left, Builtin<T> right)
+            {
+                return left.Equals(right);
+            }
+
+            public static bool operator !=(Builtin<T> left, Builtin<T> right)
+            {
+                return !left.Equals(right);
             }
         }
     }
