@@ -22,6 +22,11 @@
         /// As such, the Tracer implementation should use a prefix or other convention to distinguish Tracer-specific key:value pairs.</para>
         /// </summary>
         public static readonly Format<ITextMap> HttpHeaders = new Format<ITextMap>("http_headers");
+
+        /// <summary>
+        /// <para>The BINARY format represents SpanContexts as a (single) binary blob.</para>
+        /// </summary>
+        public static readonly Format<byte[]> Binary = new Format<byte[]>("binary");
     }
 
 

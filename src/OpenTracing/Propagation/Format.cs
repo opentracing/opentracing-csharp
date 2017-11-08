@@ -3,7 +3,7 @@ using System;
 namespace OpenTracing.Propagation
 {
     /// <summary>
-    /// Format instances control the behavior of <see cref="ITracer.Inject" /> and <see cref="ITracer.Extract" /> 
+    /// Format instances control the behavior of <see cref="ITracer.Inject{TCarrier}" /> and <see cref="ITracer.Extract{TCarrier}" /> 
     /// (and also constrain the type of the carrier parameter to same).
     /// </summary>
     public struct Format<TCarrier>

@@ -1,16 +1,23 @@
-using System;
-using System.Collections.Generic;
-
-namespace OpenTracing.NullTracer
+﻿namespace OpenTracing.NoopTracer
 {
-    public class NullSpan : ISpan
+    using System;
+    using System.Collections.Generic;
+
+    internal sealed class NoopSpan : ISpan
     {
-        internal static readonly NullSpan Instance = new NullSpan();
+        public static ISpan Instance = new NoopSpan();
 
-        public ISpanContext Context => NullSpanContext.Instance;
-
-        private NullSpan()
+        private NoopSpan()
         {
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public ISpanContext GetSpanContext()
+        {
+            return NoopSpanContext.Instance;
         }
 
         public ISpan SetOperationName(string operationName)
@@ -48,12 +55,12 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan Log(string @event)
+        public ISpan Log(string eventName)
         {
             return this;
         }
 
-        public ISpan Log(DateTimeOffset timestamp, string @event)
+        public ISpan Log(DateTimeOffset timestamp, string eventName)
         {
             return this;
         }
@@ -63,9 +70,10 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public string GetBaggageItem(string key)
+        public bool TryGetBaggageItem(string key, out string value)
         {
-            return null;
+            value = default(string);
+            return false;
         }
 
         public void Finish()
@@ -73,10 +81,6 @@ namespace OpenTracing.NullTracer
         }
 
         public void Finish(DateTimeOffset finishTimestamp)
-        {
-        }
-
-        public void Dispose()
         {
         }
     }

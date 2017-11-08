@@ -11,14 +11,22 @@ namespace OpenTracing
     {
         /// <summary>
         /// Returns the <see cref="ISpanContext"/> that encapsulates span state that should propagate across process boundaries.
-        /// Note that the return value of <see cref="Context"/> is still valid after a call to <see cref="Finish()"/>, as is
-        /// a call to <see cref="Context"/> after a call to <see cref="Finish()"/>.
+        /// Note that the return value of <see cref="GetSpanContext"/> is still valid after a call to <see cref="Finish()"/>, as is
+        /// a call to <see cref="GetSpanContext"/> after a call to <see cref="Finish()"/>.
         /// </summary>
-        ISpanContext Context { get; }
+        /// <remarks>
+        /// Method as, given the immutable requirement of <see cref="ISpanContext"/>, this may need to new up new objects on every access
+        /// </remarks>
+        ISpanContext GetSpanContext();
 
         /// <summary>
-        /// Sets or changes the operation name.
+        /// Sets a new operation name, which supersedes whatever was passed in when the Span was started
         /// </summary>
+        /// <remarks>
+        /// All <see cref="ISpan"/> objects must have an operation name. These should likely be set
+        /// in the constructor. This method allows for overwriting that.
+        /// </remarks>
+        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
         ISpan SetOperationName(string operationName);
 
         /// <summary>
@@ -27,6 +35,7 @@ namespace OpenTracing
         /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
         /// <param name="value">The value to be stored.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
+        /// <seealso cref="Tags"/>
         ISpan SetTag(string key, bool value);
 
         /// <summary>
@@ -35,6 +44,7 @@ namespace OpenTracing
         /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
         /// <param name="value">The value to be stored.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
+        /// <seealso cref="Tags"/>
         ISpan SetTag(string key, double value);
 
         /// <summary>
@@ -43,6 +53,7 @@ namespace OpenTracing
         /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
         /// <param name="value">The value to be stored.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
+        /// <seealso cref="Tags"/>
         ISpan SetTag(string key, int value);
 
         /// <summary>
@@ -51,6 +62,7 @@ namespace OpenTracing
         /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
         /// <param name="value">The value to be stored.</param>
         /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
+        /// <seealso cref="Tags"/>
         ISpan SetTag(string key, string value);
 
         /// <summary>
@@ -134,14 +146,18 @@ namespace OpenTracing
         ISpan SetBaggageItem(string key, string value);
 
         /// <summary>
-        /// Returns the value of the baggage item identified by the given <paramref name="key"/>,
-        /// or <c>null</c> if no such item could be found.
+        /// Gets the value of the baggage item identified by the given <paramref name="key"/>.
         /// </summary>
         /// <param name="key">The name of the key which was used to store the baggage item.</param>
-        string GetBaggageItem(string key);
+        /// <param name="value">Set to the value of the baggage item, should it be found</param>
+        /// <returns>true if the baggage item was found.</returns>
+        /// <remarks>
+        /// TryGet format used to support null as a valid value for a baggage item
+        /// </remarks>
+        bool TryGetBaggageItem(string key, out string value);
 
         /// <summary>
-        /// <para>Sets the end timestamp to now and records the span.</para>
+        /// <para>Sets the end timestamp to the current walltime and records the span.</para>
         /// <para>
         /// With the exception of calls to <see cref="Context"/> (which are always allowed),
         /// this should be the last call made to the span instance, and to do otherwise
@@ -157,8 +173,8 @@ namespace OpenTracing
         /// this should be the last call made to the span instance, and to do otherwise
         /// leads to undefined behavior.
         /// </para>
-        /// <param name="finishTimestamp">An explicit finish timestamp.</param>
         /// </summary>
+        /// <param name="finishTimestamp">An explicit finish timestamp.</param>
         void Finish(DateTimeOffset finishTimestamp);
     }
 }

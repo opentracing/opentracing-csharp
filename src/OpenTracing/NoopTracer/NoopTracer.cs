@@ -1,18 +1,20 @@
-using OpenTracing.Propagation;
+﻿using System.Text;
 
-namespace OpenTracing.NullTracer
+namespace OpenTracing.NoopTracer
 {
-    public class NullTracer : ITracer
-    {
-        public static readonly NullTracer Instance = new NullTracer();
+    using OpenTracing.Propagation;
 
-        private NullTracer()
+    public sealed class NoopTracer : ITracer
+    {
+        public static ITracer Instance = new NoopTracer();
+
+        private NoopTracer()
         {
         }
 
         public ISpanBuilder BuildSpan(string operationName)
         {
-            return NullSpanBuilder.Instance;
+            return NoopSpanBuilder.Instance;
         }
 
         public void Inject<TCarrier>(ISpanContext spanContext, Format<TCarrier> format, TCarrier carrier)

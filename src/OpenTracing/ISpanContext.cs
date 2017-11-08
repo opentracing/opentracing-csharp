@@ -8,6 +8,9 @@ namespace OpenTracing
     /// boundaries and (2) any Tracer-implementation-specific fields that are needed to identify or otherwise contextualize
     /// the associated span instance (e.g., a [trace_id, span_id, sampled] tuple).</para>
     /// </summary>
+    /// <remarks>
+    /// Implementations must be immutable
+    /// </remarks>
     public interface ISpanContext
     {
         /// <summary>

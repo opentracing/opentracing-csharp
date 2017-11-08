@@ -1,13 +1,18 @@
-using System;
-
-namespace OpenTracing.NullTracer
+﻿namespace OpenTracing.NoopTracer
 {
-    public class NullSpanBuilder : ISpanBuilder
-    {
-        public static readonly NullSpanBuilder Instance = new NullSpanBuilder();
+    using System;
 
-        private NullSpanBuilder()
+    internal sealed class NoopSpanBuilder : ISpanBuilder
+    {
+        public static ISpanBuilder Instance = new NoopSpanBuilder();
+
+        private NoopSpanBuilder()
         {
+        }
+
+        public ISpanBuilder SetOperationName(string operationName)
+        {
+            return this;
         }
 
         public ISpanBuilder AsChildOf(ISpan parent)
@@ -35,34 +40,34 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpanBuilder WithStartTimestamp(DateTimeOffset startTimestamp)
+        public ISpanBuilder SetTag(string key, bool value)
         {
             return this;
         }
 
-        public ISpanBuilder WithTag(string key, bool value)
+        public ISpanBuilder SetTag(string key, double value)
         {
             return this;
         }
 
-        public ISpanBuilder WithTag(string key, double value)
+        public ISpanBuilder SetTag(string key, int value)
         {
             return this;
         }
 
-        public ISpanBuilder WithTag(string key, int value)
+        public ISpanBuilder SetTag(string key, string value)
         {
             return this;
         }
 
-        public ISpanBuilder WithTag(string key, string value)
+        public ISpanBuilder SetStartTimestamp(DateTimeOffset startTimestamp)
         {
             return this;
         }
 
         public ISpan Start()
         {
-            return NullSpan.Instance;
+            return NoopSpan.Instance;
         }
     }
 }
