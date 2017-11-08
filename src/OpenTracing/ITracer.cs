@@ -23,7 +23,7 @@ namespace OpenTracing
     /// <summary>
     ///     Tracer is a simple, thin interface for Span creation and propagation across arbitrary transports.
     /// </summary>
-    internal interface ITracer : IActiveSpanSource
+    public interface ITracer : IActiveSpanSource
     {
         /// <summary>
         ///     Return a new SpanBuilder for a Span with the given 'operationName'.
@@ -106,7 +106,7 @@ namespace OpenTracing
         ISpanContext Extract<T>(IFormat<T> format, T carrier);
     }
 
-    internal interface ISpanBuilder
+    public interface ISpanBuilder
     {
         /// <summary>
         ///     A shorthand for <see cref="AddReference" />(References.ChildOf, parent).

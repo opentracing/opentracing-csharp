@@ -27,10 +27,10 @@ namespace OpenTracing
     ///     </para>
     /// </summary>
     /// <seealso cref="IActiveSpan" />
-    internal interface IActiveSpanSource
+    public interface IActiveSpanSource
     {
         /// <summary>
-        ///     Return the <see cref="IActiveSpan" />. This does not affect the internal reference count for the
+        ///     Return the <see cref="IActiveSpan" />. This does not affect the public reference count for the
         ///     <see cref="IActiveSpan" />.
         ///     <para>
         ///         If there is an <see cref="IActiveSpan" />, it becomes an implicit parent of any newly-created

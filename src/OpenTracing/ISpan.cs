@@ -28,7 +28,7 @@ namespace OpenTracing
     ///     </para>
     ///     <seealso cref="IActiveSpan" /> for automatic propagation (recommended for most instrumentation!)
     /// </summary>
-    internal interface ISpan : IBaseSpan<ISpan>
+    public interface ISpan : IBaseSpan<ISpan>
     {
         /// <summary>
         ///     Sets the end timestamp to now and records the span.

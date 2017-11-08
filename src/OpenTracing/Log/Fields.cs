@@ -22,7 +22,7 @@ namespace OpenTracing.Log
     ///     standardized data points.
     ///     <see href="https://github.com/opentracing/specification/blob/master/semantic_conventions.md" />
     /// </summary>
-    internal static class Fields
+    public static class Fields
     {
         /// <summary>
         ///     The type or "kind" of an error (only for event="error" logs). E.g., "Exception", "OSError"

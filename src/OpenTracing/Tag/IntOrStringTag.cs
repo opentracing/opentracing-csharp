@@ -16,7 +16,7 @@
 
 namespace OpenTracing.Tag
 {
-    internal sealed class IntOrStringTag : IntTag
+    public sealed class IntOrStringTag : IntTag
     {
         public IntOrStringTag(string tagKey)
             : base(tagKey)

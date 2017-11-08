@@ -27,7 +27,7 @@ namespace OpenTracing.Propagation
     ///     as illustrated here).
     /// </summary>
     /// <seealso cref="ITracer.Inject{T}" />
-    internal sealed class TextMapInjectAdapter : TextMap
+    public sealed class TextMapInjectAdapter : TextMap
     {
         private readonly IDictionary<string, string> dictionary;
 

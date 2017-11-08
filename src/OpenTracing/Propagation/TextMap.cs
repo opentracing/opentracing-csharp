@@ -25,7 +25,7 @@ namespace OpenTracing.Propagation
     /// </summary>
     /// <seealso cref="ITracer.Inject{T}" />
     /// <seealso cref="ITracer.Extract{T}" />
-    internal interface TextMap : IEnumerable<KeyValuePair<string, string>>
+    public interface TextMap : IEnumerable<KeyValuePair<string, string>>
     {
         /// <summary>
         ///     Puts a key:value pair into the TextMapWriter's backing store.

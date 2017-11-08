@@ -16,7 +16,7 @@
 
 namespace OpenTracing.Tag
 {
-    internal class IntTag : AbstractTag<int>
+    public class IntTag : AbstractTag<int>
     {
         public IntTag(string tagKey)
             : base(tagKey)

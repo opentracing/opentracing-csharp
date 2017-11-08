@@ -22,7 +22,7 @@ namespace OpenTracing.Tag
     ///     standardized data points. Tag names follow a general structure of namespacing.
     ///     <see href="https://github.com/opentracing/specification/blob/master/semantic_conventions.md" />
     /// </summary>
-    internal static class Tags
+    public static class Tags
     {
         /// <summary>
         ///     A static readonlyant for setting the span kind to indicate that it represents a server span.

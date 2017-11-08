@@ -16,7 +16,7 @@
 
 namespace OpenTracing.Tag
 {
-    internal sealed class BooleanTag : AbstractTag<bool>
+    public sealed class BooleanTag : AbstractTag<bool>
     {
         public BooleanTag(string tagKey)
             : base(tagKey)

@@ -30,7 +30,7 @@ namespace OpenTracing
     /// <seealso cref="IActiveSpan" />
     /// <see cref="ISpanBuilder.StartManual" />
     /// <see cref="ISpanBuilder.StartActive" />
-    internal interface IBaseSpan<T>
+    public interface IBaseSpan<T>
         where T : IBaseSpan<T>
     {
         /// <summary>

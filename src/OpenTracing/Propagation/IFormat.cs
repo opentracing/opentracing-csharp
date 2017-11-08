@@ -32,11 +32,11 @@ namespace OpenTracing.Propagation
     /// </summary>
     /// <seealso cref="ITracer.Inject{T}" />
     /// <seealso cref="ITracer.Extract{T}" />
-    internal interface IFormat<T>
+    public interface IFormat<T>
     {
     }
 
-    internal static class BuiltinFormats
+    public static class BuiltinFormats
     {
         /// <summary>
         ///     The TextMap format allows for arbitrary string-string dictionary encoding of SpanContext state for

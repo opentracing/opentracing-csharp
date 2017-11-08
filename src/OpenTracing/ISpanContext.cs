@@ -26,7 +26,7 @@ namespace OpenTracing
     /// </summary>
     /// <seealso cref="IBaseSpan{T}.SetBaggageItem" />
     /// <seealso cref="IBaseSpan{T}.GetBaggaggeItem" />
-    internal interface ISpanContext
+    public interface ISpanContext
     {
         /// <returns>All zero or more baggage items propagating along with the associated Span</returns>
         /// <seealso cref="IBaseSpan{T}.SetBaggageItem" />

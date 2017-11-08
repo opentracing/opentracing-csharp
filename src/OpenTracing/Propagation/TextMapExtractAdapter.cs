@@ -27,7 +27,7 @@ namespace OpenTracing.Propagation
     ///     as illustrated here).
     /// </summary>
     /// <seealso cref="ITracer.Extract{T}" />
-    internal sealed class TextMapExtractAdapter : TextMap
+    public sealed class TextMapExtractAdapter : TextMap
     {
         private readonly IDictionary<string, string> dictionary;
 

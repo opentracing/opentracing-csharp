@@ -46,7 +46,7 @@ namespace OpenTracing
     /// <seealso cref="IActiveSpanSource" />
     /// <seealso cref="IBaseSpan{T}" />
     /// <seealso cref="ISpan" />
-    internal interface IActiveSpan : IBaseSpan<IActiveSpan>, IDisposable
+    public interface IActiveSpan : IBaseSpan<IActiveSpan>, IDisposable
     {
         /// <summary>
         ///     Mark the end of the active period for the current thread and <see cref="IActiveSpan" />. When the last
@@ -97,7 +97,7 @@ namespace OpenTracing
     ///     </para>
     /// </summary>
     /// <seealso cref="IActiveSpanSource.MakeActive" />
-    internal interface IContinuation
+    public interface IContinuation
     {
         /// <summary>
         ///     Make the Span (and other execution context) encapsulated by this <see cref="IContinuation" /> active and

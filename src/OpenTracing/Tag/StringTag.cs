@@ -16,7 +16,7 @@
 
 namespace OpenTracing.Tag
 {
-    internal sealed class StringTag : AbstractTag<string>
+    public sealed class StringTag : AbstractTag<string>
     {
         public StringTag(string tagKey)
             : base(tagKey)

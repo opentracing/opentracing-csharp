@@ -16,7 +16,7 @@
 
 namespace OpenTracing.Tag
 {
-    internal abstract class AbstractTag<T>
+    public abstract class AbstractTag<T>
     {
         protected AbstractTag(string tagKey)
         {
