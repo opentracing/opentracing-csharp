@@ -82,32 +82,4 @@ namespace OpenTracing
         /// <returns>A new <see cref="IContinuation" /> to <see cref="IContinuation.Activate" /> at the appropriate time.</returns>
         IContinuation Capture();
     }
-
-    /// <summary>
-    ///     A <see cref="IContinuation" /> can be used <em>once</em> to activate a Span along with any non-OpenTracing
-    ///     execution
-    ///     context (e.g., MDC), then deactivate when processing activity moves on to another Span. (In practice, this
-    ///     active period typically extends for the length of a deferred async closure invocation.)
-    ///     <para>
-    ///         Most users do not directly interact with <see cref="IContinuation" />, <see cref="Activate" /> or
-    ///         <see cref="IActiveSpan.Deactivate" />, but rather use <see cref="IActiveSpanSource" />-aware
-    ///         Runnables/Callables/Executors.
-    ///         Those higher-level primatives do not <em>need</em> to be defined within the OpenTracing core API, and so
-    ///         they are not.
-    ///     </para>
-    /// </summary>
-    /// <seealso cref="IActiveSpanSource.MakeActive" />
-    public interface IContinuation
-    {
-        /// <summary>
-        ///     Make the Span (and other execution context) encapsulated by this <see cref="IContinuation" /> active and
-        ///     return it.
-        ///     <para>
-        ///         NOTE: It is an error to call activate() more than once on a single <see cref="IContinuation" /> instance.
-        ///     </para>
-        /// </summary>
-        /// <returns>A handle to the newly-activated <see cref="IActiveSpan" /></returns>
-        /// <seealso cref="IActiveSpanSource.MakeActive" />
-        IActiveSpan Activate();
-    }
 }
