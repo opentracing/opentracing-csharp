@@ -1,180 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ISpan.cs">
+//   Copyright 2017-2018 The OpenTracing Authors
+//   
+//   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+//   in compliance with the License. You may obtain a copy of the License at
+//   
+//   http://www.apache.org/licenses/LICENSE-2.0
+// 
+//   Unless required by applicable law or agreed to in writing, software distributed under the License
+//   is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+//   or implied. See the License for the specific language governing permissions and limitations under
+//   the License.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace OpenTracing
 {
+    using System;
+
     /// <summary>
-    /// Represents an in-flight span in the opentracing system.
-    /// Spans are created by the <see cref="ITracer"/> interface.
+    ///     Represents an in-flight Span that's <em>manually propagated</em> within the given process. Most of
+    ///     the PAI lives in <see cref="IBaseSpan{T}" />
+    ///     <para>
+    ///         <see cref="ISpan" />s are created by the <see cref="ISpanBuilder.StartManual" /> method; see
+    ///         <see cref="IActiveSpan" /> for
+    ///         a <see cref="IBaseSpan{T}" /> extension designed for automatic in-process propagation.
+    ///     </para>
+    ///     <seealso cref="IActiveSpan" /> for automatic propagation (recommended for most instrumentation!)
     /// </summary>
-    public interface ISpan : IDisposable
+    internal interface ISpan : IBaseSpan<ISpan>
     {
         /// <summary>
-        /// Returns the <see cref="ISpanContext"/> that encapsulates span state that should propagate across process boundaries.
-        /// Note that the return value of <see cref="GetSpanContext"/> is still valid after a call to <see cref="Finish()"/>, as is
-        /// a call to <see cref="GetSpanContext"/> after a call to <see cref="Finish()"/>.
+        ///     Sets the end timestamp to now and records the span.
+        ///     <para>
+        ///         With the exception of calls to <see cref="IBaseSpan{T}.Context" />, this should be the last call made to the
+        ///         span instance.
+        ///         Future calls to <see cref="Finish()" /> are defined as noops, and future calls to methods other than
+        ///         <see cref="IBaseSpan{T}.Context" />
+        ///         lead to undefined behavior (likely an exception).
+        ///     </para>
         /// </summary>
-        /// <remarks>
-        /// Method as, given the immutable requirement of <see cref="ISpanContext"/>, this may need to new up new objects on every access
-        /// </remarks>
-        ISpanContext GetSpanContext();
-
-        /// <summary>
-        /// Sets a new operation name, which supersedes whatever was passed in when the Span was started
-        /// </summary>
-        /// <remarks>
-        /// All <see cref="ISpan"/> objects must have an operation name. These should likely be set
-        /// in the constructor. This method allows for overwriting that.
-        /// </remarks>
-        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan SetOperationName(string operationName);
-
-        /// <summary>
-        /// Adds a tag to the span.
-        /// </summary>
-        /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
-        /// <param name="value">The value to be stored.</param>
-        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        /// <seealso cref="Tags"/>
-        ISpan SetTag(string key, bool value);
-
-        /// <summary>
-        /// Adds a tag to the span.
-        /// </summary>
-        /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
-        /// <param name="value">The value to be stored.</param>
-        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        /// <seealso cref="Tags"/>
-        ISpan SetTag(string key, double value);
-
-        /// <summary>
-        /// Adds a tag to the span.
-        /// </summary>
-        /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
-        /// <param name="value">The value to be stored.</param>
-        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        /// <seealso cref="Tags"/>
-        ISpan SetTag(string key, int value);
-
-        /// <summary>
-        /// Adds a tag to the span.
-        /// </summary>
-        /// <param name="key">If there is a pre-existing tag set for <paramref name="key"/>, it is overwritten.</param>
-        /// <param name="value">The value to be stored.</param>
-        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        /// <seealso cref="Tags"/>
-        ISpan SetTag(string key, string value);
-
-        /// <summary>
-        /// <para>Log key:value pairs to the span with the current timestamp.</para>
-        /// <para>CAUTIONARY NOTE: Not all Tracer implementations support key:value log fields end-to-end.
-        /// It is possible to pass a list of key:value pairs instead of a dictionary. However, the behavior
-        /// for lists with duplicate keys is undefined.
-        /// Caveat emptor.</para>
-        /// </summary>
-        /// <param name="fields">
-        ///   <para>key:value log fields. Tracer implementations should support string, numeric, and boolean values;
-        ///   some may also support arbitrary objects.</para>
-        ///   <para>The behavior for lists with duplicate keys is undefined.</para>
-        /// </param>
-        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        /// <example>
-        /// <code>
-        /// span.Log(new Dictionary&lt;string, object&gt; {
-        ///     { "event", "soft error" },
-        ///     { "type", "cache timeout" },
-        ///     { "waited.millis", 1500 }
-        /// });
-        /// </code>
-        /// </example>
-        ISpan Log(IEnumerable<KeyValuePair<string, object>> fields);
-
-        /// <summary>
-        /// <para>Log key:value pairs to the span with an explicit timestamp.</para>
-        /// <para>CAUTIONARY NOTE: Not all Tracer implementations support key:value log fields end-to-end.
-        /// It is possible to pass a list of key:value pairs instead of a dictionary. However, the behavior
-        /// for lists with duplicate keys is undefined.
-        /// Caveat emptor.</para>
-        /// </summary>
-        /// <param name="timestamp">The explicit timestamp for the log record. Must be greater than or equal to the
-        /// span's start timestamp.</param>
-        /// <param name="fields">
-        ///   <para>key:value log fields. Tracer implementations should support string, numeric, and boolean values;
-        ///   some may also support arbitrary objects.</para>
-        ///   <para>The behavior for lists with duplicate keys is undefined.</para>
-        /// </param>
-        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        /// <example>
-        /// <code>
-        /// span.Log(new Dictionary&lt;string, object&gt; {
-        ///     { "event", "soft error" },
-        ///     { "type", "cache timeout" },
-        ///     { "waited.millis", 1500 }
-        /// });
-        /// </code>
-        /// </example>
-        ISpan Log(DateTimeOffset timestamp, IEnumerable<KeyValuePair<string, object>> fields);
-
-        /// <summary>
-        /// Record an event at the current timestamp.
-        /// </summary>
-        /// <param name="eventName">The event value; often a stable identifier for a moment in the span lifecycle.</param>
-        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan Log(string eventName);
-
-        /// <summary>
-        /// Record an event at an explicit timestamp.
-        /// </summary>
-        /// <param name="timestamp">The explicit timestamp for the log record. Must be greater than or equal to the
-        /// span's start timestamp.</param>
-        /// <param name="eventName">The event value; often a stable identifier for a moment in the span lifecycle.</param>
-        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan Log(DateTimeOffset timestamp, string eventName);
-
-        /// <summary>
-        /// <para>Sets a baggage item in the span (and its SpanContext) as a key/value pair.</para>
-        /// </summary>
-        /// <remarks>
-        /// <para>Baggage enables powerful distributed context propagation functionality where arbitrary application data can be
-        /// carried along the full path of request execution throughout the system.</para>
-        /// <para>Note 1: Baggage is only propagated to the future (recursive) children of this SpanContext.</para>
-        /// <para>Note 2: Baggage is sent in-band with every subsequent local and remote calls, so this feature must be used with care.</para>
-        /// </remarks>
-        /// <param name="key">If there is a pre-existing item set for <paramref name="key"/>, it is overwritten.</param>
-        /// <param name="value">The value that should be stored.</param>
-        /// <returns>The current <see cref="ISpan"/> instance for chaining.</returns>
-        ISpan SetBaggageItem(string key, string value);
-
-        /// <summary>
-        /// Gets the value of the baggage item identified by the given <paramref name="key"/>.
-        /// </summary>
-        /// <param name="key">The name of the key which was used to store the baggage item.</param>
-        /// <param name="value">Set to the value of the baggage item, should it be found</param>
-        /// <returns>true if the baggage item was found.</returns>
-        /// <remarks>
-        /// TryGet format used to support null as a valid value for a baggage item
-        /// </remarks>
-        bool TryGetBaggageItem(string key, out string value);
-
-        /// <summary>
-        /// <para>Sets the end timestamp to the current walltime and records the span.</para>
-        /// <para>
-        /// With the exception of calls to <see cref="Context"/> (which are always allowed),
-        /// this should be the last call made to the span instance, and to do otherwise
-        /// leads to undefined behavior.
-        /// </para>
-        /// </summary>
+        /// <seealso cref="IBaseSpan{T}.Context" />
         void Finish();
 
         /// <summary>
-        /// <para>Sets an explicit end timestamp and records the span.</para>
-        /// <para>
-        /// With the exception of calls to <see cref="Context"/> (which are always allowed),
-        /// this should be the last call made to the span instance, and to do otherwise
-        /// leads to undefined behavior.
-        /// </para>
+        ///     Sets an explicit end timestamp and records the span.
+        ///     <para>
+        ///         With the exception of calls to Span.context(), this should be the last call made to the span instance, and to
+        ///         do otherwise leads to undefined behavior.
+        ///     </para>
         /// </summary>
-        /// <param name="finishTimestamp">An explicit finish timestamp.</param>
-        void Finish(DateTimeOffset finishTimestamp);
+        /// <param name="finishTime">An explicit finish time</param>
+        /// <seealso cref="IBaseSpan{T}.Context" />
+        void Finish(DateTimeOffset finishTime);
     }
 }

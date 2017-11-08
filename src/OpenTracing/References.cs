@@ -1,32 +1,35 @@
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="References.cs">
+//   Copyright 2017-2018 The OpenTracing Authors
+//   
+//   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+//   in compliance with the License. You may obtain a copy of the License at
+//   
+//   http://www.apache.org/licenses/LICENSE-2.0
+// 
+//   Unless required by applicable law or agreed to in writing, software distributed under the License
+//   is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+//   or implied. See the License for the specific language governing permissions and limitations under
+//   the License.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace OpenTracing
 {
     /// <summary>
-    /// <para>References is essentially a namespace for the official OpenTracing reference types.</para>
-    /// <para>References are used by <see cref="ISpanBuilder.AddReference"/> to describe the relationships between spans.</para>
+    ///     <see cref="References" /> is essentially a namespace for the official OpenTracing reference types.
+    ///     References are used by <see cref="ITracer.BuildSpan" /> to describe the relationships between Spans.
     /// </summary>
-    public static class References
+    /// <seealso cref="ISpanBuilder.AddReference" />
+    internal static class References
     {
         /// <summary>
-        /// A Span may be the ChildOf a parent Span. In a ChildOf reference, the parent Span depends on the child Span in some capacity
-        /// <example>
-        /// A Span representing the server side of an RPC may be the ChildOf a Span representing the client side of that RPC
-        /// </example>
-        /// <example>
-        /// A Span representing a SQL insert may be the ChildOf a Span representing an ORM save method
-        /// </example>
-        /// <example>
-        /// Many Spans doing concurrent (perhaps distributed) work may all individually be the ChildOf a single parent Span that merges the
-        /// results for all children that return within a deadline
-        /// </example>
-        /// <seealso href="https://github.com/opentracing/specification/blob/master/specification.md#references-between-spans"/>
+        ///     See http://opentracing.io/spec/#causal-span-references for more information about CHILD_OF references
         /// </summary>
         public const string ChildOf = "child_of";
 
         /// <summary>
-        /// Some parent Spans do not depend in any way on the result of their child Spans. In these cases, we say merely that the child Span
-        /// FollowsFrom the parent Span in a causal sense. There are many distinct FollowsFrom reference sub-categories, and in future versions
-        /// of OpenTracing they may be distinguished more formally.
-        /// <seealso href="https://github.com/opentracing/specification/blob/master/specification.md#references-between-spans"/>
+        ///     See http://opentracing.io/spec/#causal-span-references for more information about FOLLOWS_FROM references
         /// </summary>
         public const string FollowsFrom = "follows_from";
     }
