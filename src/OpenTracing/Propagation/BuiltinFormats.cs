@@ -37,7 +37,7 @@
         /// <seealso cref="IFormat{T}" />
         public static readonly IFormat<Stream> Binary = new Builtin<Stream>("BINARY");
 
-        private sealed class Builtin<T> : IFormat<T>
+        private struct Builtin<T> : IFormat<T>
         {
             private readonly string name;
 
