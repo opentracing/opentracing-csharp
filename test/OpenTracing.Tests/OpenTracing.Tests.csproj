@@ -4,6 +4,10 @@
     <TargetFrameworks>netcoreapp1.1;net452</TargetFrameworks>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(NonWindowsBuild)' == 'true' ">
+      <TargetFrameworks>netcoreapp1.1;</TargetFrameworks>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\OpenTracing\OpenTracing.csproj" />
   </ItemGroup>
