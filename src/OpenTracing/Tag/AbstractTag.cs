@@ -25,7 +25,7 @@ namespace OpenTracing.Tag
 
         public string Key { get; }
 
-        protected abstract void Set<TSpan>(IBaseSpan<TSpan> span, T tagValue)
-            where TSpan : IBaseSpan<TSpan>;
+        protected abstract void Set<TSpan>(ISpan span, T tagValue)
+            where TSpan : ISpan;
     }
 }

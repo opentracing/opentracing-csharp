@@ -23,8 +23,7 @@ namespace OpenTracing.Tag
         {
         }
 
-        public void Set<TSpan>(IBaseSpan<TSpan> span, string tagValue)
-            where TSpan : IBaseSpan<TSpan>
+        public void Set(ISpan span, string tagValue)
         {
             span.SetTag(this.Key, tagValue);
         }

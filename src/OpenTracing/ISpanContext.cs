@@ -24,13 +24,13 @@ namespace OpenTracing
     ///     boundaries and (2) any Tracer-implementation-specific fields that are needed to identify or otherwise contextualize
     ///     the associated Span instance(e.g., a { trace_id, span_id, sampled } tuple).
     /// </summary>
-    /// <seealso cref="IBaseSpan{T}.SetBaggageItem" />
-    /// <seealso cref="IBaseSpan{T}.GetBaggaggeItem" />
+    /// <seealso cref="ISpan.SetBaggageItem" />
+    /// <seealso cref="ISpan.GetBaggaggeItem" />
     public interface ISpanContext
     {
         /// <returns>All zero or more baggage items propagating along with the associated Span</returns>
-        /// <seealso cref="IBaseSpan{T}.SetBaggageItem" />
-        /// <seealso cref="IBaseSpan{T}.GetBaggaggeItem" />
+        /// <seealso cref="ISpan.SetBaggageItem" />
+        /// <seealso cref="ISpan.GetBaggaggeItem" />
         IEnumerable<KeyValuePair<string, string>> BaggageItems();
     }
 }

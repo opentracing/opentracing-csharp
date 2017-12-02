@@ -34,8 +34,7 @@ namespace OpenTracing
         ///         If parent == null, this is a noop.
         ///     </para>
         /// </summary>
-        ISpanBuilder AsChildOf<T>(IBaseSpan<T> parent)
-            where T : IBaseSpan<T>;
+        ISpanBuilder AsChildOf<T>(ISpan parent);
 
         /// <summary>
         ///     Add a reference from the Span being built to a distinct (usually parent) Span. May be called multiples times
@@ -43,14 +42,13 @@ namespace OpenTracing
         ///     <para>
         ///         If
         ///         <list type="bullet">
-        ///             <item>the <see cref="ITracer" />'s <see cref="IActiveSpanSource.ActiveSpan" /> is not null, and</item>
+        ///             <item>the <see cref="ITracer" />'s <see cref="IScopeManager.Active" /> is not null, and</item>
         ///             <item>no <b>explicit</b> references are added via <see cref="AddReference" />, and</item>
         ///             <item><see cref="IgnoreActiveSpan" /> is not invoked,</item>
         ///         </list>
         ///         ... then an inferred <see cref="References.ChildOf" /> reference is created to the
-        ///         <see cref="IActiveSpanSource.ActiveSpan" /> <see cref="ISpanContext" /> when either <see cref="StartActive" />
-        ///         or
-        ///         <see cref="StartManual" /> is invoked.
+        ///         <see cref="IScopeManager.Active" /> <see cref="ISpanContext" /> when either <see cref="StartActive()" />
+        ///         or <see cref="StartManual" /> is invoked.
         ///     </para>
         /// </summary>
         /// <param name="referenceType">
@@ -65,28 +63,28 @@ namespace OpenTracing
 
         /// <summary>
         ///     Do not create an implicit <see cref="References.ChildOf" /> reference to othe
-        ///     <see cref="IActiveSpanSource.ActiveSpan" />.
+        ///     <see cref="IScopeManager.Active" />.
         /// </summary>
         /// <returns></returns>
         ISpanBuilder IgnoreActiveSpan();
 
         /// <summary>
-        ///     Same as <see cref="IBaseSpan{T}.SetTag(string,string)" />, but for the span being built.
+        ///     Same as <see cref="ISpan.SetTag(string,string)" />, but for the span being built.
         /// </summary>
         ISpanBuilder WithTag(string key, string value);
 
         /// <summary>
-        ///     Same as <see cref="IBaseSpan{T}.SetTag(string,bool)" />, but for the span being built.
+        ///     Same as <see cref="ISpan.SetTag(string,bool)" />, but for the span being built.
         /// </summary>
         ISpanBuilder WithTag(string key, bool value);
 
         /// <summary>
-        ///     Same as <see cref="IBaseSpan{T}.SetTag(string,int)" />, but for the span being built.
+        ///     Same as <see cref="ISpan.SetTag(string,int)" />, but for the span being built.
         /// </summary>
         ISpanBuilder WithTag(string key, int value);
 
         /// <summary>
-        ///     Same as <see cref="IBaseSpan{T}.SetTag(string,double)" />, but for the span being built.
+        ///     Same as <see cref="ISpan.SetTag(string,double)" />, but for the span being built.
         /// </summary>
         ISpanBuilder WithTag(string key, double value);
 
@@ -96,47 +94,78 @@ namespace OpenTracing
         ISpanBuilder WithStartTimestamp(DateTimeOffset startTime);
 
         /// <summary>
-        ///     Returns a newly started and activated <see cref="IActiveSpan" />.
+        ///     Returns a newly started and activated <see cref="IScope" />.
         ///     <para>
-        ///         The returned <see cref="IActiveSpan" /> supports using(). For example:
+        ///         The returned <see cref="IScope" /> supports using(). For example:
         ///         <code>
-        /// using (ActiveSpan span = tracer.BuildSpan("...").StartActive())
+        /// using (IScope scope = tracer.BuildSpan("...").StartActive())
         /// {
         ///     // (Do work)
-        ///     span.SetTag( ... );  // etc, etc
-        /// }  // Span finishes automatically unless deferred via <see cref="IActiveSpan.Capture" />
+        ///     scope.Span.SetTag( ... );  // etc, etc
+        /// }
+        /// // Span finishes automatically when the IScope is closed
+        /// // following the default behavior of IScopeManager.Activate(ISpan)
+        /// </code>
+        ///     </para>
+        ///     <para>
+        ///         For detailed information, see <see cref="StartActive(bool)"/>
+        ///     </para>
+        ///     <para>
+        ///         NOTE: <see cref="StartActive()" /> is a shorthand for
+        ///         <code>tracer.ScopeManager.Activate(spanBuilder.StartManual())</code>
+        ///     </para>
+        /// </summary>
+        /// <returns>An <see cref="IScope" />, already registered via the <see cref="IScopeManager" /></returns>
+        /// <seealso cref="IScopeManager" />
+        /// <seealso cref="IScope"/>
+        /// <seealso cref="StartActive(bool)"/>
+        IScope StartActive();
+
+        /// <summary>
+        ///     Returns a newly started and activated <see cref="IScope" />.
+        ///     <para>
+        ///         The returned <see cref="IScope" /> supports using(). For example:
+        ///         <code>
+        /// using (IScope scope = tracer.BuildSpan("...").StartActive(false))
+        /// {
+        ///     // (Do work)
+        ///     scope.Span.SetTag( ... );  // etc, etc
+        /// }
+        /// // Span does not finish automatically when the Scope is closed as
+        /// // 'finishOnClose' is false
         /// </code>
         ///     </para>
         ///     <para>
         ///         If
         ///         <list type="bullet">
-        ///             <item>the <see cref="ITracer" />'s <see cref="IActiveSpanSource.ActiveSpan" /> is not null, and</item>
+        ///             <item>the <see cref="ITracer" />'s <see cref="IScopeManager.Active" /> is not null, and</item>
         ///             <item>no <b>explicit</b> references are added via <see cref="AddReference" />, and</item>
         ///             <item><see cref="IgnoreActiveSpan" /> is not invoked,</item>
         ///         </list>
         ///         ... then an inferred <see cref="References.ChildOf" /> reference is created to the
-        ///         <see cref="IActiveSpanSource.ActiveSpan" /> <see cref="ISpanContext" /> when either
-        ///         <see cref="StartManual" /> or <see cref="StartActive" /> is invoked.
+        ///         <see cref="IScopeManager.Active" /> <see cref="ISpanContext" /> when either
+        ///         <see cref="StartManual" /> or <see cref="StartActive()" /> is invoked.
         ///     </para>
         ///     <para>
-        ///         NOTE: <see cref="StartActive" /> is a shorthand for
-        ///         <code>tracer.MakeActive(spanBuilder.StartManual())</code>
+        ///         NOTE: <see cref="StartActive(bool)" /> is a shorthand for
+        ///         <code>tracer.MakeActive(spanBuilder.StartManual(), finishSpanOnClose)</code>
         ///     </para>
         /// </summary>
-        /// <returns>An <see cref="IActiveSpan" />, already registered via the <see cref="IActiveSpanSource" /></returns>
-        /// <seealso cref="IActiveSpanSource" />
-        /// <seealso cref="IActiveSpan" />
-        IActiveSpan StartActive();
+        /// <param name="finishSpanOnClose">Whether span sould automatically be finished when <see cref="IDisposable.Dispose"/> is called</param>
+        /// <returns>An <see cref="IScope" />, already registered via the <see cref="IScopeManager" /></returns>
+        /// <seealso cref="IScopeManager" />
+        /// <seealso cref="IScope" />
+        IScope StartActive(bool finishSpanOnClose);
 
         /// <summary>
-        ///     Like <see cref="StartActive" />, but the returned <see cref="ISpan" /> has not been registered via the
-        ///     <see cref="IActiveSpanSource" />.
+        ///     Like <see cref="StartActive()" />, but the returned <see cref="ISpan" /> has not been registered via the
+        ///     <see cref="IScopeManager" />.
         /// </summary>
         /// <returns>
         ///     The newly-started Span instance, which as *not* been automatically registered
-        ///     via the <see cref="IActiveSpanSource" />
+        ///     via the <see cref="IScopeManager" />
         /// </returns>
-        /// <seealso cref="StartActive" />
+        /// <seealso cref="StartActive()" />
         ISpan StartManual();
 
         [Obsolete("Use StartManual or StartActive instead.")]

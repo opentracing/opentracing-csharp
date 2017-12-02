@@ -68,7 +68,7 @@
 
             public override int GetHashCode()
             {
-                return (this.name != null ? this.name.GetHashCode() : 0);
+                return this.name != null ? this.name.GetHashCode() : 0;
             }
 
             public static bool operator ==(Builtin<T> left, Builtin<T> right)

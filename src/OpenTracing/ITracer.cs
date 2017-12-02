@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITracer.cs">
+// <copyright file="AbstractTag.cs">
 //   Copyright 2017-2018 The OpenTracing Authors
 //   
 //   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
@@ -23,12 +23,17 @@ namespace OpenTracing
     /// <summary>
     ///     Tracer is a simple, thin interface for Span creation and propagation across arbitrary transports.
     /// </summary>
-    public interface ITracer : IActiveSpanSource
+    public interface ITracer
     {
+        /// <summary>
+        ///     The current <see cref="IScopeManager" />, which may be a noop but may not be null.
+        /// </summary>
+        IScopeManager ScopeManager { get; }
+
         /// <summary>
         ///     Return a new SpanBuilder for a Span with the given 'operationName'.
         ///     <para>
-        ///         You can override the operationName later via <see cref="IBaseSpan{T}.SetOperationName" />.
+        ///         You can override the operationName later via <see cref="ISpan.SetOperationName" />.
         ///     </para>
         ///     <para>
         ///         A contrived example:
@@ -53,7 +58,6 @@ namespace OpenTracing
         ///     </para>
         /// </summary>
         /// <param name="operationName"></param>
-        /// <returns></returns>
         ISpanBuilder BuildSpan(string operationName);
 
         /// <summary>

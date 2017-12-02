@@ -23,7 +23,7 @@ namespace OpenTracing.Tag
         {
         }
 
-        protected override void Set<TSpan>(IBaseSpan<TSpan> span, int tagValue)
+        protected override void Set<TSpan>(ISpan span, int tagValue)
         {
             span.SetTag(this.Key, tagValue);
         }

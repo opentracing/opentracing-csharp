@@ -22,10 +22,9 @@ namespace OpenTracing.Propagation
     ///     carrier parameter to same).
     ///     Most OpenTracing users will only reference the <see cref="BuiltinFormats" /> constants. For example:
     ///     <code>
-    /// TODO: This sample looks a bit wonky, missed update at some point?
     /// Tracer tracer = ...
     /// IFormat{TextMap} httpCarrier = new AnHttpHeaderCarrier(httpRequest);
-    /// SpanContext spanCtx = tracer.Extract(BuiltinFormats.HttpHeaders, httpHeaderRequest);
+    /// ISpanContext spanCtx = tracer.Extract(BuiltinFormats.HttpHeaders, httpHeaderRequest);
     /// </code>
     /// </summary>
     /// <seealso cref="ITracer.Inject{T}" />
