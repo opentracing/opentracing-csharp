@@ -34,7 +34,7 @@ namespace OpenTracing
         ///         If parent == null, this is a noop.
         ///     </para>
         /// </summary>
-        ISpanBuilder AsChildOf<T>(ISpan parent);
+        ISpanBuilder AsChildOf(ISpan parent);
 
         /// <summary>
         ///     Add a reference from the Span being built to a distinct (usually parent) Span. May be called multiples times
