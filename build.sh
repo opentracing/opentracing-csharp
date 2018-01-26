@@ -33,3 +33,4 @@ echo dotnet-test
 echo ----------------------
 
 dotnet test test/OpenTracing.Tests/OpenTracing.Tests.csproj -c $CONFIGURATION --no-build
+dotnet test test/OpenTracing.MockTracer.Tests/OpenTracing.MockTracer.Tests.csproj -c $CONFIGURATION --no-build
