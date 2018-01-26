@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.1</TargetFramework>
+    <Description>
+      This package implements a MockTracer implementation of the OpenTracing.ITracer interface, intended to be used
+      for unit-testing ITracer implementations in third party consuming frameworks and drivers.
+    </Description>
+    <PackageTags>opentracing;distributed-tracing;tracing;logging</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenTracing\OpenTracing.csproj" />
+  </ItemGroup>
+  
+</Project>
