@@ -69,8 +69,8 @@
         public static readonly StringTag DbType = new StringTag("db.type");
 
         /// <summary>
-        /// DbInstance indicates the instance name of Database. If the jdbc.url="jdbc:mysql://127.0.0.1:3306/customers",
-        /// instance name is "customers".
+        /// Database instance name. E.g., In java, if the jdbc.url="jdbc:mysql://127.0.0.1:3306/customers", instance name
+        /// is "customers".
         /// </summary>
         public static readonly StringTag DbInstance = new StringTag("db.instance");
 
