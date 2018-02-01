@@ -5,10 +5,9 @@ using System.Collections.Generic;
 namespace OpenTracing.Propagation
 {
     /// <summary>
-    /// A TextMap carrier for use with <see cref="ITracer.Inject{T}"/> ONLY (it has no read methods).
-    /// Note that the TextMap interface can be made to wrap around arbitrary data types (not just Dictionary{string,
-    /// string}
-    /// as illustrated here).
+    /// A TextMap carrier for use with <see cref="ITracer.Inject{T}"/> ONLY (it has no read methods). Note that the
+    /// TextMap interface can be made to wrap around arbitrary data types (not just Dictionary{string, string} as illustrated
+    /// here).
     /// </summary>
     /// <seealso cref="ITracer.Inject{T}"/>
     public sealed class TextMapInjectAdapter : TextMap

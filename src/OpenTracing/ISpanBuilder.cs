@@ -6,23 +6,19 @@ namespace OpenTracing
     {
         /// <summary>
         /// A shorthand for <see cref="AddReference"/>(References.ChildOf, parent).
-        /// <para>
-        /// If parent == null, this is a noop.
-        /// </para>
+        /// <para>If parent == null, this is a noop.</para>
         /// </summary>
         ISpanBuilder AsChildOf(ISpanContext parent);
 
         /// <summary>
         /// A shorthand for <see cref="AddReference"/>(References.ChildOf, parent.Context()).
-        /// <para>
-        /// If parent == null, this is a noop.
-        /// </para>
+        /// <para>If parent == null, this is a noop.</para>
         /// </summary>
         ISpanBuilder AsChildOf(ISpan parent);
 
         /// <summary>
-        /// Add a reference from the Span being built to a distinct (usually parent) Span. May be called multiples times
-        /// to represent multiple such References.
+        /// Add a reference from the Span being built to a distinct (usually parent) Span. May be called multiples times to
+        /// represent multiple such References.
         /// <para>
         /// If
         /// <list type="bullet">
@@ -30,17 +26,17 @@ namespace OpenTracing
         /// <item>no <b>explicit</b> references are added via <see cref="AddReference"/>, and</item>
         /// <item><see cref="IgnoreActiveSpan"/> is not invoked,</item>
         /// </list>
-        /// ... then an inferred <see cref="References.ChildOf"/> reference is created to the
-        /// <see cref="IScopeManager.Active"/> <see cref="ISpanContext"/> when either <see cref="StartActive()"/>
-        /// or <see cref="StartManual"/> is invoked.
+        /// ... then an inferred <see cref="References.ChildOf"/> reference is created to the <see cref="IScopeManager.Active"/>
+        /// <see cref="ISpanContext"/> when either <see cref="StartActive()"/> or <see cref="StartManual"/> is invoked.
         /// </para>
         /// </summary>
         /// <param name="referenceType">
         /// The reference type, typically one of the constants defined in <see cref="References"/>
         /// </param>
         /// <param name="referencedContext">
-        /// The SpanContext being referenced; e.g., for a <see cref="References.ChildOf"/> reference, the
-        /// referenecedContext is the parent. If referencedContext==null, the call to <see cref="AddReference"/> is a noop.
+        /// The SpanContext being referenced; e.g., for a <see cref="References.ChildOf"/>
+        /// reference, the referenecedContext is the parent. If referencedContext==null, the call to <see cref="AddReference"/> is
+        /// a noop.
         /// </param>
         /// <seealso cref="References"/>
         ISpanBuilder AddReference(string referenceType, ISpanContext referencedContext);
@@ -52,29 +48,19 @@ namespace OpenTracing
         /// <returns></returns>
         ISpanBuilder IgnoreActiveSpan();
 
-        /// <summary>
-        /// Same as <see cref="ISpan.SetTag(string,string)"/>, but for the span being built.
-        /// </summary>
+        /// <summary>Same as <see cref="ISpan.SetTag(string,string)"/>, but for the span being built.</summary>
         ISpanBuilder WithTag(string key, string value);
 
-        /// <summary>
-        /// Same as <see cref="ISpan.SetTag(string,bool)"/>, but for the span being built.
-        /// </summary>
+        /// <summary>Same as <see cref="ISpan.SetTag(string,bool)"/>, but for the span being built.</summary>
         ISpanBuilder WithTag(string key, bool value);
 
-        /// <summary>
-        /// Same as <see cref="ISpan.SetTag(string,int)"/>, but for the span being built.
-        /// </summary>
+        /// <summary>Same as <see cref="ISpan.SetTag(string,int)"/>, but for the span being built.</summary>
         ISpanBuilder WithTag(string key, int value);
 
-        /// <summary>
-        /// Same as <see cref="ISpan.SetTag(string,double)"/>, but for the span being built.
-        /// </summary>
+        /// <summary>Same as <see cref="ISpan.SetTag(string,double)"/>, but for the span being built.</summary>
         ISpanBuilder WithTag(string key, double value);
 
-        /// <summary>
-        /// Specify a timestamp of when the Span was started
-        /// </summary>
+        /// <summary>Specify a timestamp of when the Span was started</summary>
         ISpanBuilder WithStartTimestamp(DateTimeOffset startTime);
 
         /// <summary>
@@ -91,9 +77,7 @@ namespace OpenTracing
         /// // following the default behavior of IScopeManager.Activate(ISpan)
         /// </code>
         /// </para>
-        /// <para>
-        /// For detailed information, see <see cref="StartActive(bool)"/>
-        /// </para>
+        /// <para>For detailed information, see <see cref="StartActive(bool)"/></para>
         /// <para>
         /// NOTE: <see cref="StartActive()"/> is a shorthand for
         /// <code>tracer.ScopeManager.Activate(spanBuilder.StartManual())</code>
@@ -126,9 +110,8 @@ namespace OpenTracing
         /// <item>no <b>explicit</b> references are added via <see cref="AddReference"/>, and</item>
         /// <item><see cref="IgnoreActiveSpan"/> is not invoked,</item>
         /// </list>
-        /// ... then an inferred <see cref="References.ChildOf"/> reference is created to the
-        /// <see cref="IScopeManager.Active"/> <see cref="ISpanContext"/> when either
-        /// <see cref="StartManual"/> or <see cref="StartActive()"/> is invoked.
+        /// ... then an inferred <see cref="References.ChildOf"/> reference is created to the <see cref="IScopeManager.Active"/>
+        /// <see cref="ISpanContext"/> when either <see cref="StartManual"/> or <see cref="StartActive()"/> is invoked.
         /// </para>
         /// <para>
         /// NOTE: <see cref="StartActive(bool)"/> is a shorthand for
@@ -149,8 +132,8 @@ namespace OpenTracing
         /// <see cref="IScopeManager"/>.
         /// </summary>
         /// <returns>
-        /// The newly-started Span instance, which as *not* been automatically registered
-        /// via the <see cref="IScopeManager"/>
+        /// The newly-started Span instance, which as *not* been automatically registered via the
+        /// <see cref="IScopeManager"/>
         /// </returns>
         /// <seealso cref="StartActive()"/>
         ISpan StartManual();

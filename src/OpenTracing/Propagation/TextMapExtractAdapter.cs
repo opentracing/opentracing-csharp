@@ -5,10 +5,8 @@ using System.Collections.Generic;
 namespace OpenTracing.Propagation
 {
     /// <summary>
-    /// A TextMap carrier for use with Tracer.extract() ONLY (it has no mutating methods).
-    /// Note that the TextMap interface can be made to wrap around arbitrary data types (not just Dictionary{string,
-    /// string}
-    /// as illustrated here).
+    /// A TextMap carrier for use with Tracer.extract() ONLY (it has no mutating methods). Note that the TextMap
+    /// interface can be made to wrap around arbitrary data types (not just Dictionary{string, string} as illustrated here).
     /// </summary>
     /// <seealso cref="ITracer.Extract{T}"/>
     public sealed class TextMapExtractAdapter : TextMap

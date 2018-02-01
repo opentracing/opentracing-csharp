@@ -4,21 +4,15 @@ using OpenTracing.Propagation;
 
 namespace OpenTracing
 {
-    /// <summary>
-    /// Tracer is a simple, thin interface for Span creation and propagation across arbitrary transports.
-    /// </summary>
+    /// <summary>Tracer is a simple, thin interface for Span creation and propagation across arbitrary transports.</summary>
     public interface ITracer
     {
-        /// <summary>
-        /// The current <see cref="IScopeManager"/>, which may be a noop but may not be null.
-        /// </summary>
+        /// <summary>The current <see cref="IScopeManager"/>, which may be a noop but may not be null.</summary>
         IScopeManager ScopeManager { get; }
 
         /// <summary>
         /// Return a new SpanBuilder for a Span with the given 'operationName'.
-        /// <para>
-        /// You can override the operationName later via <see cref="ISpan.SetOperationName"/>.
-        /// </para>
+        /// <para>You can override the operationName later via <see cref="ISpan.SetOperationName"/>.</para>
         /// <para>
         /// A contrived example:
         /// <code>
