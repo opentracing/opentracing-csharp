@@ -30,6 +30,12 @@
         public const string Message = "message";
 
         /// <summary>A stack trace in platform-conventional format; may or may not pertain to an error.</summary>
+        /// <example>
+        /// <code>
+        /// at App.Program.SomeMethod() in C:\app\Program.cs:line 14
+        /// at App.Program.Main(String[] args) in C:\app\Program.cs:line 9
+        /// </code>
+        /// </example>
         public const string Stack = "stack";
     }
 }
