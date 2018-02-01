@@ -103,7 +103,7 @@ namespace OpenTracing
         ISpan SetBaggageItem(string key, string value);
 
         /// <summary>The value of the baggage item identified by <paramref name="key"/>, or null if no such item could be found.</summary>
-        string GetBaggaggeItem(string key);
+        string GetBaggageItem(string key);
 
         /// <summary>Sets the string name for the logical operation this Span represents.</summary>
         /// <returns>This Span instance, for chaining</returns>

@@ -9,12 +9,12 @@ namespace OpenTracing
     /// Span instance(e.g., a { trace_id, span_id, sampled } tuple).
     /// </summary>
     /// <seealso cref="ISpan.SetBaggageItem"/>
-    /// <seealso cref="ISpan.GetBaggaggeItem"/>
+    /// <seealso cref="ISpan.GetBaggageItem"/>
     public interface ISpanContext
     {
         /// <returns>All zero or more baggage items propagating along with the associated Span</returns>
         /// <seealso cref="ISpan.SetBaggageItem"/>
-        /// <seealso cref="ISpan.GetBaggaggeItem"/>
+        /// <seealso cref="ISpan.GetBaggageItem"/>
         IEnumerable<KeyValuePair<string, string>> BaggageItems();
     }
 }
