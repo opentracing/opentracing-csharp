@@ -7,37 +7,37 @@ namespace OpenTracing.Propagation
     {
         /// <summary>
         /// The TextMap format allows for arbitrary string-string dictionary encoding of SpanContext state for
-        /// <see cref="ITracer.Inject{T}"/> and <see cref="ITracer.Extract{T}"/>. Unlike <see cref="HttpHeaders"/>, the builtin
+        /// <see cref="ITracer.Inject{TCarrier}"/> and <see cref="ITracer.Extract{TCarrier}"/>. Unlike <see cref="HttpHeaders"/>, the builtin
         /// TextMap format expresses no constraints on keys or values.
         /// </summary>
-        /// <seealso cref="ITracer.Inject{T}"/>
-        /// <seealso cref="ITracer.Extract{T}"/>
-        /// <seealso cref="IFormat{T}"/>
+        /// <seealso cref="ITracer.Inject{TCarrier}"/>
+        /// <seealso cref="ITracer.Extract{TCarrier}"/>
+        /// <seealso cref="IFormat{TCarrier}"/>
         /// <seealso cref="HttpHeaders"/>
         public static readonly IFormat<TextMap> TextMap = new Builtin<TextMap>("TEXT_MAP");
 
         /// <summary>
         /// The HttpHeaders format allows for HTTP-header-compatible string-string dictionary encodin of SpanContext state
-        /// for <see cref="ITracer.Inject{T}"/> and <see cref="ITracer.Extract{T}"/>. I.e, keys written to the TextMap MUST be
+        /// for <see cref="ITracer.Inject{TCarrier}"/> and <see cref="ITracer.Extract{TCarrier}"/>. I.e, keys written to the TextMap MUST be
         /// suitable for HTTP header keys (which are poorly defined but certainly restricted); and similarly for values (i.e.,
         /// URL-escaped and "not too long").
         /// </summary>
-        /// <seealso cref="ITracer.Inject{T}"/>
-        /// <seealso cref="ITracer.Extract{T}"/>
-        /// <seealso cref="IFormat{T}"/>
+        /// <seealso cref="ITracer.Inject{TCarrier}"/>
+        /// <seealso cref="ITracer.Extract{TCarrier}"/>
+        /// <seealso cref="IFormat{TCarrier}"/>
         /// <seealso cref="TextMap"/>
         public static readonly IFormat<TextMap> HttpHeaders = new Builtin<TextMap>("HTTP_HEADERS");
 
         /// <summary>
         /// The Binary format allows for unconstrained binary encoding of the SpanContext state for
-        /// <see cref="ITracer.Inject{T}"/> and <see cref="ITracer.Extract{T}"/>.
+        /// <see cref="ITracer.Inject{TCarrier}"/> and <see cref="ITracer.Extract{TCarrier}"/>.
         /// </summary>
-        /// <seealso cref="ITracer.Inject{T}"/>
-        /// <seealso cref="ITracer.Extract{T}"/>
-        /// <seealso cref="IFormat{T}"/>
+        /// <seealso cref="ITracer.Inject{TCarrier}"/>
+        /// <seealso cref="ITracer.Extract{TCarrier}"/>
+        /// <seealso cref="IFormat{TCarrier}"/>
         public static readonly IFormat<Stream> Binary = new Builtin<Stream>("BINARY");
 
-        private struct Builtin<T> : IFormat<T>, IEquatable<Builtin<T>>
+        private struct Builtin<TCarrier> : IFormat<TCarrier>, IEquatable<Builtin<TCarrier>>
         {
             private readonly string name;
 
@@ -52,7 +52,7 @@ namespace OpenTracing.Propagation
                 return $"{GetType().Name}.{name}";
             }
 
-            public bool Equals(Builtin<T> other)
+            public bool Equals(Builtin<TCarrier> other)
             {
                 return string.Equals(name, other.name);
             }
@@ -61,7 +61,7 @@ namespace OpenTracing.Propagation
             {
                 if (ReferenceEquals(null, obj))
                     return false;
-                return obj is Builtin<T> && Equals((Builtin<T>) obj);
+                return obj is Builtin<TCarrier> && Equals((Builtin<TCarrier>) obj);
             }
 
             public override int GetHashCode()
@@ -69,12 +69,12 @@ namespace OpenTracing.Propagation
                 return name != null ? name.GetHashCode() : 0;
             }
 
-            public static bool operator ==(Builtin<T> left, Builtin<T> right)
+            public static bool operator ==(Builtin<TCarrier> left, Builtin<TCarrier> right)
             {
                 return left.Equals(right);
             }
 
-            public static bool operator !=(Builtin<T> left, Builtin<T> right)
+            public static bool operator !=(Builtin<TCarrier> left, Builtin<TCarrier> right)
             {
                 return !left.Equals(right);
             }

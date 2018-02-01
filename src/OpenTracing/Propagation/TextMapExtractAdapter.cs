@@ -8,7 +8,7 @@ namespace OpenTracing.Propagation
     /// A TextMap carrier for use with Tracer.extract() ONLY (it has no mutating methods). Note that the TextMap
     /// interface can be made to wrap around arbitrary data types (not just Dictionary{string, string} as illustrated here).
     /// </summary>
-    /// <seealso cref="ITracer.Extract{T}"/>
+    /// <seealso cref="ITracer.Extract{TCarrier}"/>
     public sealed class TextMapExtractAdapter : TextMap
     {
         private readonly IDictionary<string, string> dictionary;

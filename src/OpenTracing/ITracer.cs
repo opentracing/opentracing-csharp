@@ -50,16 +50,16 @@ namespace OpenTracing
         /// </code>
         /// </para>
         /// </summary>
-        /// <typeparam name="T">The carrier type, which also parametrizes the Format.</typeparam>
+        /// <typeparam name="TCarrier">The carrier type, which also parametrizes the Format.</typeparam>
         /// <param name="spanContext">The SpanContext instance to inject into the carrier</param>
         /// <param name="format">The Fromat of the carrier</param>
         /// <param name="carrier">
         /// The carrier for the SpanContext state. All Tracer.Inject implementations must support
         /// <see cref="TextMap"/> and <see cref="Stream"/>
         /// </param>
-        /// <seealso cref="IFormat{T}"/>
+        /// <seealso cref="IFormat{TCarrier}"/>
         /// <seealso cref="BuiltinFormats"/>
-        void Inject<T>(ISpanContext spanContext, IFormat<T> format, T carrier);
+        void Inject<TCarrier>(ISpanContext spanContext, IFormat<TCarrier> format, TCarrier carrier);
 
         /// <summary>
         /// Extract a SpanContext from a 'carrier' of a given type, presumably after propagation across a process boundary.
@@ -76,15 +76,15 @@ namespace OpenTracing
         /// <see cref="ArgumentException"/>.
         /// </summary>
         /// <exception cref="ArgumentException">If the span serialized state is invalid (corrupt, wrong version, etc)</exception>
-        /// <typeparam name="T">The carrier type, which also parametrizes the Format.</typeparam>
+        /// <typeparam name="TCarrier">The carrier type, which also parametrizes the Format.</typeparam>
         /// <param name="format">The Format of the carrier</param>
         /// <param name="carrier">
         /// The carrier for the SpanContext state. All Tracer.Extract() implementations must support
         /// <see cref="TextMap"/> and <see cref="Stream"/>.
         /// </param>
         /// <returns>The SpanContext instance holding context to create a Span.</returns>
-        /// <seealso cref="IFormat{T}"/>
+        /// <seealso cref="IFormat{TCarrier}"/>
         /// <seealso cref="BuiltinFormats"/>
-        ISpanContext Extract<T>(IFormat<T> format, T carrier);
+        ISpanContext Extract<TCarrier>(IFormat<TCarrier> format, TCarrier carrier);
     }
 }
