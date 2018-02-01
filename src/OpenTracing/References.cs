@@ -1,35 +1,19 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="References.cs">
-//   Copyright 2017-2018 The OpenTracing Authors
-//   
-//   Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
-//   in compliance with the License. You may obtain a copy of the License at
-//   
-//   http://www.apache.org/licenses/LICENSE-2.0
-// 
-//   Unless required by applicable law or agreed to in writing, software distributed under the License
-//   is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-//   or implied. See the License for the specific language governing permissions and limitations under
-//   the License.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace OpenTracing
+﻿namespace OpenTracing
 {
     /// <summary>
-    ///     <see cref="References" /> is essentially a namespace for the official OpenTracing reference types.
-    ///     References are used by <see cref="ITracer.BuildSpan" /> to describe the relationships between Spans.
+    /// <see cref="References"/> is essentially a namespace for the official OpenTracing reference types.
+    /// References are used by <see cref="ITracer.BuildSpan"/> to describe the relationships between Spans.
     /// </summary>
-    /// <seealso cref="ISpanBuilder.AddReference" />
+    /// <seealso cref="ISpanBuilder.AddReference"/>
     public static class References
     {
         /// <summary>
-        ///     See http://opentracing.io/spec/#causal-span-references for more information about CHILD_OF references
+        /// See http://opentracing.io/spec/#causal-span-references for more information about CHILD_OF references
         /// </summary>
         public const string ChildOf = "child_of";
 
         /// <summary>
-        ///     See http://opentracing.io/spec/#causal-span-references for more information about FOLLOWS_FROM references
+        /// See http://opentracing.io/spec/#causal-span-references for more information about FOLLOWS_FROM references
         /// </summary>
         public const string FollowsFrom = "follows_from";
     }
