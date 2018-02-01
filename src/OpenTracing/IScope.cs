@@ -12,7 +12,7 @@ namespace OpenTracing
     /// <see cref="IScope"/> defines when a given <see cref="ISpan"/> <em>is</em> scheduled and on the path.
     /// </para>
     /// <para>
-    /// Calling <see cref="IScope.Dispose"/> marks the end of the active period for the current thread and
+    /// Calling <see cref="IDisposable.Dispose"/> marks the end of the active period for the current thread and
     /// <see cref="IScope"/>, updating the <see cref="IScopeManager.Active"/> in the process.
     /// </para>
     /// </summary>
@@ -45,8 +45,8 @@ namespace OpenTracing
         /// <param name="span">The <see cref="ISpan"/> that should become the <see cref="Active"/></param>
         /// <returns>
         /// A <see cref="IScope"/> instance to control the end of the active period for the <see cref="ISpan"/>. Span will
-        /// automatically be finished when <see cref="IScope.Dispose"/> is called. It is a programming error to neglect to call
-        /// <see cref="IScope.Dispose"/> on the returned instance.
+        /// automatically be finished when <see cref="IDisposable.Dispose"/> is called. It is a programming error to neglect to call
+        /// <see cref="IDisposable.Dispose"/> on the returned instance.
         /// </returns>
         IScope Activate(ISpan span);
 
@@ -58,8 +58,8 @@ namespace OpenTracing
         /// </param>
         /// <returns>
         /// A <see cref="IScope"/> instance to control the end of the active period for the <see cref="ISpan"/>. Span will
-        /// automatically be finished when <see cref="IScope.Dispose"/> is called. It is a programming error to neglect to call
-        /// <see cref="IScope.Dispose"/> on the returned instance.
+        /// automatically be finished when <see cref="IDisposable.Dispose"/> is called. It is a programming error to neglect to call
+        /// <see cref="IDisposable.Dispose"/> on the returned instance.
         /// </returns>
         IScope Activate(ISpan span, bool finishSpanOnClose);
     }
