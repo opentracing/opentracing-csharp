@@ -1,11 +1,11 @@
-﻿namespace OpenTracing.Log
+﻿namespace OpenTracing
 {
     /// <summary>
     /// The following log fields are recommended for instrumentors who are trying to capture more information about a
     /// logged event. Tracers may expose additional features based on these standardized data points.
     /// <see href="https://github.com/opentracing/specification/blob/master/semantic_conventions.md"/>
     /// </summary>
-    public static class Fields
+    public static class LogFields
     {
         /// <summary>The type or "kind" of an error (only for event="error" logs). E.g., "Exception", "OSError"</summary>
         public const string ErrorKind = "error.kind";
