@@ -15,6 +15,6 @@ namespace OpenTracing
         /// <returns>All zero or more baggage items propagating along with the associated Span</returns>
         /// <seealso cref="ISpan.SetBaggageItem"/>
         /// <seealso cref="ISpan.GetBaggageItem"/>
-        IEnumerable<KeyValuePair<string, string>> BaggageItems();
+        IEnumerable<KeyValuePair<string, string>> GetBaggageItems();
     }
 }
