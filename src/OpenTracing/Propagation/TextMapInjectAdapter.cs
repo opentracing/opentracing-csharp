@@ -25,7 +25,7 @@ namespace OpenTracing.Propagation
                 $"{nameof(TextMapExtractAdapter)} should only be used with {nameof(ITracer)}.{nameof(ITracer.Extract)}");
         }
 
-        public void Put(string key, string value)
+        public void Set(string key, string value)
         {
             dictionary.Add(key, value);
         }

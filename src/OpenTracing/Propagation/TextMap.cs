@@ -17,6 +17,6 @@ namespace OpenTracing.Propagation
         /// <seealso cref="ITracer.Inject{T}"/>
         /// <seealso cref="BuiltinFormats.TextMap"/>
         /// <seealso cref="BuiltinFormats.HttpHeaders"/>
-        void Put(string key, string value);
+        void Set(string key, string value);
     }
 }

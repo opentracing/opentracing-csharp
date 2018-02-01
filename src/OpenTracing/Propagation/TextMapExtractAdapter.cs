@@ -23,7 +23,7 @@ namespace OpenTracing.Propagation
             return dictionary.GetEnumerator();
         }
 
-        public void Put(string key, string value)
+        public void Set(string key, string value)
         {
             throw new InvalidOperationException(
                 $"{nameof(TextMapExtractAdapter)} should only be used with {nameof(ITracer)}.{nameof(ITracer.Extract)}");
