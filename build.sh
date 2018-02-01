@@ -26,10 +26,10 @@ echo
 echo dotnet-build
 echo ----------------------
 
-dotnet build -c $CONFIGURATION --no-incremental
+dotnet build -c $CONFIGURATION --no-incremental /p:NonWindowsBuild=true
 
 echo
 echo dotnet-test
 echo ----------------------
 
-dotnet test test/OpenTracing.Tests/OpenTracing.Tests.csproj -c $CONFIGURATION --no-build
+dotnet test test/OpenTracing.Tests/OpenTracing.Tests.csproj -c $CONFIGURATION --no-build /p:NonWindowsBuild=true
