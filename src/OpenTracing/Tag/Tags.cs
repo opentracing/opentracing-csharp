@@ -78,8 +78,8 @@
         public static readonly StringTag DbUser = new StringTag("db.user");
 
         /// <summary>
-        /// DbStatement records a database statement for the given database type. For db.type="SQL", "SELECT /// FROM
-        /// wuser_table". For db.type="redis", "SET mykey "WuValue".
+        /// DbStatement records a database statement for the given database type. For db.type="SQL", "SELECT FROM
+        /// wuser_table". For db.type="redis", "SET mykey "WuValue"".
         /// </summary>
         public static readonly StringTag DbStatement = new StringTag("db.statement");
 
