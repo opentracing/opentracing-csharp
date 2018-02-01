@@ -127,8 +127,8 @@ namespace OpenTracing
         /// otherwise leads to undefined behavior.
         /// </para>
         /// </summary>
-        /// <param name="finishTime">An explicit finish time</param>
+        /// <param name="finishTimestamp">An explicit finish time</param>
         /// <seealso cref="ISpan.Context"/>
-        void Finish(DateTimeOffset finishTime);
+        void Finish(DateTimeOffset finishTimestamp);
     }
 }
