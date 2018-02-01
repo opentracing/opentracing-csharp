@@ -4,14 +4,12 @@ namespace OpenTracing
 {
     public interface ISpanBuilder
     {
-        /// <summary>
-        /// A shorthand for <see cref="AddReference"/>(References.ChildOf, parent).
+        /// <summary>A shorthand for <see cref="AddReference"/>(References.ChildOf, parent).
         /// <para>If parent == null, this is a noop.</para>
         /// </summary>
         ISpanBuilder AsChildOf(ISpanContext parent);
 
-        /// <summary>
-        /// A shorthand for <see cref="AddReference"/>(References.ChildOf, parent.Context()).
+        /// <summary>A shorthand for <see cref="AddReference"/>(References.ChildOf, parent.Context()).
         /// <para>If parent == null, this is a noop.</para>
         /// </summary>
         ISpanBuilder AsChildOf(ISpan parent);

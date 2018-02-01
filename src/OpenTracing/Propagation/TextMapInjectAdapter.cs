@@ -5,18 +5,18 @@ using System.Collections.Generic;
 namespace OpenTracing.Propagation
 {
     /// <summary>
-    /// A TextMap carrier for use with <see cref="ITracer.Inject{TCarrier}"/> ONLY (it has no read methods). Note that the
-    /// TextMap interface can be made to wrap around arbitrary data types (not just Dictionary{string, string} as illustrated
-    /// here).
+    /// A TextMap carrier for use with <see cref="ITracer.Inject{TCarrier}"/> ONLY (it has no read methods). Note that
+    /// the TextMap interface can be made to wrap around arbitrary data types (not just Dictionary{string, string} as
+    /// illustrated here).
     /// </summary>
     /// <seealso cref="ITracer.Inject{TCarrier}"/>
     public sealed class TextMapInjectAdapter : TextMap
     {
-        private readonly IDictionary<string, string> dictionary;
+        private readonly IDictionary<string, string> _dictionary;
 
         public TextMapInjectAdapter(IDictionary<string, string> dictionary)
         {
-            this.dictionary = dictionary;
+            this._dictionary = dictionary;
         }
 
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
@@ -27,7 +27,7 @@ namespace OpenTracing.Propagation
 
         public void Set(string key, string value)
         {
-            dictionary.Add(key, value);
+            _dictionary.Add(key, value);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

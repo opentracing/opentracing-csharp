@@ -11,16 +11,16 @@ namespace OpenTracing.Propagation
     /// <seealso cref="ITracer.Extract{TCarrier}"/>
     public sealed class TextMapExtractAdapter : TextMap
     {
-        private readonly IDictionary<string, string> dictionary;
+        private readonly IDictionary<string, string> _dictionary;
 
         public TextMapExtractAdapter(IDictionary<string, string> dictionary)
         {
-            this.dictionary = dictionary;
+            _dictionary = dictionary;
         }
 
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
-            return dictionary.GetEnumerator();
+            return _dictionary.GetEnumerator();
         }
 
         public void Set(string key, string value)

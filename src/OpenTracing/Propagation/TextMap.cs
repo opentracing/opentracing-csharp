@@ -4,8 +4,8 @@ namespace OpenTracing.Propagation
 {
     /// <summary>
     /// <see cref="TextMap"/> is a built-in carrier for <see cref="ITracer.Inject{TCarrier}"/> and
-    /// <see cref="ITracer.Extract{TCarrier}"/>. TextMap implementations allows Tracers to read and write key:value String pairs from
-    /// arbitrary underlying sources of data.
+    /// <see cref="ITracer.Extract{TCarrier}"/>. TextMap implementations allows Tracers to read and write key:value String
+    /// pairs from arbitrary underlying sources of data.
     /// </summary>
     /// <seealso cref="ITracer.Inject{TCarrier}"/>
     /// <seealso cref="ITracer.Extract{TCarrier}"/>

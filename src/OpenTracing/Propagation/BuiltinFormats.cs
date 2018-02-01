@@ -7,8 +7,8 @@ namespace OpenTracing.Propagation
     {
         /// <summary>
         /// The TextMap format allows for arbitrary string-string dictionary encoding of SpanContext state for
-        /// <see cref="ITracer.Inject{TCarrier}"/> and <see cref="ITracer.Extract{TCarrier}"/>. Unlike <see cref="HttpHeaders"/>, the builtin
-        /// TextMap format expresses no constraints on keys or values.
+        /// <see cref="ITracer.Inject{TCarrier}"/> and <see cref="ITracer.Extract{TCarrier}"/>. Unlike <see cref="HttpHeaders"/>,
+        /// the builtin TextMap format expresses no constraints on keys or values.
         /// </summary>
         /// <seealso cref="ITracer.Inject{TCarrier}"/>
         /// <seealso cref="ITracer.Extract{TCarrier}"/>
@@ -18,9 +18,9 @@ namespace OpenTracing.Propagation
 
         /// <summary>
         /// The HttpHeaders format allows for HTTP-header-compatible string-string dictionary encodin of SpanContext state
-        /// for <see cref="ITracer.Inject{TCarrier}"/> and <see cref="ITracer.Extract{TCarrier}"/>. I.e, keys written to the TextMap MUST be
-        /// suitable for HTTP header keys (which are poorly defined but certainly restricted); and similarly for values (i.e.,
-        /// URL-escaped and "not too long").
+        /// for <see cref="ITracer.Inject{TCarrier}"/> and <see cref="ITracer.Extract{TCarrier}"/>. I.e, keys written to the
+        /// TextMap MUST be suitable for HTTP header keys (which are poorly defined but certainly restricted); and similarly for
+        /// values (i.e., URL-escaped and "not too long").
         /// </summary>
         /// <seealso cref="ITracer.Inject{TCarrier}"/>
         /// <seealso cref="ITracer.Extract{TCarrier}"/>
@@ -39,22 +39,22 @@ namespace OpenTracing.Propagation
 
         private struct Builtin<TCarrier> : IFormat<TCarrier>, IEquatable<Builtin<TCarrier>>
         {
-            private readonly string name;
+            private readonly string _name;
 
             public Builtin(string name)
             {
-                this.name = name;
+                _name = name;
             }
 
             /// <summary>Short name for built-in formats as they tend to show up in exception messages</summary>
             public override string ToString()
             {
-                return $"{GetType().Name}.{name}";
+                return $"{GetType().Name}.{_name}";
             }
 
             public bool Equals(Builtin<TCarrier> other)
             {
-                return string.Equals(name, other.name);
+                return string.Equals(_name, other._name);
             }
 
             public override bool Equals(object obj)
@@ -66,7 +66,7 @@ namespace OpenTracing.Propagation
 
             public override int GetHashCode()
             {
-                return name != null ? name.GetHashCode() : 0;
+                return _name != null ? _name.GetHashCode() : 0;
             }
 
             public static bool operator ==(Builtin<TCarrier> left, Builtin<TCarrier> right)
