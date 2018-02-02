@@ -7,7 +7,7 @@
         {
         }
 
-        protected override void Set<TSpan>(ISpan span, bool tagValue)
+        protected override void Set(ISpan span, bool tagValue)
         {
             span.SetTag(Key, tagValue);
         }
