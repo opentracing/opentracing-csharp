@@ -50,10 +50,10 @@ namespace OpenTracing
         /// </param>
         /// <returns>The Span, for chaining</returns>
         /// <seealso cref="Log(string)"/>
-        ISpan Log(IDictionary<string, object> fields);
+        ISpan Log(IEnumerable<KeyValuePair<string, object>> fields);
 
         /// <summary>
-        /// Like <see cref="Log(IDictionary{string,object})"/>, but with an explicit timestamp.
+        /// Like <see cref="Log(IEnumerable{KeyValuePair{string, object}})"/>, but with an explicit timestamp.
         /// <para><em>CAUTIONARY NOTE:</em> not all Tracer implementations support key:value log fields end-to-end. Caveat emptor.</para>
         /// </summary>
         /// <param name="timestamp">
@@ -66,7 +66,7 @@ namespace OpenTracing
         /// </param>
         /// <returns>The Span, for chaining</returns>
         /// <seealso cref="Log(DateTimeOffset, string)"/>
-        ISpan Log(DateTimeOffset timestamp, IDictionary<string, object> fields);
+        ISpan Log(DateTimeOffset timestamp, IEnumerable<KeyValuePair<string, object>> fields);
 
         /// <summary>
         /// Record an event at the current walltime timestamp. Shorthand for

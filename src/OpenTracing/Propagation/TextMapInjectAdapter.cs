@@ -12,11 +12,11 @@ namespace OpenTracing.Propagation
     /// <seealso cref="ITracer.Inject{TCarrier}"/>
     public sealed class TextMapInjectAdapter : TextMap
     {
-        private readonly IDictionary<string, string> _dictionary;
+        private readonly ICollection<KeyValuePair<string, string>> _keyValuePairs;
 
-        public TextMapInjectAdapter(IDictionary<string, string> dictionary)
+        public TextMapInjectAdapter(ICollection<KeyValuePair<string, string>> keyValuePairs)
         {
-            this._dictionary = dictionary;
+            _keyValuePairs = keyValuePairs;
         }
 
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
@@ -27,7 +27,7 @@ namespace OpenTracing.Propagation
 
         public void Set(string key, string value)
         {
-            _dictionary.Add(key, value);
+            _keyValuePairs.Add(new KeyValuePair<string, string>(key, value));
         }
 
         IEnumerator IEnumerable.GetEnumerator()
