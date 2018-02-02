@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace OpenTracing.Propagation
 {
@@ -37,7 +36,7 @@ namespace OpenTracing.Propagation
         /// <seealso cref="IFormat{TCarrier}"/>
         public static readonly IFormat<Stream> Binary = new Builtin<Stream>("BINARY");
 
-        private struct Builtin<TCarrier> : IFormat<TCarrier>, IEquatable<Builtin<TCarrier>>
+        private struct Builtin<TCarrier> : IFormat<TCarrier>
         {
             private readonly string _name;
 
@@ -50,33 +49,6 @@ namespace OpenTracing.Propagation
             public override string ToString()
             {
                 return $"{GetType().Name}.{_name}";
-            }
-
-            public bool Equals(Builtin<TCarrier> other)
-            {
-                return string.Equals(_name, other._name);
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (ReferenceEquals(null, obj))
-                    return false;
-                return obj is Builtin<TCarrier> && Equals((Builtin<TCarrier>) obj);
-            }
-
-            public override int GetHashCode()
-            {
-                return _name != null ? _name.GetHashCode() : 0;
-            }
-
-            public static bool operator ==(Builtin<TCarrier> left, Builtin<TCarrier> right)
-            {
-                return left.Equals(right);
-            }
-
-            public static bool operator !=(Builtin<TCarrier> left, Builtin<TCarrier> right)
-            {
-                return !left.Equals(right);
             }
         }
     }
