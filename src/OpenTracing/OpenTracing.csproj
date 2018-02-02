@@ -8,8 +8,4 @@ For the time being, mild backwards-incompatible changes may be made without chan
     <PackageTags>opentracing;distributed-tracing;tracing;logging</PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-  </PropertyGroup>
-
 </Project>
