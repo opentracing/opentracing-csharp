@@ -11,6 +11,12 @@ namespace OpenTracing
         IScopeManager ScopeManager { get; }
 
         /// <summary>
+        /// Get the active <see cref="ISpan"/>. This is a shorthand for <code>ITracer.ScopeManager.Active.Span</code>,
+        /// and null will be returned if <see cref="IScopeManager.Active"/> is null.
+        /// </summary>
+        ISpan ActiveSpan { get; }
+
+        /// <summary>
         /// Return a new SpanBuilder for a Span with the given 'operationName'.
         /// <para>You can override the operationName later via <see cref="ISpan.SetOperationName"/>.</para>
         /// <para>

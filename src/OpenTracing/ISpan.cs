@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenTracing
 {
     /// <summary>
     /// Represents the OpenTracing specification's Span contract. <seealso cref="IScope"/>
-    /// <seealso cref="IScopeManager"/> <seealso cref="ISpanBuilder.StartManual"/> <seealso cref="ISpanBuilder.StartActive()"/>
+    /// <seealso cref="IScopeManager"/> <seealso cref="ISpanBuilder.Start"/> <seealso cref="ISpanBuilder.StartActive"/>
     /// </summary>
     public interface ISpan
     {
@@ -14,7 +13,7 @@ namespace OpenTracing
         /// <see cref="ISpan.Finish()"/>.
         /// </summary>
         /// <returns>The SpanContext that encapsulates Span state that sould propagate across process boundaries.</returns>
-        ISpanContext Context();
+        ISpanContext Context { get; }
 
         /// <summary>Set a key:value tag on the Span.</summary>
         ISpan SetTag(string key, string value);
@@ -50,13 +49,13 @@ namespace OpenTracing
         /// </param>
         /// <returns>The Span, for chaining</returns>
         /// <seealso cref="Log(string)"/>
-        ISpan Log(IEnumerable<KeyValuePair<string, object>> fields);
+        ISpan Log(IDictionary<string, object> fields);
 
         /// <summary>
-        /// Like <see cref="Log(IEnumerable{KeyValuePair{string, object}})"/>, but with an explicit timestamp.
+        /// Like <see cref="Log(IDictionary{string, object})"/>, but with an explicit timestamp.
         /// <para><em>CAUTIONARY NOTE:</em> not all Tracer implementations support key:value log fields end-to-end. Caveat emptor.</para>
         /// </summary>
-        /// <param name="timestamp">
+        /// <param name="timestampMicroseconds">
         /// The explicit timestamp for the log record. Must be greater than or equal to the Span's start
         /// timestamp.
         /// </param>
@@ -65,8 +64,8 @@ namespace OpenTracing
         /// some may also support arbitrary objects.
         /// </param>
         /// <returns>The Span, for chaining</returns>
-        /// <seealso cref="Log(DateTimeOffset, string)"/>
-        ISpan Log(DateTimeOffset timestamp, IEnumerable<KeyValuePair<string, object>> fields);
+        /// <seealso cref="Log(long, string)"/>
+        ISpan Log(long timestampMicroseconds, IDictionary<string, object> fields);
 
         /// <summary>
         /// Record an event at the current walltime timestamp. Shorthand for
@@ -84,13 +83,13 @@ namespace OpenTracing
         /// span.Log(timestamp, new Dictionary{string, object}() { { "event", event } });
         /// </code>
         /// </summary>
-        /// <param name="timestamp">
+        /// <param name="timestampMicroseconds">
         /// The explicit timestamp for the log record. Must be greater than or equal to the Span's start
         /// timestamp.
         /// </param>
         /// <param name="event">The event value; often a stable identifier for a moment in the Span lifecycle</param>
         /// <returns>The Span, for chaining</returns>
-        ISpan Log(DateTimeOffset timestamp, string @event);
+        ISpan Log(long timestampMicroseconds, string @event);
 
         /// <summary>
         /// Sets a baggage item in the Span (and its SpanContext) as a key:value pair. Baggage enables powerful
@@ -127,8 +126,8 @@ namespace OpenTracing
         /// otherwise leads to undefined behavior.
         /// </para>
         /// </summary>
-        /// <param name="finishTimestamp">An explicit finish time</param>
+        /// <param name="finishMicros">An explicit finish time, in microseconds since the epoch</param>
         /// <seealso cref="ISpan.Context"/>
-        void Finish(DateTimeOffset finishTimestamp);
+        void Finish(long finishMicros);
     }
 }

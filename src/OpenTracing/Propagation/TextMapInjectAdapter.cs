@@ -12,22 +12,22 @@ namespace OpenTracing.Propagation
     /// <seealso cref="ITracer.Inject{TCarrier}"/>
     public sealed class TextMapInjectAdapter : TextMap
     {
-        private readonly ICollection<KeyValuePair<string, string>> _keyValuePairs;
+        private readonly IDictionary<string, string> _dictionary;
 
-        public TextMapInjectAdapter(ICollection<KeyValuePair<string, string>> keyValuePairs)
+        public TextMapInjectAdapter(IDictionary<string, string> dictionary)
         {
-            _keyValuePairs = keyValuePairs;
+            _dictionary = dictionary;
         }
 
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
             throw new InvalidOperationException(
-                $"{nameof(TextMapExtractAdapter)} should only be used with {nameof(ITracer)}.{nameof(ITracer.Extract)}");
+                $"{nameof(TextMapInjectAdapter)} should only be used with {nameof(ITracer)}.{nameof(ITracer.Inject)}");
         }
 
         public void Set(string key, string value)
         {
-            _keyValuePairs.Add(new KeyValuePair<string, string>(key, value));
+            _dictionary.Add(key, value);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
