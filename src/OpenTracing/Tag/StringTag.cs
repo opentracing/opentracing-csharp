@@ -11,11 +11,5 @@
         {
             span.SetTag(Key, tagValue);
         }
-
-        public void Set(ISpan span, StringTag tag)
-        {
-            // TODO: That doesn't look right?
-            span.SetTag(Key, tag.Key);
-        }
     }
 }
