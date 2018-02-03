@@ -65,7 +65,7 @@ namespace OpenTracing
         /// some may also support arbitrary objects.
         /// </param>
         /// <returns>The Span, for chaining</returns>
-        /// <seealso cref="Log(long, string)"/>
+        /// <seealso cref="Log(DateTimeOffset, string)"/>
         ISpan Log(DateTimeOffset timestamp, IDictionary<string, object> fields);
 
         /// <summary>
