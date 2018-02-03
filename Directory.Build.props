@@ -1,7 +1,6 @@
 <Project>
   <PropertyGroup>
     <VersionPrefix>0.11.0</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
     <Authors>The OpenTracing Authors</Authors>
     <PackageIconUrl>https://avatars0.githubusercontent.com/u/15482765</PackageIconUrl>
     <PackageProjectUrl>https://github.com/opentracing/opentracing-csharp</PackageProjectUrl>
@@ -11,6 +10,11 @@
 
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugType>portable</DebugType>
+
+    <!-- There's currently a pack-warning because of the long "Description" tag. However, "Summary" is no longer supported.
+    This will be fixed in an upcoming version of nuget. The workaround for now is to just disable analysis.
+    https://github.com/NuGet/Home/issues/4587#issuecomment-288913324 -->
+    <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
   <!-- Create XML documentation for libraries -->

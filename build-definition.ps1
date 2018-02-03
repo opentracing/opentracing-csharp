@@ -24,7 +24,7 @@ Properties {
 
 FormatTaskName ("`n" + ("-"*25) + "[{0}]" + ("-"*25) + "`n")
 
-Task Default -depends init, clean, dotnet-install, dotnet-restore, dotnet-build, dotnet-test, dotnet-pack
+Task Default -depends init, clean, dotnet-install, dotnet-build, dotnet-test, dotnet-pack
 
 Task init {
 
@@ -64,13 +64,6 @@ Task dotnet-install {
 
         & $installScript
     }
-}
-
-Task dotnet-restore {
-
-    # If VersionSuffix isn't supplied here, dotnet pack will use wrong version numbers
-    # for dependant packages: https://github.com/NuGet/Home/issues/4337
-    exec { dotnet restore -v Minimal /p:VersionSuffix=$BuildNumber }
 }
 
 Task dotnet-build {
@@ -122,8 +115,6 @@ Task dotnet-pack {
         Write-Host "Packaging $library to $libraryOutput"
         Write-Host ""
 
-        $versionSuffixArg = if ([String]::IsNullOrWhiteSpace($BuildNumber)) { "" } else { "--version-suffix $BuildNumber" }
-
-        exec { dotnet pack $library -c $BuildConfiguration $versionSuffixArg --no-build --include-source --include-symbols -o $libraryOutput }
+        exec { dotnet pack $library -c $BuildConfiguration --version-suffix $BuildNumber --no-build --include-source --include-symbols -o $libraryOutput }
     }
 }
