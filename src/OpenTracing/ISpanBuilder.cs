@@ -58,8 +58,8 @@ namespace OpenTracing
         /// <summary>Same as <see cref="ISpan.SetTag(string,double)"/>, but for the span being built.</summary>
         ISpanBuilder WithTag(string key, double value);
 
-        /// <summary>Specify a timestamp of when the <see cref="ISpan"/> was started, represented in microseconds since epoch.</summary>
-        ISpanBuilder WithStartTimestamp(long microseconds);
+        /// <summary>Specify a timestamp of when the <see cref="ISpan"/> was started.</summary>
+        ISpanBuilder WithStartTimestamp(DateTimeOffset timestamp);
 
         /// <summary>
         /// Returns a newly started and activated <see cref="IScope"/>.

@@ -2,6 +2,8 @@
 
 namespace OpenTracing
 {
+    using System;
+
     /// <summary>
     /// Represents the OpenTracing specification's Span contract. <seealso cref="IScope"/>
     /// <seealso cref="IScopeManager"/> <seealso cref="ISpanBuilder.Start"/> <seealso cref="ISpanBuilder.StartActive"/>
@@ -55,7 +57,7 @@ namespace OpenTracing
         /// Like <see cref="Log(IDictionary{string, object})"/>, but with an explicit timestamp.
         /// <para><em>CAUTIONARY NOTE:</em> not all Tracer implementations support key:value log fields end-to-end. Caveat emptor.</para>
         /// </summary>
-        /// <param name="timestampMicroseconds">
+        /// <param name="timestamp">
         /// The explicit timestamp for the log record. Must be greater than or equal to the Span's start
         /// timestamp.
         /// </param>
@@ -65,7 +67,7 @@ namespace OpenTracing
         /// </param>
         /// <returns>The Span, for chaining</returns>
         /// <seealso cref="Log(long, string)"/>
-        ISpan Log(long timestampMicroseconds, IDictionary<string, object> fields);
+        ISpan Log(DateTimeOffset timestamp, IDictionary<string, object> fields);
 
         /// <summary>
         /// Record an event at the current walltime timestamp. Shorthand for
@@ -83,13 +85,13 @@ namespace OpenTracing
         /// span.Log(timestamp, new Dictionary{string, object}() { { "event", event } });
         /// </code>
         /// </summary>
-        /// <param name="timestampMicroseconds">
+        /// <param name="timestamp">
         /// The explicit timestamp for the log record. Must be greater than or equal to the Span's start
         /// timestamp.
         /// </param>
         /// <param name="event">The event value; often a stable identifier for a moment in the Span lifecycle</param>
         /// <returns>The Span, for chaining</returns>
-        ISpan Log(long timestampMicroseconds, string @event);
+        ISpan Log(DateTimeOffset timestamp, string @event);
 
         /// <summary>
         /// Sets a baggage item in the Span (and its SpanContext) as a key:value pair. Baggage enables powerful
@@ -126,8 +128,8 @@ namespace OpenTracing
         /// otherwise leads to undefined behavior.
         /// </para>
         /// </summary>
-        /// <param name="finishMicros">An explicit finish time, in microseconds since the epoch</param>
+        /// <param name="finishTimestamp">An explicit finish time</param>
         /// <seealso cref="ISpan.Context"/>
-        void Finish(long finishMicros);
+        void Finish(DateTimeOffset finishTimestamp);
     }
 }
