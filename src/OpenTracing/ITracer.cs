@@ -55,7 +55,7 @@ namespace OpenTracing
         /// <code>
         /// Tracer tracer = ...
         /// Span clientSpan = ...
-        /// TextMap httpHeadersCarrier = new AnHttpHeaderCarrier(httpRequest);
+        /// ITextMap httpHeadersCarrier = new AnHttpHeaderCarrier(httpRequest);
         /// tracer.Inject(span.Context(), BuiltinFormats.HttpHeaders, httpHeadersCarrier);
         /// </code>
         /// </para>
@@ -65,7 +65,7 @@ namespace OpenTracing
         /// <param name="format">The Fromat of the carrier</param>
         /// <param name="carrier">
         /// The carrier for the SpanContext state. All Tracer.Inject implementations must support
-        /// <see cref="TextMap"/> and <see cref="Stream"/>
+        /// <see cref="ITextMap"/> and <see cref="Stream"/>
         /// </param>
         /// <exception cref="UnsupportedFormatException">If the <paramref name="format"/> is not supported by this <see cref="ITracer"/></exception>
         /// <seealso cref="IFormat{TCarrier}"/>
@@ -78,7 +78,7 @@ namespace OpenTracing
         /// Example:
         /// <code>
         /// Tracer tracer = ...
-        /// TextMap httpHeadersCarrier = new AnHttpHeaderCarrier(httpRequest);
+        /// ITextMap httpHeadersCarrier = new AnHttpHeaderCarrier(httpRequest);
         /// SpanContext spanCtx = tracer.Extract(BuiltinFormats.HttpHeaders, httpHeadersCarrier);
         /// ... = tracer.BuildSpan("...").AsChildOf(spanCtx).StartActive();
         /// </code>
@@ -91,7 +91,7 @@ namespace OpenTracing
         /// <param name="format">The Format of the carrier</param>
         /// <param name="carrier">
         /// The carrier for the SpanContext state. All Tracer.Extract() implementations must support
-        /// <see cref="TextMap"/> and <see cref="Stream"/>.
+        /// <see cref="ITextMap"/> and <see cref="Stream"/>.
         /// </param>
         /// <exception cref="UnsupportedFormatException">If the <paramref name="format"/> is not supported by this <see cref="ITracer"/></exception>
         /// <returns>The SpanContext instance holding context to create a Span.</returns>

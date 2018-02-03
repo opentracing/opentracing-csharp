@@ -5,6 +5,11 @@ namespace OpenTracing.Tests
 {
     public class FormatTests
     {
+        [Fact]
+        public void DummyTestForBuild()
+        {
+        }
+
         // TODO: Maintained mostly because I'm not familiar with xunit's conventions
         //[Fact]
         //public void Formats_with_different_names_but_same_type_are_different()

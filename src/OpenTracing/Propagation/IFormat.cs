@@ -6,7 +6,7 @@
     /// OpenTracing users will only reference the <see cref="BuiltinFormats"/> constants. For example:
     /// <code>
     /// Tracer tracer = ...
-    /// IFormat{TextMap} httpCarrier = new AnHttpHeaderCarrier(httpRequest);
+    /// IFormat{ITextMap} httpCarrier = new AnHttpHeaderCarrier(httpRequest);
     /// ISpanContext spanCtx = tracer.Extract(BuiltinFormats.HttpHeaders, httpHeaderRequest);
     /// </code>
     /// </summary>

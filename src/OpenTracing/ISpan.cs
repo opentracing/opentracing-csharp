@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenTracing
 {
-    using System;
-
     /// <summary>
     /// Represents the OpenTracing specification's Span contract. <seealso cref="IScope"/>
     /// <seealso cref="IScopeManager"/> <seealso cref="ISpanBuilder.Start"/> <seealso cref="ISpanBuilder.StartActive"/>
