@@ -11,7 +11,7 @@
         public const string ErrorKind = "error.kind";
 
         /// <summary>
-        /// The actual Throwable/Exception/Error object instance itself. E.g., A java.lang.UnsupportedOperationException
+        /// The actual <see cref="System.Exception"/ >object instance.
         /// instance
         /// </summary>
         public const string ErrorObject = "error.object";
