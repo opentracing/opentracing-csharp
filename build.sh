@@ -10,17 +10,11 @@ CONFIGURATION="Release"
 # validations
 
 if ! [ -x "$(command -v dotnet)" ]; then
-    echo "dotnet cli is not installed."
+    echo ".NET Core SDK is not installed."
     exit 1
 fi
 
 # tasks
-
-echo
-echo dotnet-restore
-echo ----------------------
-
-dotnet restore
 
 echo
 echo dotnet-build
@@ -32,4 +26,6 @@ echo
 echo dotnet-test
 echo ----------------------
 
-dotnet test test/OpenTracing.Tests/OpenTracing.Tests.csproj -c $CONFIGURATION --no-build
+for d in test/*/*.csproj; do
+    dotnet test $d -c $CONFIGURATION --no-build
+done
