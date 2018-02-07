@@ -3,7 +3,8 @@
 namespace OpenTracing
 {
     /// <summary>
-    /// This exception should be used when the provided format value is unknown or disallowed by the <see cref="ITracer"/>.
+    /// This exception should be used when the provided format value is unknown or disallowed by the
+    /// <see cref="ITracer"/>
     /// </summary>
     public class UnsupportedFormatException : OpenTracingException
     {
@@ -11,11 +12,13 @@ namespace OpenTracing
         {
         }
 
-        public UnsupportedFormatException(string message) : base(message)
+        public UnsupportedFormatException(string message)
+            : base(message)
         {
         }
 
-        public UnsupportedFormatException(string message, Exception innerException) : base(message, innerException)
+        public UnsupportedFormatException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }
