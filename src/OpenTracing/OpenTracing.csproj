@@ -6,9 +6,6 @@
 
 For the time being, mild backwards-incompatible changes may be made without changing the major version number. As OpenTracing and opentracing-csharp mature, backwards compatibility will become more of a priority.</Description>
     <PackageTags>opentracing;distributed-tracing;tracing;logging</PackageTags>
-    
-    <DocumentationFile>bin\$(Configuration)\netstandard1.0\OpenTracing.xml</DocumentationFile>
-    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(OS)'=='Windows_NT'">

@@ -9,17 +9,14 @@
     <RepositoryUrl>git://github.com/opentracing/opentracing-csharp</RepositoryUrl>
 
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
     <DebugType>portable</DebugType>
 
     <!-- There's currently a pack-warning because of the long "Description" tag. However, "Summary" is no longer supported.
     This will be fixed in an upcoming version of nuget. The workaround for now is to just disable analysis.
     https://github.com/NuGet/Home/issues/4587#issuecomment-288913324 -->
     <NoPackageAnalysis>true</NoPackageAnalysis>
-  </PropertyGroup>
-
-  <!-- Create XML documentation for libraries -->
-  <PropertyGroup Condition="'$(OutputType)'=='library' and '$(Configuration)'=='Release'">
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 </Project>
