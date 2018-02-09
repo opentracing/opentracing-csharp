@@ -20,7 +20,7 @@ namespace OpenTracing.Noop
 
         public override string ToString()
         {
-            return GetType().Name;
+            return nameof(NoopScopeManager);
         }
 
         public sealed class NoopScope : IScope
@@ -39,7 +39,7 @@ namespace OpenTracing.Noop
 
             public override string ToString()
             {
-                return GetType().Name;
+                return nameof(NoopScope);
             }
         }
     }

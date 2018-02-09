@@ -30,7 +30,7 @@ namespace OpenTracing.Noop
 
         public override string ToString()
         {
-            return GetType().Name;
+            return nameof(NoopTracer);
         }
     }
 }
