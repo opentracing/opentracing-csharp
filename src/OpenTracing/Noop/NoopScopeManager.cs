@@ -23,7 +23,7 @@ namespace OpenTracing.Noop
             return nameof(NoopScopeManager);
         }
 
-        public sealed class NoopScope : IScope
+        internal sealed class NoopScope : IScope
         {
             internal static readonly NoopScope Instance = new NoopScope();
 
