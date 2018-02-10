@@ -18,8 +18,7 @@ Properties {
 
     # A list of projects for which NuGet packages should be created
     $NugetLibraries = @(
-        "src/OpenTracing",
-        "src/OpenTracing.Noop"
+        "src/OpenTracing"
     )
 }
 

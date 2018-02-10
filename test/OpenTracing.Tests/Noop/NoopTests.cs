@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using OpenTracing.Noop;
 using OpenTracing.Propagation;
 using Xunit;
 
-namespace OpenTracing.Noop.Tests
+namespace OpenTracing.Tests.Noop
 {
     public class NoopTests
     {
