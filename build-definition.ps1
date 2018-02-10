@@ -82,13 +82,12 @@ Task dotnet-test {
     Get-ChildItem .\test -Filter *.csproj -Recurse | ForEach-Object {
 
         $library = Split-Path $_.DirectoryName -Leaf
-        $testResultOutput = Join-Path $testOutput "$library.trx"
 
         Write-Host ""
         Write-Host "Testing $library"
         Write-Host ""
 
-        dotnet test $_.FullName -c $BuildConfiguration --no-build --logger "trx;LogFileName=$testResultOutput"
+        dotnet test $_.FullName -c $BuildConfiguration --no-build
         if ($LASTEXITCODE -ne 0) {
             $testsFailed = $true
         }
@@ -115,6 +114,6 @@ Task dotnet-pack {
         Write-Host "Packaging $library to $libraryOutput"
         Write-Host ""
 
-        exec { dotnet pack $library -c $BuildConfiguration --version-suffix $BuildNumber --no-build --include-source --include-symbols -o $libraryOutput }
+        exec { dotnet pack $library -c $BuildConfiguration --version-suffix $BuildNumber --no-restore --no-build --include-source --include-symbols -o $libraryOutput }
     }
 }
