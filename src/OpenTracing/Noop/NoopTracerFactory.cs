@@ -2,7 +2,7 @@ namespace OpenTracing.Noop
 {
     public static class NoopTracerFactory
     {
-        public static NoopTracer Create()
+        public static ITracer Create()
         {
             return NoopTracer.Instance;
         }

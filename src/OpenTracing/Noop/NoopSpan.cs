@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenTracing.Noop
 {
-    public sealed class NoopSpan : ISpan
+    internal sealed class NoopSpan : ISpan
     {
         internal static readonly NoopSpan Instance = new NoopSpan();
 
