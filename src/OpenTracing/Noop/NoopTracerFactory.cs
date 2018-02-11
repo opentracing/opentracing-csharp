@@ -1,5 +1,8 @@
 namespace OpenTracing.Noop
 {
+    /// <summary>
+    /// Provides access to the singleton <see cref="NoopTracer"/> instance.
+    /// </summary>
     public static class NoopTracerFactory
     {
         /// <summary>
