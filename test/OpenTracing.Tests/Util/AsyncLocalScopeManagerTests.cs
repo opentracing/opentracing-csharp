@@ -26,7 +26,7 @@ namespace OpenTracing.Tests.Util
         {
             ISpan span = Substitute.For<ISpan>();
 
-            using (IScope scope = _source.Activate(span, false))
+            using (IScope scope = _source.Activate(span, finishSpanOnDispose: false))
             {
                 Assert.NotNull(scope);
                 IScope otherScope = _source.Active;
@@ -46,7 +46,7 @@ namespace OpenTracing.Tests.Util
         {
             ISpan span = Substitute.For<ISpan>();
 
-            using (IScope scope = _source.Activate(span, true))
+            using (IScope scope = _source.Activate(span, finishSpanOnDispose: true))
             {
                 Assert.NotNull(scope);
                 Assert.NotNull(_source.Active);
@@ -64,7 +64,7 @@ namespace OpenTracing.Tests.Util
         {
             ISpan span = Substitute.For<ISpan>();
 
-            using (IScope scope = _source.Activate(span, false))
+            using (IScope scope = _source.Activate(span, finishSpanOnDispose: false))
             {
                 Assert.NotNull(scope);
                 Assert.NotNull(_source.Active);

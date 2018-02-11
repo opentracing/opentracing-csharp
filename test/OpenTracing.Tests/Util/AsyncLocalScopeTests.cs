@@ -20,12 +20,12 @@ namespace OpenTracing.Tests.Util
             ISpan backgroundSpan = Substitute.For<ISpan>();
             ISpan foregroundSpan = Substitute.For<ISpan>();
 
-            using (IScope backgroundActive = _scopeManager.Activate(backgroundSpan, true))
+            using (IScope backgroundActive = _scopeManager.Activate(backgroundSpan, finishSpanOnDispose: true))
             {
                 Assert.NotNull(backgroundActive);
 
                 // Activate a new Scope on top of the background one.
-                using (IScope foregroundActive = _scopeManager.Activate(foregroundSpan, true))
+                using (IScope foregroundActive = _scopeManager.Activate(foregroundSpan, finishSpanOnDispose: true))
                 {
                     IScope shouldBeForeground = _scopeManager.Active;
                     Assert.Same(foregroundActive, shouldBeForeground);
@@ -51,14 +51,14 @@ namespace OpenTracing.Tests.Util
             ISpan backgroundSpan = Substitute.For<ISpan>();
             ISpan foregroundSpan = Substitute.For<ISpan>();
 
-            using (IScope backgroundActive = _scopeManager.Activate(backgroundSpan, true))
+            using (IScope backgroundActive = _scopeManager.Activate(backgroundSpan, finishSpanOnDispose: true))
             {
                 Assert.NotNull(backgroundActive);
 
                 await Task.Delay(10);
 
                 // Activate a new Scope on top of the background one.
-                using (IScope foregroundActive = _scopeManager.Activate(foregroundSpan, true))
+                using (IScope foregroundActive = _scopeManager.Activate(foregroundSpan, finishSpanOnDispose: true))
                 {
                     await Task.Delay(10);
 
@@ -89,9 +89,9 @@ namespace OpenTracing.Tests.Util
         {
             ISpan span = Substitute.For<ISpan>();
 
-            using (_scopeManager.Activate(span, false))
+            using (_scopeManager.Activate(span, finishSpanOnDispose: false))
             {
-                _scopeManager.Activate(Substitute.For<ISpan>(), false);
+                _scopeManager.Activate(Substitute.For<ISpan>(), finishSpanOnDispose: false);
             }
 
             span.DidNotReceive().Finish();
