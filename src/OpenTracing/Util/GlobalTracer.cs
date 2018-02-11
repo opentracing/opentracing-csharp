@@ -98,6 +98,10 @@ namespace OpenTracing.Util
         // <inheritdoc/>
         public ISpan ActiveSpan => _tracer.ActiveSpan;
 
+        private GlobalTracer()
+        {
+        }
+
         // <inheritdoc/>
         public ISpanBuilder BuildSpan(string operationName)
         {
