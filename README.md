@@ -19,7 +19,7 @@ In order to understand the .NET platform API, one should first be familiar with 
 
 If you would like to contribute code you can do so through GitHub by forking the repository and sending a pull request (on a branch other than `master` or `gh-pages`).
 
-By contributing your code, you agree to license your contribution under the terms of The MIT License (MIT): https://github.com/opentracing/opentracing-csharp/blob/master/LICENSE
+By contributing your code, you agree to license your contribution under the terms of the APLv2: https://github.com/opentracing/opentracing-csharp/blob/master/LICENSE
 
 ## API pointers for those implementing a tracing system
 
@@ -31,7 +31,7 @@ For the time being, "mild" backwards-incompatible changes may be made without ch
 
 ## License
 
-All files are released with the MIT License (MIT).
+All files are released with the Apache 2.0 license.
 
   [gitter-img]: http://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg
   [gitter]: https://gitter.im/opentracing/public
