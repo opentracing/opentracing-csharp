@@ -9,6 +9,6 @@
 
         public string Key { get; }
 
-        protected abstract void Set(ISpan span, TTagValue tagValue);
+        public abstract void Set(ISpan span, TTagValue tagValue);
     }
 }
