@@ -68,9 +68,9 @@ namespace OpenTracing
         /// <see cref="ITextMap"/> and <see cref="Stream"/>
         /// </param>
         /// <exception cref="UnsupportedFormatException">If the <paramref name="format"/> is not supported by this <see cref="ITracer"/></exception>
-        /// <seealso cref="IFormat{TCarrier}"/>
+        /// <seealso cref="Format{TCarrier}"/>
         /// <seealso cref="BuiltinFormats"/>
-        void Inject<TCarrier>(ISpanContext spanContext, IFormat<TCarrier> format, TCarrier carrier);
+        void Inject<TCarrier>(ISpanContext spanContext, Format<TCarrier> format, TCarrier carrier);
 
         /// <summary>
         /// Extract a SpanContext from a 'carrier' of a given type, presumably after propagation across a process boundary.
@@ -95,8 +95,8 @@ namespace OpenTracing
         /// </param>
         /// <exception cref="UnsupportedFormatException">If the <paramref name="format"/> is not supported by this <see cref="ITracer"/></exception>
         /// <returns>The SpanContext instance holding context to create a Span.</returns>
-        /// <seealso cref="IFormat{TCarrier}"/>
+        /// <seealso cref="Format{TCarrier}"/>
         /// <seealso cref="BuiltinFormats"/>
-        ISpanContext Extract<TCarrier>(IFormat<TCarrier> format, TCarrier carrier);
+        ISpanContext Extract<TCarrier>(Format<TCarrier> format, TCarrier carrier);
     }
 }
