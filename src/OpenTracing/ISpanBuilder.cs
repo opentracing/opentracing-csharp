@@ -86,14 +86,13 @@ namespace OpenTracing
         /// <see cref="ISpanContext"/> when either <see cref="Start"/> or <see cref="StartActive"/> is invoked.
         /// </para>
         /// </summary>
-        /// <param name="finishSpanOnClose">
-        /// Whether span sould automatically be finished when <see cref="IDisposable.Dispose"/> is
-        /// called
+        /// <param name="finishSpanOnDispose">
+        /// Whether span should automatically be finished when <see cref="IDisposable.Dispose"/> is called.
         /// </param>
         /// <returns>An <see cref="IScope"/>, already registered via the <see cref="IScopeManager"/></returns>
         /// <seealso cref="IScopeManager"/>
         /// <seealso cref="IScope"/>
-        IScope StartActive(bool finishSpanOnClose);
+        IScope StartActive(bool finishSpanOnDispose);
 
         /// <summary>
         /// Like <see cref="StartActive"/>, but the returned <see cref="ISpan"/> has not been registered via the
