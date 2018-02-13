@@ -1,4 +1,4 @@
-using OpenTracing.Propagation;
+﻿using OpenTracing.Propagation;
 using Xunit;
 
 namespace OpenTracing.Tests
@@ -29,7 +29,7 @@ namespace OpenTracing.Tests
         //{
         //    var format1 = new Format<ITextMap>("format1");
         //    var format2 = new Format<string>("format2");
-            
+
         //    //Assert.False(format1 == format2);
         //    Assert.NotEqual(format1.GetHashCode(), format2.GetHashCode());
         //    Assert.False(format1.Equals(format2));
@@ -41,7 +41,7 @@ namespace OpenTracing.Tests
         //{
         //    var format1 = new Format<ITextMap>("format");
         //    var format2 = new Format<string>("format");
-            
+
         //    //Assert.False(format1 == format2);
         //    Assert.NotEqual(format1.GetHashCode(), format2.GetHashCode());
         //    Assert.False(format1.Equals(format2));
