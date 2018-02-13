@@ -1,4 +1,5 @@
 using System;
+using OpenTracing.Noop;
 using OpenTracing.Propagation;
 
 namespace OpenTracing.Util
@@ -92,35 +93,35 @@ namespace OpenTracing.Util
 
         private ITracer _tracer = NoopTracerFactory.Create();
 
-        // <inheritdoc/>
+        /// <inheritdoc/>
         public IScopeManager ScopeManager => _tracer.ScopeManager;
 
-        // <inheritdoc/>
+        /// <inheritdoc/>
         public ISpan ActiveSpan => _tracer.ActiveSpan;
 
         private GlobalTracer()
         {
         }
 
-        // <inheritdoc/>
+        /// <inheritdoc/>
         public ISpanBuilder BuildSpan(string operationName)
         {
             return _tracer.BuildSpan(operationName);
         }
 
-        // <inheritdoc/>
+        /// <inheritdoc/>
         public ISpanContext Extract<TCarrier>(IFormat<TCarrier> format, TCarrier carrier)
         {
             return _tracer.Extract(format, carrier);
         }
 
-        // <inheritdoc/>
+        /// <inheritdoc/>
         public void Inject<TCarrier>(ISpanContext spanContext, IFormat<TCarrier> format, TCarrier carrier)
         {
             _tracer.Inject(spanContext, format, carrier);
         }
 
-        // <inheritdoc/>
+        /// <inheritdoc/>
         public override string ToString()
         {
             return nameof(GlobalTracer) + "{" + _tracer + "}";
