@@ -43,7 +43,8 @@ namespace OpenTracing.Mock
         }
 
         /// <summary>
-        /// Create a new <see cref="MockTracer"/> that passes through any calls to Inject() and/or Extract().
+        /// Create a new <see cref="MockTracer"/> that passes through any calls
+        /// to <see cref="ITracer.Inject"/> and/or <see cref="ITracer.Extract"/>.
         /// </summary>
         public MockTracer(IPropagator propagator)
             : this(NoopScopeManager.Instance, propagator)

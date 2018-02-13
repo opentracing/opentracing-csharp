@@ -50,8 +50,7 @@ namespace OpenTracing.Mock
         /// </summary>
         public MockSpanContext WithBaggageItem(string key, string val)
         {
-            IDictionary<string, string> newBaggage = _baggage
-                .ToDictionary(k => k.Key, v => v.Value);
+            var newBaggage = new Dictionary<string, string>(_baggage);
 
             newBaggage[key] = val;
 

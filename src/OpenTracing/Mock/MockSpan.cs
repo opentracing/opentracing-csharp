@@ -7,7 +7,7 @@ using System.Threading;
 namespace OpenTracing.Mock
 {
     /// <summary>
-    /// MockSpans are created via MockTracer.BuildSpan(...), but they are also returned via calls to
+    /// MockSpans are created via <see cref="MockTracer.BuildSpan"/>, but they are also returned via calls to
     /// <see cref="MockTracer.FinishedSpans"/>. They provide accessors to all Span state.
     /// </summary>
     /// <seealso cref="MockTracer.FinishedSpans"/>
@@ -108,7 +108,7 @@ namespace OpenTracing.Mock
 
             _tags = initialTags == null
                 ? new Dictionary<string, object>()
-                : initialTags.ToDictionary(k => k.Key, v => v.Value);
+                : new Dictionary<string, object>(initialTags);
 
             _references = references == null
                 ? new List<Reference>()
