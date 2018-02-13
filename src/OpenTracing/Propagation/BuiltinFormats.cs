@@ -9,9 +9,9 @@
         /// </summary>
         /// <seealso cref="ITracer.Inject{TCarrier}"/>
         /// <seealso cref="ITracer.Extract{TCarrier}"/>
-        /// <seealso cref="IFormat{TCarrier}"/>
+        /// <seealso cref="Format{TCarrier}"/>
         /// <seealso cref="HttpHeaders"/>
-        public static readonly IFormat<ITextMap> TextMap = new Builtin<ITextMap>("TEXT_MAP");
+        public static readonly Format<ITextMap> TextMap = new Format<ITextMap>("TEXT_MAP");
 
         /// <summary>
         /// The HttpHeaders format allows for HTTP-header-compatible string-string dictionary encodin of SpanContext state
@@ -21,24 +21,8 @@
         /// </summary>
         /// <seealso cref="ITracer.Inject{TCarrier}"/>
         /// <seealso cref="ITracer.Extract{TCarrier}"/>
-        /// <seealso cref="IFormat{TCarrier}"/>
+        /// <seealso cref="Format{TCarrier}"/>
         /// <seealso cref="TextMap"/>
-        public static readonly IFormat<ITextMap> HttpHeaders = new Builtin<ITextMap>("HTTP_HEADERS");
-
-        private struct Builtin<TCarrier> : IFormat<TCarrier>
-        {
-            private readonly string _name;
-
-            public Builtin(string name)
-            {
-                _name = name;
-            }
-
-            /// <summary>Short name for built-in formats as they tend to show up in exception messages</summary>
-            public override string ToString()
-            {
-                return $"{GetType().Name}.{_name}";
-            }
-        }
+        public static readonly Format<ITextMap> HttpHeaders = new Format<ITextMap>("HTTP_HEADERS");
     }
 }
