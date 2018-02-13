@@ -1,10 +1,8 @@
-using System;
+﻿using System;
 
 namespace OpenTracing
 {
-    /// <summary>
-    /// This is the base type for all OpenTracing specific exceptions.
-    /// </summary>
+    /// <summary>This is the base type for all OpenTracing specific exceptions.</summary>
     public abstract class OpenTracingException : Exception
     {
         protected OpenTracingException()

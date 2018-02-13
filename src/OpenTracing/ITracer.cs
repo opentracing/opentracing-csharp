@@ -1,33 +1,102 @@
-﻿using OpenTracing.Propagation;
+﻿using System;
+using System.IO;
+using OpenTracing.Propagation;
 
 namespace OpenTracing
 {
-    /// <summary>
-    /// <see cref="ITracer"/> is a simple, thin interface for span creation and propagation across arbitrary transports.
-    /// </summary>
+    /// <summary>Tracer is a simple, thin interface for Span creation and propagation across arbitrary transports.</summary>
+    /// <remarks>
+    /// Implementations should attempt to wrap exceptions in <see cref="OpenTracingException"/> or a derivative (e.g. by
+    /// passing the real exception into the ctor of <see cref="OpenTracingException"/>.
+    /// </remarks>
     public interface ITracer
     {
+        /// <summary>The current <see cref="IScopeManager"/>, which may be a noop but may not be null.</summary>
+        IScopeManager ScopeManager { get; }
+
         /// <summary>
-        /// Returns a new <see cref="ISpanBuilder" /> for a span with the given <paramref name="operationName" />.
+        /// Get the active <see cref="ISpan"/>. This is a shorthand for <code>ITracer.ScopeManager.Active.Span</code>,
+        /// and null will be returned if <see cref="IScopeManager.Active"/> is null.
         /// </summary>
-        /// <param name="operationName">The operation name of the span.</param>
+        ISpan ActiveSpan { get; }
+
+        /// <summary>
+        /// Return a new SpanBuilder for a Span with the given 'operationName'.
+        /// <para>You can override the operationName later via <see cref="ISpan.SetOperationName"/>.</para>
+        /// <para>
+        /// A contrived example:
+        /// <code>
+        /// ITracer tracer = ...
+        ///
+        /// // Note if there is a ITracer.ActiveSpan(), it will be used as the target of an implicit CHILD_OF
+        /// // Refernece for "workSpan" when StartActive() is invoked.
+        /// using (IActiveSpan workSpan = tracer.BuildSpan("DoWork").StartActive())
+        /// {
+        ///     workSpan.SetTag("...", "...");
+        ///     // etc, etc
+        /// }
+        ///
+        /// // It's also possible to create Spans manually, bypassing the ActiveSpanSource activation.
+        /// Span http = tracer.BuildSpan("HandleHTTPRequest")
+        ///                   .AsChildOf(rpcSpanContext)  // an explicit parent
+        ///                   .WithTag("user_agent", req.UserAgent)
+        ///                   .WithTag("lucky_number", 42)
+        ///                   .StartManual();
+        ///         </code>
+        /// </para>
+        /// </summary>
+        /// <param name="operationName"></param>
         ISpanBuilder BuildSpan(string operationName);
 
         /// <summary>
-        /// Inject a <see cref="ISpanContext"/> into a <paramref name="carrier"/> of a given type,
-        /// presumably for propagation across process boundaries.
+        /// Inect a SpanContext into a 'carrier' of a given type, presumably for propagation across process boundaries.
+        /// <para>
+        /// Example:
+        /// <code>
+        /// Tracer tracer = ...
+        /// Span clientSpan = ...
+        /// ITextMap httpHeadersCarrier = new AnHttpHeaderCarrier(httpRequest);
+        /// tracer.Inject(span.Context(), BuiltinFormats.HttpHeaders, httpHeadersCarrier);
+        /// </code>
+        /// </para>
         /// </summary>
-        /// <param name="spanContext">The <see cref="ISpanContext"/> instance to inject into the carrier.</param>
-        /// <param name="format">The format of the carrier.</param>
-        /// <param name="carrier">See the documentation for the chosen <paramref name="format"/> for a description of the carrier object.</param>
-        void Inject<TCarrier>(ISpanContext spanContext, Format<TCarrier> format, TCarrier carrier);
+        /// <typeparam name="TCarrier">The carrier type, which also parametrizes the Format.</typeparam>
+        /// <param name="spanContext">The SpanContext instance to inject into the carrier</param>
+        /// <param name="format">The Fromat of the carrier</param>
+        /// <param name="carrier">
+        /// The carrier for the SpanContext state. All Tracer.Inject implementations must support
+        /// <see cref="ITextMap"/> and <see cref="Stream"/>
+        /// </param>
+        /// <exception cref="UnsupportedFormatException">If the <paramref name="format"/> is not supported by this <see cref="ITracer"/></exception>
+        /// <seealso cref="IFormat{TCarrier}"/>
+        /// <seealso cref="BuiltinFormats"/>
+        void Inject<TCarrier>(ISpanContext spanContext, IFormat<TCarrier> format, TCarrier carrier);
 
         /// <summary>
-        /// Extract a <see cref="ISpanContext"/> from a <paramref name="carrier"/> of a given type,
-        /// presumably after propagation across a process boundary.
+        /// Extract a SpanContext from a 'carrier' of a given type, presumably after propagation across a process boundary.
+        /// <para>
+        /// Example:
+        /// <code>
+        /// Tracer tracer = ...
+        /// ITextMap httpHeadersCarrier = new AnHttpHeaderCarrier(httpRequest);
+        /// SpanContext spanCtx = tracer.Extract(BuiltinFormats.HttpHeaders, httpHeadersCarrier);
+        /// ... = tracer.BuildSpan("...").AsChildOf(spanCtx).StartActive();
+        /// </code>
+        /// </para>
+        /// If the span serialized state is invalid (corrupt, wrong version, etc) inside the carrier this will result in an
+        /// <see cref="ArgumentException"/>.
         /// </summary>
-        /// <param name="format">The format of the carrier.</param>
-        /// <param name="carrier">See the documentation for the chosen <paramref name="format"/> for a description of the carrier object.</param>
-        ISpanContext Extract<TCarrier>(Format<TCarrier> format, TCarrier carrier);
+        /// <exception cref="ArgumentException">If the span serialized state is invalid (corrupt, wrong version, etc)</exception>
+        /// <typeparam name="TCarrier">The carrier type, which also parametrizes the Format.</typeparam>
+        /// <param name="format">The Format of the carrier</param>
+        /// <param name="carrier">
+        /// The carrier for the SpanContext state. All Tracer.Extract() implementations must support
+        /// <see cref="ITextMap"/> and <see cref="Stream"/>.
+        /// </param>
+        /// <exception cref="UnsupportedFormatException">If the <paramref name="format"/> is not supported by this <see cref="ITracer"/></exception>
+        /// <returns>The SpanContext instance holding context to create a Span.</returns>
+        /// <seealso cref="IFormat{TCarrier}"/>
+        /// <seealso cref="BuiltinFormats"/>
+        ISpanContext Extract<TCarrier>(IFormat<TCarrier> format, TCarrier carrier);
     }
 }

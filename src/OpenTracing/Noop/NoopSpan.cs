@@ -1,19 +1,27 @@
 using System;
 using System.Collections.Generic;
 
-namespace OpenTracing.NullTracer
+namespace OpenTracing.Noop
 {
-    public class NullSpan : ISpan
+    internal sealed class NoopSpan : ISpan
     {
-        internal static readonly NullSpan Instance = new NullSpan();
+        internal static readonly NoopSpan Instance = new NoopSpan();
 
-        public ISpanContext Context => NullSpanContext.Instance;
+        public ISpanContext Context => NoopSpanContext.Instance;
 
-        private NullSpan()
+        private NoopSpan()
         {
         }
 
-        public ISpan SetOperationName(string operationName)
+        public void Finish()
+        {
+        }
+
+        public void Finish(DateTimeOffset finishTimestamp)
+        {
+        }
+
+        public ISpan SetTag(string key, string value)
         {
             return this;
         }
@@ -23,27 +31,22 @@ namespace OpenTracing.NullTracer
             return this;
         }
 
-        public ISpan SetTag(string key, double value)
-        {
-            return this;
-        }
-
         public ISpan SetTag(string key, int value)
         {
             return this;
         }
 
-        public ISpan SetTag(string key, string value)
+        public ISpan SetTag(string key, double value)
         {
             return this;
         }
 
-        public ISpan Log(IEnumerable<KeyValuePair<string, object>> fields)
+        public ISpan Log(IDictionary<string, object> fields)
         {
             return this;
         }
 
-        public ISpan Log(DateTimeOffset timestamp, IEnumerable<KeyValuePair<string, object>> fields)
+        public ISpan Log(DateTimeOffset timestamp, IDictionary<string, object> fields)
         {
             return this;
         }
@@ -68,16 +71,14 @@ namespace OpenTracing.NullTracer
             return null;
         }
 
-        public void Finish()
+        public ISpan SetOperationName(string operationName)
         {
+            return this;
         }
 
-        public void Finish(DateTimeOffset finishTimestamp)
+        public override string ToString()
         {
-        }
-
-        public void Dispose()
-        {
+            return nameof(NoopSpan);
         }
     }
 }

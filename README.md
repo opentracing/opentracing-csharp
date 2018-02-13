@@ -1,5 +1,8 @@
 [![Gitter chat][gitter-img]][gitter] [![Build Status][ci-img]][ci]
 
+### 1/31/2018 NOTE: The C# OpenTracing API is experimental, and will be changing significatly in the coming months.
+
+
 # OpenTracing API for .NET
 
 This solution includes the .NET platform API for OpenTracing.
