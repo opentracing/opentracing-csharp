@@ -6,7 +6,7 @@ namespace OpenTracing
 {
     /// <summary>Tracer is a simple, thin interface for Span creation and propagation across arbitrary transports.</summary>
     /// <remarks>
-    /// Implementations should attempt to wrap exceptions in <see cref="OpenTracingException"/> or a derivative (e.g. by 
+    /// Implementations should attempt to wrap exceptions in <see cref="OpenTracingException"/> or a derivative (e.g. by
     /// passing the real exception into the ctor of <see cref="OpenTracingException"/>.
     /// </remarks>
     public interface ITracer
@@ -27,7 +27,7 @@ namespace OpenTracing
         /// A contrived example:
         /// <code>
         /// ITracer tracer = ...
-        /// 
+        ///
         /// // Note if there is a ITracer.ActiveSpan(), it will be used as the target of an implicit CHILD_OF
         /// // Refernece for "workSpan" when StartActive() is invoked.
         /// using (IActiveSpan workSpan = tracer.BuildSpan("DoWork").StartActive())
@@ -35,7 +35,7 @@ namespace OpenTracing
         ///     workSpan.SetTag("...", "...");
         ///     // etc, etc
         /// }
-        /// 
+        ///
         /// // It's also possible to create Spans manually, bypassing the ActiveSpanSource activation.
         /// Span http = tracer.BuildSpan("HandleHTTPRequest")
         ///                   .AsChildOf(rpcSpanContext)  // an explicit parent
