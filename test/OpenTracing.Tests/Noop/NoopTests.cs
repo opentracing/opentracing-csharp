@@ -59,7 +59,7 @@ namespace OpenTracing.Tests.Noop
             var tracer = NoopTracerFactory.Create();
 
             var scope = tracer.BuildSpan("noop")
-                .StartActive(finishSpanOnClose: false);
+                .StartActive(finishSpanOnDispose: false);
 
             Assert.IsType<NoopScopeManager.NoopScope>(scope);
         }
@@ -70,7 +70,7 @@ namespace OpenTracing.Tests.Noop
             var tracer = NoopTracerFactory.Create();
 
             var scope = tracer.BuildSpan("noop")
-                .StartActive(finishSpanOnClose: false);
+                .StartActive(finishSpanOnDispose: false);
 
             Assert.IsType<NoopSpan>(scope.Span);
         }
@@ -81,7 +81,7 @@ namespace OpenTracing.Tests.Noop
             var tracer = NoopTracerFactory.Create();
 
             var scope = tracer.BuildSpan("noop")
-                .StartActive(finishSpanOnClose: false);
+                .StartActive(finishSpanOnDispose: false);
 
             Assert.Null(tracer.ActiveSpan);
         }
@@ -92,7 +92,7 @@ namespace OpenTracing.Tests.Noop
             var tracer = NoopTracerFactory.Create();
 
             var scope = tracer.BuildSpan("noop")
-                .StartActive(finishSpanOnClose: false);
+                .StartActive(finishSpanOnDispose: false);
 
             Assert.Null(tracer.ScopeManager.Active);
         }
@@ -145,7 +145,7 @@ namespace OpenTracing.Tests.Noop
 
             var span = tracer.BuildSpan("noop").Start();
 
-            var scope = tracer.ScopeManager.Activate(span, finishSpanOnClose: false);
+            var scope = tracer.ScopeManager.Activate(span, finishSpanOnDispose: false);
 
             Assert.IsType<NoopScopeManager.NoopScope>(scope);
         }
@@ -157,7 +157,7 @@ namespace OpenTracing.Tests.Noop
 
             var span = tracer.BuildSpan("noop").Start();
 
-            tracer.ScopeManager.Activate(span, finishSpanOnClose: false);
+            tracer.ScopeManager.Activate(span, finishSpanOnDispose: false);
 
             Assert.Null(tracer.ScopeManager.Active);
             Assert.Null(tracer.ActiveSpan);

@@ -13,7 +13,7 @@ namespace OpenTracing.Noop
         {
         }
 
-        public IScope Activate(ISpan span, bool finishSpanOnClose)
+        public IScope Activate(ISpan span, bool finishSpanOnDispose)
         {
             return NoopScope.Instance;
         }
