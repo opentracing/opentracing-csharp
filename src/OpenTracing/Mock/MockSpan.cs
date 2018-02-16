@@ -287,7 +287,7 @@ namespace OpenTracing.Mock
             }
         }
 
-        public struct Reference
+        public sealed class Reference : IEquatable<Reference>
         {
             public MockSpanContext Context { get; }
 
@@ -298,8 +298,28 @@ namespace OpenTracing.Mock
 
             public Reference(MockSpanContext context, string referenceType)
             {
-                Context = context;
-                ReferenceType = referenceType;
+                Context = context ?? throw new ArgumentNullException(nameof(context));
+                ReferenceType = referenceType ?? throw new ArgumentNullException(nameof(referenceType));
+            }
+
+            public override bool Equals(object obj)
+            {
+                return Equals(obj as Reference);
+            }
+
+            public bool Equals(Reference other)
+            {
+                return other != null &&
+                       EqualityComparer<MockSpanContext>.Default.Equals(Context, other.Context) &&
+                       ReferenceType == other.ReferenceType;
+            }
+
+            public override int GetHashCode()
+            {
+                var hashCode = 2083322454;
+                hashCode = hashCode * -1521134295 + EqualityComparer<MockSpanContext>.Default.GetHashCode(Context);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ReferenceType);
+                return hashCode;
             }
         }
     }
