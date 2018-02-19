@@ -7,7 +7,7 @@
         {
         }
 
-        protected override void Set(ISpan span, int tagValue)
+        public override void Set(ISpan span, int tagValue)
         {
             span.SetTag(Key, tagValue);
         }
