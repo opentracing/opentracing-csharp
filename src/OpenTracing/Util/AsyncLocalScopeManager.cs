@@ -1,4 +1,4 @@
-#if NET452
+#if NET45
 using System;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Messaging;
@@ -15,7 +15,7 @@ namespace OpenTracing.Util
     /// <seealso cref="AsyncLocalScope"/>
     public class AsyncLocalScopeManager : IScopeManager
     {
-#if NET452 // AsyncLocal is .NET 4.6+, so fall back to CallContext for .NET 4.5
+#if NET45 // AsyncLocal is .NET 4.6+, so fall back to CallContext for .NET 4.5
         private static readonly string s_logicalDataKey = "__AsyncLocalScope_Current__" + AppDomain.CurrentDomain.Id;
 
         public IScope Active
