@@ -9,10 +9,10 @@ For the time being, mild backwards-incompatible changes may be made without chan
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(OS)'=='Windows_NT'">
-    <TargetFrameworks>$(TargetFrameworks);net452</TargetFrameworks>
+    <TargetFrameworks>$(TargetFrameworks);net45</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <Reference Include="System.Runtime.Remoting" />
   </ItemGroup>
 

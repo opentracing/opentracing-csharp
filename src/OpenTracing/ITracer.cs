@@ -5,10 +5,6 @@ using OpenTracing.Propagation;
 namespace OpenTracing
 {
     /// <summary>Tracer is a simple, thin interface for Span creation and propagation across arbitrary transports.</summary>
-    /// <remarks>
-    /// Implementations should attempt to wrap exceptions in <see cref="OpenTracingException"/> or a derivative (e.g. by
-    /// passing the real exception into the ctor of <see cref="OpenTracingException"/>.
-    /// </remarks>
     public interface ITracer
     {
         /// <summary>The current <see cref="IScopeManager"/>, which may be a noop but may not be null.</summary>
@@ -67,7 +63,6 @@ namespace OpenTracing
         /// The carrier for the SpanContext state. All Tracer.Inject implementations must support
         /// <see cref="ITextMap"/> and <see cref="Stream"/>
         /// </param>
-        /// <exception cref="UnsupportedFormatException">If the <paramref name="format"/> is not supported by this <see cref="ITracer"/></exception>
         /// <seealso cref="IFormat{TCarrier}"/>
         /// <seealso cref="BuiltinFormats"/>
         void Inject<TCarrier>(ISpanContext spanContext, IFormat<TCarrier> format, TCarrier carrier);
@@ -93,7 +88,6 @@ namespace OpenTracing
         /// The carrier for the SpanContext state. All Tracer.Extract() implementations must support
         /// <see cref="ITextMap"/> and <see cref="Stream"/>.
         /// </param>
-        /// <exception cref="UnsupportedFormatException">If the <paramref name="format"/> is not supported by this <see cref="ITracer"/></exception>
         /// <returns>The SpanContext instance holding context to create a Span.</returns>
         /// <seealso cref="IFormat{TCarrier}"/>
         /// <seealso cref="BuiltinFormats"/>
