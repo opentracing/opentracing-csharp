@@ -6,7 +6,7 @@ namespace OpenTracing.Mock
 {
     public static class Propagators
     {
-        public static readonly IPropagator Printer = new PrinterPropagator();
+        public static readonly IPropagator Console = new ConsolePropagator();
 
         public static readonly IPropagator TextMap = new TextMapPropagator();
     }
@@ -21,7 +21,7 @@ namespace OpenTracing.Mock
         MockSpanContext Extract<TCarrier>(IFormat<TCarrier> format, TCarrier carrier);
     }
 
-    public sealed class PrinterPropagator : IPropagator
+    public sealed class ConsolePropagator : IPropagator
     {
         public void Inject<TCarrier>(MockSpanContext context, IFormat<TCarrier> format, TCarrier carrier)
         {
@@ -58,7 +58,7 @@ namespace OpenTracing.Mock
             }
             else
             {
-                throw new UnsupportedFormatException($"unknown carrier [{carrier.GetType()}]");
+                throw new InvalidOperationException($"Unknown carrier [{carrier.GetType()}]");
             }
         }
 
@@ -89,7 +89,7 @@ namespace OpenTracing.Mock
             }
             else
             {
-                throw new UnsupportedFormatException($"unknown carrier [{carrier.GetType()}]");
+                throw new InvalidOperationException($"Unknown carrier [{carrier.GetType()}]");
             }
 
             if (traceId.HasValue && spanId.HasValue)
