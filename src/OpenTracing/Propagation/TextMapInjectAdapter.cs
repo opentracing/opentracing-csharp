@@ -21,7 +21,7 @@ namespace OpenTracing.Propagation
 
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
-            throw new InvalidOperationException(
+            throw new NotSupportedException(
                 $"{nameof(TextMapInjectAdapter)} should only be used with {nameof(ITracer)}.{nameof(ITracer.Inject)}");
         }
 

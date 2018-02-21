@@ -25,7 +25,7 @@ namespace OpenTracing.Propagation
 
         public void Set(string key, string value)
         {
-            throw new InvalidOperationException(
+            throw new NotSupportedException(
                 $"{nameof(TextMapExtractAdapter)} should only be used with {nameof(ITracer)}.{nameof(ITracer.Extract)}");
         }
 
