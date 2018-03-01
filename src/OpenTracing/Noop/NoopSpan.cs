@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OpenTracing.Tag;
 
 namespace OpenTracing.Noop
 {
@@ -37,6 +38,11 @@ namespace OpenTracing.Noop
         }
 
         public ISpan SetTag(string key, double value)
+        {
+            return this;
+        }
+
+        public ISpan SetTag<TTagType>(AbstractTag<TTagType> type, TTagType value)
         {
             return this;
         }

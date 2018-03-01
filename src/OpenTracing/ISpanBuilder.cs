@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenTracing.Tag;
 
 namespace OpenTracing
 {
@@ -57,6 +58,9 @@ namespace OpenTracing
 
         /// <summary>Same as <see cref="ISpan.SetTag(string,double)"/>, but for the span being built.</summary>
         ISpanBuilder WithTag(string key, double value);
+
+        /// <summary>Same as <see cref="ISpan.SetTag{TTagType}(AbstractTag{TTagType},TTagType)"/>, but for the span being built.</summary>
+        ISpanBuilder WithTag<TTagType>(AbstractTag<TTagType> type, TTagType value);
 
         /// <summary>Specify a timestamp of when the <see cref="ISpan"/> was started.</summary>
         ISpanBuilder WithStartTimestamp(DateTimeOffset timestamp);

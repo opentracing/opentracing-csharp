@@ -1,4 +1,5 @@
 using System;
+using OpenTracing.Tag;
 
 namespace OpenTracing.Noop
 {
@@ -46,6 +47,11 @@ namespace OpenTracing.Noop
         }
 
         public ISpanBuilder WithTag(string key, double value)
+        {
+            return this;
+        }
+
+        public ISpanBuilder WithTag<TTagType>(AbstractTag<TTagType> type, TTagType value)
         {
             return this;
         }

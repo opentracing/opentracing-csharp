@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using OpenTracing.Tag;
 
 namespace OpenTracing.Mock
 {
@@ -157,6 +158,12 @@ namespace OpenTracing.Mock
             return SetObjectTag(key, value);
         }
 
+        public ISpan SetTag<TTagType>(AbstractTag<TTagType> type, TTagType value)
+        {
+            type.Set(this, value);
+            return this;
+        }
+
         private ISpan SetObjectTag(string key, object value)
         {
             lock (_lock)
@@ -284,6 +291,11 @@ namespace OpenTracing.Mock
             {
                 Timestamp = timestamp;
                 Fields = new ReadOnlyDictionary<string, object>(fields);
+            }
+
+            public override string ToString()
+            {
+                return $"Timestamp: {Timestamp}, Fields: " + string.Join("; ", this.Fields.Select(e => $"{e.Key} = {e.Value}"));
             }
         }
 
