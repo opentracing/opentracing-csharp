@@ -5,6 +5,7 @@
     <PackageIconUrl>https://avatars0.githubusercontent.com/u/15482765</PackageIconUrl>
     <PackageProjectUrl>https://github.com/opentracing/opentracing-csharp</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/opentracing/opentracing-csharp/master/LICENSE</PackageLicenseUrl>
+    <PackageReleaseNotes>https://github.com/opentracing/opentracing-csharp/releases/tag/$(VersionPrefix)</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/opentracing/opentracing-csharp</RepositoryUrl>
 
