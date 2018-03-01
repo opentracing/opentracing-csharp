@@ -68,12 +68,7 @@ Task dotnet-install {
 Task dotnet-build {
 
     # --no-incremental to ensure that CI builds always result in a clean build
-    if ([String]::IsNullOrWhiteSpace($VersionSuffix)) {
-        exec { dotnet build -c $BuildConfiguration --no-incremental }
-    }
-    else {
-        exec { dotnet build -c $BuildConfiguration --no-incremental --version-suffix $VersionSuffix }
-    }
+    exec { dotnet build -c $BuildConfiguration --no-incremental /p:CI=true /p:VersionSuffix=$VersionSuffix }
 }
 
 Task dotnet-test {
@@ -118,11 +113,6 @@ Task dotnet-pack {
         Write-Host "Packaging $library to $libraryOutput"
         Write-Host ""
 
-        if ([String]::IsNullOrWhiteSpace($VersionSuffix)) {
-            exec { dotnet pack $library -c $BuildConfiguration --no-restore --no-build --include-source --include-symbols -o $libraryOutput }
-        }
-        else {
-            exec { dotnet pack $library -c $BuildConfiguration --no-restore --no-build --include-source --include-symbols -o $libraryOutput --version-suffix $VersionSuffix }
-        }
+        exec { dotnet pack $library -c $BuildConfiguration --no-restore --no-build -o $libraryOutput /p:CI=true /p:VersionSuffix=$VersionSuffix }
     }
 }
