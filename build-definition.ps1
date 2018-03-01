@@ -1,8 +1,8 @@
 Properties {
 
-    # This number will be appended to all nuget package versions and to the service fabric app versions
+    # This number will be appended to all nuget package versions
     # This should be overwritten by a CI system like VSTS, AppVeyor, TeamCity, ...
-    $BuildNumber = "loc" + ((Get-Date).ToUniversalTime().ToString("yyyyMMddHHmm"))
+    $VersionSuffix = "loc" + ((Get-Date).ToUniversalTime().ToString("yyyyMMddHHmm"))
 
     # The build configuration used for compilation
     $BuildConfiguration = "Release"
@@ -28,13 +28,12 @@ Task Default -depends init, clean, dotnet-install, dotnet-build, dotnet-test, do
 
 Task init {
 
-    Write-Host "BuildNumber: $BuildNumber"
+    Write-Host "VersionSuffix: $VersionSuffix"
     Write-Host "BuildConfiguration: $BuildConfiguration"
     Write-Host "ArtifactsPath: $ArtifactsPath"
     Write-Host "ArtifactsPathTests: $ArtifactsPathTests"
     Write-Host "ArtifactsPathNuGet: $ArtifactsPathNuGet"
 
-    Assert ($BuildNumber -ne $null) "Property 'BuildNumber' may not be null."
     Assert ($BuildConfiguration -ne $null) "Property 'BuildConfiguration' may not be null."
     Assert ($ArtifactsPath -ne $null) "Property 'ArtifactsPath' may not be null."
     Assert ($ArtifactsPathTests -ne $null) "Property 'ArtifactsPathTests' may not be null."
@@ -69,7 +68,12 @@ Task dotnet-install {
 Task dotnet-build {
 
     # --no-incremental to ensure that CI builds always result in a clean build
-    exec { dotnet build -c $BuildConfiguration --version-suffix $BuildNumber --no-incremental }
+    if ([String]::IsNullOrWhiteSpace($VersionSuffix)) {
+        exec { dotnet build -c $BuildConfiguration --no-incremental }
+    }
+    else {
+        exec { dotnet build -c $BuildConfiguration --no-incremental --version-suffix $VersionSuffix }
+    }
 }
 
 Task dotnet-test {
@@ -114,6 +118,11 @@ Task dotnet-pack {
         Write-Host "Packaging $library to $libraryOutput"
         Write-Host ""
 
-        exec { dotnet pack $library -c $BuildConfiguration --version-suffix $BuildNumber --no-restore --no-build --include-source --include-symbols -o $libraryOutput }
+        if ([String]::IsNullOrWhiteSpace($VersionSuffix)) {
+            exec { dotnet pack $library -c $BuildConfiguration --no-restore --no-build --include-source --include-symbols -o $libraryOutput }
+        }
+        else {
+            exec { dotnet pack $library -c $BuildConfiguration --no-restore --no-build --include-source --include-symbols -o $libraryOutput --version-suffix $VersionSuffix }
+        }
     }
 }
