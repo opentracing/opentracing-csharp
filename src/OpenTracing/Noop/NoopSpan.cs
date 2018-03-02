@@ -42,7 +42,7 @@ namespace OpenTracing.Noop
             return this;
         }
 
-        public ISpan SetTag<TTagType>(AbstractTag<TTagType> type, TTagType value)
+        public ISpan SetTag<TTagType>(AbstractTag<TTagType> tagSetter, TTagType value)
         {
             return this;
         }

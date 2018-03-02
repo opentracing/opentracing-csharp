@@ -292,11 +292,6 @@ namespace OpenTracing.Mock
                 Timestamp = timestamp;
                 Fields = new ReadOnlyDictionary<string, object>(fields);
             }
-
-            public override string ToString()
-            {
-                return $"Timestamp: {Timestamp}, Fields: " + string.Join("; ", this.Fields.Select(e => $"{e.Key} = {e.Value}"));
-            }
         }
 
         public sealed class Reference : IEquatable<Reference>
