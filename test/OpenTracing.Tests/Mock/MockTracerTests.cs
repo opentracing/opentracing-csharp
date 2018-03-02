@@ -21,7 +21,7 @@ namespace OpenTracing.Tests.Mock
         [Fact]
         public void TestRootSpan()
         {
-            // Create and finish a root Span.
+            // Create and finish a root span.
             var tracer = new MockTracer();
 
             var span = tracer.BuildSpan("tester")
@@ -38,7 +38,7 @@ namespace OpenTracing.Tests.Mock
 
             List<MockSpan> finishedSpans = tracer.FinishedSpans();
 
-            // Check that the Span looks right.
+            // Check that the span looks right.
 
             Assert.Single(finishedSpans);
             MockSpan finishedSpan = finishedSpans[0];
@@ -77,7 +77,7 @@ namespace OpenTracing.Tests.Mock
         [Fact]
         public void TestChildSpan()
         {
-            // Create and finish a root Span.
+            // Create and finish a root span.
             MockTracer tracer = new MockTracer();
             ISpan originalParent = tracer.BuildSpan("parent").WithStartTimestamp(GetTestTimestamp(100)).Start();
             ISpan originalChild = tracer.BuildSpan("child").WithStartTimestamp(GetTestTimestamp(200)).AsChildOf(originalParent).Start();
@@ -86,7 +86,7 @@ namespace OpenTracing.Tests.Mock
 
             List<MockSpan> finishedSpans = tracer.FinishedSpans();
 
-            // Check that the Spans look right.
+            // Check that the spans look right.
             Assert.Equal(2, finishedSpans.Count);
             MockSpan child = finishedSpans[0];
             MockSpan parent = finishedSpans[1];

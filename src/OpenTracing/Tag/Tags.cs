@@ -50,7 +50,7 @@
         /// <summary>PeerPort records the port number of the peer.</summary>
         public static readonly IntTag PeerPort = new IntTag("peer.port");
 
-        /// <summary>SamplingPriority determines the priority of sampling this Span.</summary>
+        /// <summary>SamplingPriority determines the priority of sampling this span.</summary>
         public static readonly IntTag SamplingPriority = new IntTag("sampling.priority");
 
         /// <summary>SpanKind hints at the relationship between spans, e.g. client/server.</summary>
@@ -59,12 +59,12 @@
         /// <summary>Component is a low-cardinality identifier of the module, library, or package that is instrumented.</summary>
         public static readonly StringTag Component = new StringTag("component");
 
-        /// <summary>Error indicates whether a Span ended in an error state.</summary>
+        /// <summary>Error indicates whether a span ended in an error state.</summary>
         public static readonly BooleanTag Error = new BooleanTag("error");
 
         /// <summary>
         /// DbType indicates the type of Database. For any SQL database, "sql". For others, the lower-case database
-        /// category, e.g. "cassandra", "hbase", or "redis"
+        /// category, e.g. "cassandra", "hbase", or "redis".
         /// </summary>
         public static readonly StringTag DbType = new StringTag("db.type");
 
@@ -74,7 +74,7 @@
         /// </summary>
         public static readonly StringTag DbInstance = new StringTag("db.instance");
 
-        /// <summary>DbUser indicates the user name of Database, e.g. "readonly_user" or "reporting_user"</summary>
+        /// <summary>DbUser indicates the user name of Database, e.g. "readonly_user" or "reporting_user".</summary>
         public static readonly StringTag DbUser = new StringTag("db.user");
 
         /// <summary>

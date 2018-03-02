@@ -36,7 +36,7 @@ namespace OpenTracing.Tests.Util
                 Assert.Same(backgroundActive, shouldBeBackground);
             }
 
-            // The background and foreground Spans should be finished.
+            // The background and foreground spans should be finished.
             backgroundSpan.Received(1).Finish();
             foregroundSpan.Received(1).Finish();
 
@@ -75,7 +75,7 @@ namespace OpenTracing.Tests.Util
 
             await Task.Delay(10);
 
-            // The background and foreground Spans should be finished.
+            // The background and foreground spans should be finished.
             backgroundSpan.Received(1).Finish();
             foregroundSpan.Received(1).Finish();
 

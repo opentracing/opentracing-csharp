@@ -7,25 +7,24 @@
     /// </summary>
     public static class LogFields
     {
-        /// <summary>The type or "kind" of an error (only for event="error" logs). E.g., "Exception", "OSError"</summary>
+        /// <summary>The type or "kind" of an error (only for event="error" logs). E.g., "Exception", "OSError".</summary>
         public const string ErrorKind = "error.kind";
 
         /// <summary>
         /// The actual <see cref="System.Exception"/> object instance.
-        /// instance
         /// </summary>
         public const string ErrorObject = "error.object";
 
         /// <summary>
-        /// A stable identifier for some notable moment in the lifetime of a Span. For instance, a mutex lock acquisition
+        /// A stable identifier for some notable moment in the lifetime of a span. For instance, a mutex lock acquisition
         /// or release or the sorts of lifetime events in a browser page load described in the Performance.timing specification.
-        /// E.g., from Zipkin, "cs", "sr", "ss", or "cr". Or, more generally, "initialized" or "timed out". For errors, "error"
+        /// E.g., from Zipkin, "cs", "sr", "ss", or "cr". Or, more generally, "initialized" or "timed out". For errors, "error".
         /// </summary>
         public const string Event = "event";
 
         /// <summary>
         /// A concise, human-readable, one-line message explaining the event. E.g., "Could not connect to backend", "Cache
-        /// invalidation succeeded"
+        /// invalidation succeeded".
         /// </summary>
         public const string Message = "message";
 
