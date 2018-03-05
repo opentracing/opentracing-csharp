@@ -19,7 +19,7 @@ namespace OpenTracing.Examples.MultipleCallbacks
             var tasks = new Task[3];
 
             var span = tracer.BuildSpan("parent").Start();
-            using (IScope scope = tracer.ScopeManager.Activate(span, false))
+            using (IScope scope = tracer.ScopeManager.Activate(span, finishSpanOnDispose:false))
             {
                 var rand = new Random();
                 for (int i = 0; i < tasks.Length; i++)

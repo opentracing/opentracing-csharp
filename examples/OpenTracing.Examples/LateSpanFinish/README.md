@@ -7,7 +7,7 @@ This example shows an `ISpan` for a top-level operation, with independent, unkno
 // Observe no parent is explicitly specified for task1 nor task2.
 Task.Run(async () =>
 {
-    using (IScope childScope1 = tracer.BuildSpan("task1").StartActive(true))
+    using (IScope childScope1 = tracer.BuildSpan("task1").StartActive(finishSpanOnDispose:true))
     {
         await Task.Delay(55);
     }
@@ -15,7 +15,7 @@ Task.Run(async () =>
 
 Task.Run(async () =>
 {
-    using (IScope childScope2 = tracer.BuildSpan("task2").StartActive(true))
+    using (IScope childScope2 = tracer.BuildSpan("task2").StartActive(finishSpanOnDispose:true))
     {
         await Task.Delay(85);
     }

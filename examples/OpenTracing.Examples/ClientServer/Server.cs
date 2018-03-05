@@ -25,7 +25,7 @@ namespace OpenTracing.Examples.ClientServer
                   .WithTag(Tags.SpanKind.Key, Tags.SpanKindServer)
                   .WithTag(Tags.Component.Key, "example-server")
                   .AsChildOf(context)
-                  .StartActive(true))
+                  .StartActive(finishSpanOnDispose:true))
             {
             }
         }

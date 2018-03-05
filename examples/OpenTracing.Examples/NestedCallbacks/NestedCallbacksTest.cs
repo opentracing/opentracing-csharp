@@ -38,7 +38,7 @@ namespace OpenTracing.Examples.NestedCallbacks
         {
             // Manually activate span so it gets
             // propagated as the active one in the nested tasks.
-            using (tracer.ScopeManager.Activate(span, false))
+            using (tracer.ScopeManager.Activate(span, finishSpanOnDispose:false))
             {
                 Task.Run(() =>
                 {

@@ -24,7 +24,7 @@ namespace OpenTracing.Examples.ClientServer
             using (IScope scope = tracer.BuildSpan("send")
                     .WithTag(Tags.SpanKind.Key, Tags.SpanKindClient)
                     .WithTag(Tags.Component.Key, "example-client")
-                    .StartActive(true))
+                    .StartActive(finishSpanOnDispose:true))
             {
                 tracer.Inject(scope.Span.Context, BuiltinFormats.TextMap, new TextMapInjectAdapter(message));
                 queue.Add(message);

@@ -50,7 +50,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
         [Fact]
         public void ParentNotPickedUp()
         {
-            using (IScope scope = tracer.BuildSpan("parent").StartActive(true))
+            using (IScope scope = tracer.BuildSpan("parent").StartActive(finishSpanOnDispose:true))
             {
                 var responseTask = client.Send("no_parent");
                 responseTask.Wait(DefaultTimeout);
@@ -79,7 +79,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
         public void BadSolutionToSetParent()
         {
             Client testClient;
-            using (IScope scope = tracer.BuildSpan("parent").StartActive(true))
+            using (IScope scope = tracer.BuildSpan("parent").StartActive(finishSpanOnDispose:true))
             {
                 testClient = new Client(new RequestHandler(tracer, scope.Span.Context));
 

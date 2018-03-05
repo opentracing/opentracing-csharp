@@ -8,7 +8,7 @@ This example shows an `ISpan` created for a top-level operation, covering a set 
 // Client.Send()
 public async Task<String> Send<T>(T message, long milliseconds)
 {
-    using (IScope scope = tracer.BuildSpan("subtask").StartActive(true))
+    using (IScope scope = tracer.BuildSpan("subtask").StartActive(finishSpanOnDispose:true))
     {
         await Task.Delay(TimeSpan.FromMilliseconds(milliseconds));
     }
@@ -18,7 +18,7 @@ public async Task<String> Send<T>(T message, long milliseconds)
 
 // Client.Send() call time.
 var span = tracer.BuildSpan("parent").Start();
-using (IScope scope = tracer.ScopeManager.Activate(span, false))
+using (IScope scope = tracer.ScopeManager.Activate(span, finishSpanOnDispose:false))
 {
     var rand = new Random();
     for (int i = 0; i < tasks.Length; i++)

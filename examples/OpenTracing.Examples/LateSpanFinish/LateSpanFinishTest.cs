@@ -17,7 +17,7 @@ namespace OpenTracing.Examples.LateSpanFinish
         {
             // Create a Span manually and use it as parent of a pair of subtasks
             ISpan parentSpan = tracer.BuildSpan("parent").Start();
-            using (IScope scope = tracer.ScopeManager.Activate(parentSpan, false))
+            using (IScope scope = tracer.ScopeManager.Activate(parentSpan, finishSpanOnDispose:false))
             {
                 SubmitTasks();
             }
@@ -46,7 +46,7 @@ namespace OpenTracing.Examples.LateSpanFinish
         {
             Task.Run(async () =>
             {
-                using (IScope childScope1 = tracer.BuildSpan("task1").StartActive(true))
+                using (IScope childScope1 = tracer.BuildSpan("task1").StartActive(finishSpanOnDispose:true))
                 {
                     await Task.Delay(55);
                 }
@@ -54,7 +54,7 @@ namespace OpenTracing.Examples.LateSpanFinish
 
             Task.Run(async () =>
             {
-                using (IScope childScope2 = tracer.BuildSpan("task2").StartActive(true))
+                using (IScope childScope2 = tracer.BuildSpan("task2").StartActive(finishSpanOnDispose:true))
                 {
                     await Task.Delay(85);
                 }
