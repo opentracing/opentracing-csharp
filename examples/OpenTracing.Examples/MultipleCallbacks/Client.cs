@@ -6,16 +6,16 @@ namespace OpenTracing.Examples.MultipleCallbacks
 {
     public class Client
     {
-        private readonly ITracer tracer;
+        private readonly ITracer _tracer;
 
         public Client(ITracer tracer)
         {
-            this.tracer = tracer;
+            this._tracer = tracer;
         }
 
         public async Task<String> Send<T>(T message, long milliseconds)
         {
-            using (IScope scope = tracer.BuildSpan("subtask").StartActive(finishSpanOnDispose:true))
+            using (IScope scope = _tracer.BuildSpan("subtask").StartActive(finishSpanOnDispose:true))
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(milliseconds));
             }

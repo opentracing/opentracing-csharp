@@ -9,19 +9,19 @@ namespace OpenTracing.Examples.ClientServer
 {
     public class Server
     {
-        private readonly BlockingCollection<Message> queue;
-        private readonly ITracer tracer;
+        private readonly BlockingCollection<Message> _queue;
+        private readonly ITracer _tracer;
 
         public Server(BlockingCollection<Message> queue, ITracer tracer)
         {
-            this.queue = queue;
-            this.tracer = tracer;
+            this._queue = queue;
+            this._tracer = tracer;
         }
 
         private void Process(Message message)
         {
-            ISpanContext context = tracer.Extract(BuiltinFormats.TextMap, new TextMapExtractAdapter(message));
-            using (IScope scope = tracer.BuildSpan("receive")
+            ISpanContext context = _tracer.Extract(BuiltinFormats.TextMap, new TextMapExtractAdapter(message));
+            using (IScope scope = _tracer.BuildSpan("receive")
                   .WithTag(Tags.SpanKind.Key, Tags.SpanKindServer)
                   .WithTag(Tags.Component.Key, "example-server")
                   .AsChildOf(context)
@@ -37,7 +37,7 @@ namespace OpenTracing.Examples.ClientServer
                 // Wait for messages indefinitely, till
                 // the queue has been marked as adding-complete.
                 Message message;
-                while (queue.TryTake(out message, -1)) {
+                while (_queue.TryTake(out message, -1)) {
                     Process(message);
                 }
             });
@@ -47,7 +47,7 @@ namespace OpenTracing.Examples.ClientServer
 
         public void Stop()
         {
-            queue.CompleteAdding();
+            _queue.CompleteAdding();
         }
     }
 }

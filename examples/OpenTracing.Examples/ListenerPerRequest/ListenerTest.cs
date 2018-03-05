@@ -11,23 +11,23 @@ namespace OpenTracing.Examples.ListenerPerRequest
     // Each request has own instance of ResponseListener
     public class ListenerTest
     {
-        private readonly MockTracer tracer = new MockTracer();
+        private readonly MockTracer _tracer = new MockTracer();
 
         [Fact]
         public void test()
         {
-            var client = new Client(tracer);
+            var client = new Client(_tracer);
 
             var responseTask = client.Send("message");
             responseTask.Wait(DefaultTimeout);
             String response = responseTask.Result;
             Assert.Equal("message:response", response);
 
-            var finished = tracer.FinishedSpans();
+            var finished = _tracer.FinishedSpans();
             Assert.Single(finished);
             Assert.NotNull(GetOneByTag(finished, Tags.SpanKind, Tags.SpanKindClient));
 
-            Assert.Null(tracer.ScopeManager.Active);
+            Assert.Null(_tracer.ScopeManager.Active);
         }
     }
 }

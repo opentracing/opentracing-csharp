@@ -6,11 +6,11 @@ namespace OpenTracing.Examples.CommonRequestHandler
 {
     public class Client
     {
-        private readonly RequestHandler requestHandler;
+        private readonly RequestHandler _requestHandler;
 
         public Client(RequestHandler requestHandler)
         {
-            this.requestHandler = requestHandler;
+            this._requestHandler = requestHandler;
         }
 
         public async Task<String> Send(String message)
@@ -20,13 +20,13 @@ namespace OpenTracing.Examples.CommonRequestHandler
             await Task.Run(async () =>
             {
                 await Task.Delay(50);
-                requestHandler.BeforeRequest(message, context);
+                _requestHandler.BeforeRequest(message, context);
             });
 
             await Task.Run(async () =>
             {
                 await Task.Delay(50);
-                requestHandler.AfterResponse(message, context);
+                _requestHandler.AfterResponse(message, context);
             });
 
             return $"{message}:response";

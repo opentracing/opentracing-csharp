@@ -7,11 +7,11 @@ namespace OpenTracing.Examples.ListenerPerRequest
 {
     public class Client
     {
-        private readonly ITracer tracer;
+        private readonly ITracer _tracer;
 
         public Client(ITracer tracer)
         {
-            this.tracer = tracer;
+            this._tracer = tracer;
         }
 
         // Async execution
@@ -28,7 +28,7 @@ namespace OpenTracing.Examples.ListenerPerRequest
 
         public Task<String> Send(String message)
         {
-            ISpan span = tracer.BuildSpan("send").
+            ISpan span = _tracer.BuildSpan("send").
                     WithTag(Tags.SpanKind.Key, Tags.SpanKindClient)
                     .Start();
             return Execute(message, new ResponseListener(span));

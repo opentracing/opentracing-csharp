@@ -10,24 +10,24 @@ namespace OpenTracing.Examples.LateSpanFinish
 {
     public class LateSpanFinishTest
     {
-        private readonly MockTracer tracer = new MockTracer();
+        private readonly MockTracer _tracer = new MockTracer();
 
         [Fact]
         public void test()
         {
             // Create a Span manually and use it as parent of a pair of subtasks
-            ISpan parentSpan = tracer.BuildSpan("parent").Start();
-            using (IScope scope = tracer.ScopeManager.Activate(parentSpan, finishSpanOnDispose:false))
+            ISpan parentSpan = _tracer.BuildSpan("parent").Start();
+            using (IScope scope = _tracer.ScopeManager.Activate(parentSpan, finishSpanOnDispose:false))
             {
                 SubmitTasks();
             }
 
-            WaitForSpanCount(tracer, 2, DefaultTimeout);
+            WaitForSpanCount(_tracer, 2, DefaultTimeout);
 
             // Late-finish the parent Span now
             parentSpan.Finish();
 
-            var spans = tracer.FinishedSpans();
+            var spans = _tracer.FinishedSpans();
             Assert.Equal(3, spans.Count);
             Assert.Equal("task1", spans[0].OperationName);
             Assert.Equal("task2", spans[1].OperationName);
@@ -35,7 +35,7 @@ namespace OpenTracing.Examples.LateSpanFinish
 
             TestUtils.AssertSameTrace(spans);
 
-            Assert.Null(tracer.ActiveSpan);
+            Assert.Null(_tracer.ActiveSpan);
         }
 
         // Fire away a few subtasks, passing a parent ISpan whose lifetime
@@ -46,7 +46,7 @@ namespace OpenTracing.Examples.LateSpanFinish
         {
             Task.Run(async () =>
             {
-                using (IScope childScope1 = tracer.BuildSpan("task1").StartActive(finishSpanOnDispose:true))
+                using (IScope childScope1 = _tracer.BuildSpan("task1").StartActive(finishSpanOnDispose:true))
                 {
                     await Task.Delay(55);
                 }
@@ -54,7 +54,7 @@ namespace OpenTracing.Examples.LateSpanFinish
 
             Task.Run(async () =>
             {
-                using (IScope childScope2 = tracer.BuildSpan("task2").StartActive(finishSpanOnDispose:true))
+                using (IScope childScope2 = _tracer.BuildSpan("task2").StartActive(finishSpanOnDispose:true))
                 {
                     await Task.Delay(85);
                 }

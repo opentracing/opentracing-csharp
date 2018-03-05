@@ -10,20 +10,20 @@ namespace OpenTracing.Examples.ActiveSpanReplacement
 {
     public class ActiveSpanReplacementTest
     {
-        private readonly MockTracer tracer = new MockTracer();
+        private readonly MockTracer _tracer = new MockTracer();
 
         [Fact]
         public void test()
         {
             // Start an isolated task and query for its result in another task/thread
-            ISpan initialSpan = tracer.BuildSpan("initial").Start();
+            ISpan initialSpan = _tracer.BuildSpan("initial").Start();
 
             // Explicitly pass a Span to be finished once a late calculation is done.
             SubmitAnotherTask(initialSpan);
 
-            WaitForSpanCount(tracer, 3, DefaultTimeout);
+            WaitForSpanCount(_tracer, 3, DefaultTimeout);
 
-            var spans = tracer.FinishedSpans();
+            var spans = _tracer.FinishedSpans();
             Assert.Equal(3, spans.Count);
             Assert.Equal("initial", spans[0].OperationName); // Isolated task
             Assert.Equal("subtask", spans[1].OperationName);
@@ -37,7 +37,7 @@ namespace OpenTracing.Examples.ActiveSpanReplacement
             Assert.NotEqual(spans[0].Context.TraceId, spans[1].Context.TraceId);
             Assert.Equal(0, spans[0].ParentId);
 
-            Assert.Null(tracer.ScopeManager.Active);
+            Assert.Null(_tracer.ScopeManager.Active);
         }
 
         private void SubmitAnotherTask(ISpan initialSpan)
@@ -45,17 +45,17 @@ namespace OpenTracing.Examples.ActiveSpanReplacement
             Task.Run(async () =>
             {
                 // Create a new Span for this task
-                using (IScope taskScope = tracer.BuildSpan("task").StartActive(finishSpanOnDispose:true))
+                using (IScope taskScope = _tracer.BuildSpan("task").StartActive(finishSpanOnDispose:true))
                 {
                     // Simulate work strictly related to the initial Span
                     // and finish it.
-                    using (IScope initialScope = tracer.ScopeManager.Activate(initialSpan, finishSpanOnDispose:true))
+                    using (IScope initialScope = _tracer.ScopeManager.Activate(initialSpan, finishSpanOnDispose:true))
                     {
                         await Task.Delay(50);
                     }
 
                     // Restore the span for this task and create a subspan
-                    using (IScope subTaskScope = tracer.BuildSpan("subtask").StartActive(finishSpanOnDispose:true))
+                    using (IScope subTaskScope = _tracer.BuildSpan("subtask").StartActive(finishSpanOnDispose:true))
                     {
                     }
                 }

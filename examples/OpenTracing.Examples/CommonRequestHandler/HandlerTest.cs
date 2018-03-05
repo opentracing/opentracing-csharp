@@ -14,26 +14,26 @@ namespace OpenTracing.Examples.CommonRequestHandler
 {
     public class HandlerTest
     {
-        private readonly MockTracer tracer = new MockTracer();
-        private readonly Client client;
+        private readonly MockTracer _tracer = new MockTracer();
+        private readonly Client _client;
 
         public HandlerTest()
         {
-            client = new Client(new RequestHandler(tracer));
+            _client = new Client(new RequestHandler(_tracer));
         }
 
         [Fact]
         public void TwoRequests()
         {
-            var responseTask = client.Send("message");
-            var responseTask2 = client.Send("message2");
+            var responseTask = _client.Send("message");
+            var responseTask2 = _client.Send("message2");
 
             responseTask.Wait(DefaultTimeout);
             responseTask2.Wait(DefaultTimeout);
             Assert.Equal("message:response", responseTask.Result);
             Assert.Equal("message2:response", responseTask2.Result);
 
-            var finished = tracer.FinishedSpans();
+            var finished = _tracer.FinishedSpans();
             Assert.Equal(2, finished.Count);
 
             Assert.Equal(Tags.SpanKindClient, finished[0].Tags[Tags.SpanKind.Key]);
@@ -43,22 +43,22 @@ namespace OpenTracing.Examples.CommonRequestHandler
             Assert.Equal(0, finished[0].ParentId);
             Assert.Equal(0, finished[1].ParentId);
 
-            Assert.Null(tracer.ScopeManager.Active);
+            Assert.Null(_tracer.ScopeManager.Active);
         }
 
         // active parent is not picked up by child.
         [Fact]
         public void ParentNotPickedUp()
         {
-            using (IScope scope = tracer.BuildSpan("parent").StartActive(finishSpanOnDispose:true))
+            using (IScope scope = _tracer.BuildSpan("parent").StartActive(finishSpanOnDispose:true))
             {
-                var responseTask = client.Send("no_parent");
+                var responseTask = _client.Send("no_parent");
                 responseTask.Wait(DefaultTimeout);
                 String response = responseTask.Result;
                 Assert.Equal("no_parent:response", response);
             }
 
-            var finished = tracer.FinishedSpans();
+            var finished = _tracer.FinishedSpans();
             Assert.Equal(2, finished.Count);
 
             MockSpan child = GetOneByOperationName(finished, RequestHandler.OperationName);
@@ -79,9 +79,9 @@ namespace OpenTracing.Examples.CommonRequestHandler
         public void BadSolutionToSetParent()
         {
             Client testClient;
-            using (IScope scope = tracer.BuildSpan("parent").StartActive(finishSpanOnDispose:true))
+            using (IScope scope = _tracer.BuildSpan("parent").StartActive(finishSpanOnDispose:true))
             {
-                testClient = new Client(new RequestHandler(tracer, scope.Span.Context));
+                testClient = new Client(new RequestHandler(_tracer, scope.Span.Context));
 
                 var responseTask = testClient.Send("correct_parent");
                 responseTask.Wait(DefaultTimeout);
@@ -95,7 +95,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
             String response2 = responseTask2.Result;
             Assert.Equal("wrong_parent:response", response2);
 
-            var finished = tracer.FinishedSpans();
+            var finished = _tracer.FinishedSpans();
             Assert.Equal(3, finished.Count);
 
             SortByStartTimestamp(finished);

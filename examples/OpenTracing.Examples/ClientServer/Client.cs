@@ -8,26 +8,26 @@ namespace OpenTracing.Examples.ClientServer
 {
     public class Client
     {
-        private readonly BlockingCollection<Message> queue;
-        private readonly ITracer tracer;
+        private readonly BlockingCollection<Message> _queue;
+        private readonly ITracer _tracer;
 
         public Client(BlockingCollection<Message> queue, ITracer tracer)
         {
-            this.queue = queue;
-            this.tracer = tracer;
+            this._queue = queue;
+            this._tracer = tracer;
         }
 
         public void Send()
         {
             var message = new Message();
 
-            using (IScope scope = tracer.BuildSpan("send")
+            using (IScope scope = _tracer.BuildSpan("send")
                     .WithTag(Tags.SpanKind.Key, Tags.SpanKindClient)
                     .WithTag(Tags.Component.Key, "example-client")
                     .StartActive(finishSpanOnDispose:true))
             {
-                tracer.Inject(scope.Span.Context, BuiltinFormats.TextMap, new TextMapInjectAdapter(message));
-                queue.Add(message);
+                _tracer.Inject(scope.Span.Context, BuiltinFormats.TextMap, new TextMapInjectAdapter(message));
+                _queue.Add(message);
             }
         }
     }

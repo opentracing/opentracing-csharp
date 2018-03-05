@@ -11,36 +11,36 @@ namespace OpenTracing.Examples.ClientServer
 {
     public class TestClientServerTest : IDisposable
     {
-        private readonly MockTracer tracer = new MockTracer();
-        private readonly BlockingCollection<Message> queue = new BlockingCollection<Message>(10);
-        private Server server;
+        private readonly MockTracer _tracer = new MockTracer();
+        private readonly BlockingCollection<Message> _queue = new BlockingCollection<Message>(10);
+        private Server _server;
 
         public TestClientServerTest()
         {
-            server = new Server(queue, tracer);
-            server.Start();
+            _server = new Server(_queue, _tracer);
+            _server.Start();
         }
 
         void IDisposable.Dispose()
         {
-            server.Stop();
+            _server.Stop();
         }
 
         [Fact]
         public void test()
         {
-            Client client = new Client(queue, tracer);
+            Client client = new Client(_queue, _tracer);
             client.Send();
 
-            WaitForSpanCount(tracer, 2, DefaultTimeout);
+            WaitForSpanCount(_tracer, 2, DefaultTimeout);
 
-            var finished = tracer.FinishedSpans();
+            var finished = _tracer.FinishedSpans();
             Assert.Equal(2, finished.Count);
             Assert.Equal(finished[0].Context.TraceId, finished[1].Context.TraceId);
             Assert.NotNull(GetOneByTag(finished, Tags.SpanKind, Tags.SpanKindClient));
             Assert.NotNull(GetOneByTag(finished, Tags.SpanKind, Tags.SpanKindServer));
 
-            Assert.Null(tracer.ScopeManager.Active);
+            Assert.Null(_tracer.ScopeManager.Active);
         }
     }
 }

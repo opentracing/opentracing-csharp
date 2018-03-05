@@ -10,17 +10,17 @@ namespace OpenTracing.Examples.NestedCallbacks
 {
     public class NestedCallbacksTest
     {
-        private readonly MockTracer tracer = new MockTracer();
+        private readonly MockTracer _tracer = new MockTracer();
 
         [Fact]
         public void test()
         {
-            ISpan span = tracer.BuildSpan("one").Start();
+            ISpan span = _tracer.BuildSpan("one").Start();
             SubmitCallbacks(span);
 
-            WaitForSpanCount(tracer, 1, DefaultTimeout);
+            WaitForSpanCount(_tracer, 1, DefaultTimeout);
 
-            var spans = tracer.FinishedSpans();
+            var spans = _tracer.FinishedSpans();
             Assert.Single(spans);
             Assert.Equal("one", spans[0].OperationName);
 
@@ -31,27 +31,27 @@ namespace OpenTracing.Examples.NestedCallbacks
                 Assert.Equal(i.ToString(), tags["key" + i]);
             }
 
-            Assert.Null(tracer.ScopeManager.Active);
+            Assert.Null(_tracer.ScopeManager.Active);
         }
 
         private void SubmitCallbacks(ISpan span)
         {
             // Manually activate span so it gets
             // propagated as the active one in the nested tasks.
-            using (tracer.ScopeManager.Activate(span, finishSpanOnDispose:false))
+            using (_tracer.ScopeManager.Activate(span, finishSpanOnDispose:false))
             {
                 Task.Run(() =>
                 {
-                    tracer.ActiveSpan.SetTag("key1", "1");
+                    _tracer.ActiveSpan.SetTag("key1", "1");
 
                     Task.Run(() =>
                     {
-                        tracer.ActiveSpan.SetTag("key2", "2");
+                        _tracer.ActiveSpan.SetTag("key2", "2");
 
                         Task.Run(() =>
                         {
-                            tracer.ActiveSpan.SetTag("key3", "3");
-                            tracer.ActiveSpan.Finish();
+                            _tracer.ActiveSpan.SetTag("key3", "3");
+                            _tracer.ActiveSpan.Finish();
                         });
                     });
                 });

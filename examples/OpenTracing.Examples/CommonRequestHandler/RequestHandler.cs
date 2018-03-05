@@ -10,9 +10,9 @@ namespace OpenTracing.Examples.CommonRequestHandler
     {
         internal const String OperationName = "send";
 
-        private readonly ITracer tracer;
+        private readonly ITracer _tracer;
 
-        private readonly ISpanContext parentContext;
+        private readonly ISpanContext _parentContext;
 
         public RequestHandler(ITracer tracer) : this(tracer, null)
         {
@@ -20,21 +20,21 @@ namespace OpenTracing.Examples.CommonRequestHandler
 
         public RequestHandler(ITracer tracer, ISpanContext parentContext)
         {
-            this.tracer = tracer;
-            this.parentContext = parentContext;
+            this._tracer = tracer;
+            this._parentContext = parentContext;
         }
 
         public void BeforeRequest(Object request, Context context)
         {
             // we cannot use active span because we don't know in which thread it is executed
             // and we cannot therefore Activate span. thread can come from common thread pool.
-            ISpanBuilder spanBuilder = tracer.BuildSpan(OperationName)
+            ISpanBuilder spanBuilder = _tracer.BuildSpan(OperationName)
                     .IgnoreActiveSpan()
                     .WithTag(Tags.SpanKind.Key, Tags.SpanKindClient);
 
-            if (parentContext != null)
+            if (_parentContext != null)
             {
-                spanBuilder.AsChildOf(parentContext);
+                spanBuilder.AsChildOf(_parentContext);
             }
 
             context["span"] = spanBuilder.Start();
