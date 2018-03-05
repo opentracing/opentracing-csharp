@@ -42,10 +42,8 @@ namespace OpenTracing.Examples.CommonRequestHandler
 
         public void AfterResponse(Object response, Context context)
         {
-            Object spanObject = context["span"];
-            if (spanObject is ISpan)
-            {
-                ((ISpan)spanObject).Finish();
+            if (context["span"] is ISpan span) {
+                span.Finish();
             }
         }
     }
