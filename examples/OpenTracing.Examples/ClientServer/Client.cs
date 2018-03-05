@@ -13,8 +13,8 @@ namespace OpenTracing.Examples.ClientServer
 
         public Client(BlockingCollection<Message> queue, ITracer tracer)
         {
-            this._queue = queue;
-            this._tracer = tracer;
+            _queue = queue;
+            _tracer = tracer;
         }
 
         public void Send()

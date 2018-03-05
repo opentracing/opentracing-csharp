@@ -11,7 +11,7 @@ namespace OpenTracing.Examples.ListenerPerRequest
 
         public Client(ITracer tracer)
         {
-            this._tracer = tracer;
+            _tracer = tracer;
         }
 
         // Async execution

@@ -14,8 +14,8 @@ namespace OpenTracing.Examples.ClientServer
 
         public Server(BlockingCollection<Message> queue, ITracer tracer)
         {
-            this._queue = queue;
-            this._tracer = tracer;
+            _queue = queue;
+            _tracer = tracer;
         }
 
         private void Process(Message message)

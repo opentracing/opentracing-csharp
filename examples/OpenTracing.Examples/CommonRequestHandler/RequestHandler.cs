@@ -20,8 +20,8 @@ namespace OpenTracing.Examples.CommonRequestHandler
 
         public RequestHandler(ITracer tracer, ISpanContext parentContext)
         {
-            this._tracer = tracer;
-            this._parentContext = parentContext;
+            _tracer = tracer;
+            _parentContext = parentContext;
         }
 
         public void BeforeRequest(Object request, Context context)

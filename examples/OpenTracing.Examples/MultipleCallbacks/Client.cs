@@ -10,7 +10,7 @@ namespace OpenTracing.Examples.MultipleCallbacks
 
         public Client(ITracer tracer)
         {
-            this._tracer = tracer;
+            _tracer = tracer;
         }
 
         public async Task<String> Send<T>(T message, long milliseconds)

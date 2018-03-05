@@ -6,14 +6,14 @@ namespace OpenTracing.Examples.ListenerPerRequest
     public class ResponseListener
     {
 
-        private readonly ISpan span;
+        private readonly ISpan _span;
 
         public ResponseListener(ISpan span)
         {
-            this.span = span;
+            _span = span;
         }
 
         // executed when response is received from server. Any thread.
-        public void OnResponse(String response) => span.Finish();
+        public void OnResponse(String response) => _span.Finish();
     }
 }

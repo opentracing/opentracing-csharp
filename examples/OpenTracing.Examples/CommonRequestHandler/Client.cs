@@ -10,7 +10,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
 
         public Client(RequestHandler requestHandler)
         {
-            this._requestHandler = requestHandler;
+            _requestHandler = requestHandler;
         }
 
         public async Task<String> Send(String message)
