@@ -22,14 +22,13 @@ namespace OpenTracing
         IScope Active { get; }
 
         /// <summary>Make a <see cref="ISpan"/> instance active.</summary>
-        /// <param name="span">The <see cref="ISpan"/> that should become the <see cref="Active"/></param>
+        /// <param name="span">The <see cref="ISpan"/> that should become the <see cref="Active"/>.</param>
         /// <param name="finishSpanOnDispose">
         /// Whether span should automatically be finished when <see cref="IDisposable.Dispose"/> is called.
         /// </param>
         /// <returns>
-        /// A <see cref="IScope"/> instance to control the end of the active period for the <see cref="ISpan"/>. Span will
-        /// automatically be finished when <see cref="IDisposable.Dispose"/> is called. It is a programming error to neglect to
-        /// call <see cref="IDisposable.Dispose"/> on the returned instance.
+        /// A <see cref="IScope"/> instance to control the end of the active period for the <see cref="ISpan"/>.
+        /// It is a programming error to neglect to call <see cref="IDisposable.Dispose"/> on the returned instance.
         /// </returns>
         IScope Activate(ISpan span, bool finishSpanOnDispose);
     }

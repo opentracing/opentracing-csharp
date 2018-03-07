@@ -8,7 +8,7 @@ namespace OpenTracing.Mock
 {
     /// <summary>
     /// MockSpans are created via <see cref="MockTracer.BuildSpan"/>, but they are also returned via calls to
-    /// <see cref="MockTracer.FinishedSpans"/>. They provide accessors to all Span state.
+    /// <see cref="MockTracer.FinishedSpans"/>. They provide accessors to all span state.
     /// </summary>
     /// <seealso cref="MockTracer.FinishedSpans"/>
     public sealed class MockSpan : ISpan
@@ -38,7 +38,7 @@ namespace OpenTracing.Mock
         private readonly List<Exception> _errors = new List<Exception>();
 
         /// <summary>
-        /// The spanId of the Span's first <see cref="References.ChildOf"/> reference, or the first reference of any type,
+        /// The spanId of the span's first <see cref="References.ChildOf"/> reference, or the first reference of any type,
         /// or 0 if no reference exists.
         /// </summary>
         /// <seealso cref="MockSpanContext.SpanId"/>
@@ -48,7 +48,7 @@ namespace OpenTracing.Mock
         public DateTimeOffset StartTimestamp { get; }
 
         /// <summary>
-        /// The finish time of the Span; only valid after a call to <see cref="Finish()"/>.
+        /// The finish time of the span; only valid after a call to <see cref="Finish()"/>.
         /// </summary>
         public DateTimeOffset FinishTimestamp
         {

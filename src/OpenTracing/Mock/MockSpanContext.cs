@@ -21,8 +21,8 @@ namespace OpenTracing.Mock
         /// An internal constructor to create a new <see cref="MockSpanContext"/>.
         /// This should only be called by <see cref="MockSpan"/> and/or <see cref="MockTracer"/>.
         /// </summary>
-        /// <param name="traceId">The id of the trace</param>
-        /// <param name="spanId">The id of the span</param>
+        /// <param name="traceId">The id of the trace.</param>
+        /// <param name="spanId">The id of the span.</param>
         /// <param name="baggage">The MockContext takes ownership of the baggage parameter.</param>
         /// <seealso cref="MockSpanContext.WithBaggageItem(string, string)"/>
         internal MockSpanContext(long traceId, long spanId, IDictionary<string, string> baggage)

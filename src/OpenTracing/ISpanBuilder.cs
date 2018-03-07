@@ -9,41 +9,40 @@ namespace OpenTracing
         /// </summary>
         ISpanBuilder AsChildOf(ISpanContext parent);
 
-        /// <summary>A shorthand for <see cref="AddReference"/>(References.ChildOf, parent.Context()).
+        /// <summary>A shorthand for <see cref="AddReference"/>(References.ChildOf, parent.Context).
         /// <para>If parent == null, this is a noop.</para>
         /// </summary>
         ISpanBuilder AsChildOf(ISpan parent);
 
         /// <summary>
-        /// Add a reference from the Span being built to a distinct (usually parent) Span. May be called multiples times to
-        /// represent multiple such References.
+        /// Add a reference from the span being built to a distinct (usually parent) span. May be called multiple times to
+        /// represent multiple such references.
         /// <para>
         /// If
         /// <list type="bullet">
-        /// <item>the <see cref="ITracer"/>'s <see cref="IScopeManager.Active"/> is not null, and</item>
-        /// <item>no <b>explicit</b> references are added via <see cref="AddReference"/>, and</item>
-        /// <item><see cref="IgnoreActiveSpan"/> is not invoked,</item>
+        /// <item>the <see cref="ITracer"/>'s <see cref="IScopeManager.Active"/> is not null, and </item>
+        /// <item>no <b>explicit</b> references are added via <see cref="AddReference"/>, and </item>
+        /// <item><see cref="IgnoreActiveSpan"/> is not invoked, </item>
         /// </list>
         /// ... then an inferred <see cref="References.ChildOf"/> reference is created to the <see cref="IScopeManager.Active"/>
         /// <see cref="ISpanContext"/> when either <see cref="StartActive"/> or <see cref="Start"/> is invoked.
         /// </para>
         /// </summary>
         /// <param name="referenceType">
-        /// The reference type, typically one of the constants defined in <see cref="References"/>
+        /// The reference type, typically one of the constants defined in <see cref="References"/>.
         /// </param>
         /// <param name="referencedContext">
-        /// The SpanContext being referenced; e.g., for a <see cref="References.ChildOf"/>
-        /// reference, the referenecedContext is the parent. If referencedContext==null, the call to <see cref="AddReference"/> is
+        /// The <see cref="ISpanContext"/> being referenced; e.g., for a <see cref="References.ChildOf"/>
+        /// reference, the referenecedContext is the parent. If referencedContext == null, the call to <see cref="AddReference"/> is
         /// a noop.
         /// </param>
         /// <seealso cref="References"/>
         ISpanBuilder AddReference(string referenceType, ISpanContext referencedContext);
 
         /// <summary>
-        /// Do not create an implicit <see cref="References.ChildOf"/> reference to othe
+        /// Do not create an implicit <see cref="References.ChildOf"/> reference to the
         /// <see cref="IScopeManager.Active"/>.
         /// </summary>
-        /// <returns></returns>
         ISpanBuilder IgnoreActiveSpan();
 
         /// <summary>Same as <see cref="ISpan.SetTag(string,string)"/>, but for the span being built.</summary>
@@ -66,21 +65,20 @@ namespace OpenTracing
         /// <para>
         /// The returned <see cref="IScope"/> supports using(). For example:
         /// <code>
-        /// using (IScope scope = tracer.BuildSpan("...").StartActive(false))
+        /// using (IScope scope = tracer.BuildSpan("...").StartActive(finishSpanOnDispose: true))
         /// {
         ///     // (Do work)
         ///     scope.Span.SetTag( ... );  // etc, etc
         /// }
-        /// // Span does not finish automatically when the Scope is closed as
-        /// // 'finishOnClose' is false
+        /// // Span finishes automatically only when 'finishSpanOnDispose' is true
         /// </code>
         /// </para>
         /// <para>
         /// If
         /// <list type="bullet">
-        /// <item>the <see cref="ITracer"/>'s <see cref="IScopeManager.Active"/> is not null, and</item>
-        /// <item>no <b>explicit</b> references are added via <see cref="AddReference"/>, and</item>
-        /// <item><see cref="IgnoreActiveSpan"/> is not invoked,</item>
+        /// <item>the <see cref="ITracer"/>'s <see cref="IScopeManager.Active"/> is not null, and </item>
+        /// <item>no <b>explicit</b> references are added via <see cref="AddReference"/>, and </item>
+        /// <item><see cref="IgnoreActiveSpan"/> is not invoked, </item>
         /// </list>
         /// ... then an inferred <see cref="References.ChildOf"/> reference is created to the <see cref="IScopeManager.Active"/>
         /// <see cref="ISpanContext"/> when either <see cref="Start"/> or <see cref="StartActive"/> is invoked.
@@ -89,7 +87,7 @@ namespace OpenTracing
         /// <param name="finishSpanOnDispose">
         /// Whether span should automatically be finished when <see cref="IDisposable.Dispose"/> is called.
         /// </param>
-        /// <returns>An <see cref="IScope"/>, already registered via the <see cref="IScopeManager"/></returns>
+        /// <returns>An <see cref="IScope"/>, already registered via the <see cref="IScopeManager"/>.</returns>
         /// <seealso cref="IScopeManager"/>
         /// <seealso cref="IScope"/>
         IScope StartActive(bool finishSpanOnDispose);
@@ -99,8 +97,8 @@ namespace OpenTracing
         /// <see cref="IScopeManager"/>.
         /// </summary>
         /// <returns>
-        /// The newly-started Span instance, which as *not* been automatically registered via the
-        /// <see cref="IScopeManager"/>
+        /// The newly-started span instance, which has *not* been automatically registered via the
+        /// <see cref="IScopeManager"/>.
         /// </returns>
         /// <seealso cref="StartActive(bool)"/>
         ISpan Start();

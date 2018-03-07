@@ -18,7 +18,7 @@ namespace OpenTracing
     /// </summary>
     public interface IScope : IDisposable
     {
-        /// <summary>The <see cref="ISpan"/> that's been scoped by this <see cref="IScope"/></summary>
+        /// <summary>The <see cref="ISpan"/> that's been scoped by this <see cref="IScope"/>.</summary>
         ISpan Span { get; }
     }
 }

@@ -9,8 +9,8 @@ namespace OpenTracing.Mock
     /// <summary>
     /// <see cref="MockTracer"/> makes it easy to test the semantics of OpenTracing instrumentation.
     /// <para/>
-    /// By using a <see cref="MockTracer"/> as an <see cref="ITracer"/> implementation for unittests, a developer can assert that Span
-    /// properties and relationships with other Spans are defined as expected by instrumentation code.
+    /// By using a <see cref="MockTracer"/> as an <see cref="ITracer"/> implementation for unittests, a developer can assert that span
+    /// properties and relationships with other spans are defined as expected by instrumentation code.
     /// <para/>
     /// The MockTracerTests class has simple usage examples.
     /// </summary>
@@ -54,7 +54,7 @@ namespace OpenTracing.Mock
         /// <summary>
         /// Clear the <see cref="FinishedSpans"/> queue.
         /// <para/>
-        /// Note that this does *not* have any effect on Spans created by MockTracer that have not Finish()ed yet; those
+        /// Note that this does *not* have any effect on spans created by MockTracer that have not Finish()ed yet; those
         /// will still be enqueued in <see cref="FinishedSpans"/> when they Finish().
         /// </summary>
         public void Reset()
