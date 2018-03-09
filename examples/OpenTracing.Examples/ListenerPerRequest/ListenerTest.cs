@@ -20,7 +20,7 @@ namespace OpenTracing.Examples.ListenerPerRequest
 
             var responseTask = client.Send("message");
             responseTask.Wait(DefaultTimeout);
-            String response = responseTask.Result;
+            string response = responseTask.Result;
             Assert.Equal("message:response", response);
 
             var finished = _tracer.FinishedSpans();

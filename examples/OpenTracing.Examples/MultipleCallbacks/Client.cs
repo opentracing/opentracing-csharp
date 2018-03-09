@@ -13,7 +13,7 @@ namespace OpenTracing.Examples.MultipleCallbacks
             _tracer = tracer;
         }
 
-        public async Task<String> Send<T>(T message, long milliseconds)
+        public async Task<string> Send<T>(T message, long milliseconds)
         {
             using (IScope scope = _tracer.BuildSpan("subtask").StartActive(finishSpanOnDispose:true))
             {

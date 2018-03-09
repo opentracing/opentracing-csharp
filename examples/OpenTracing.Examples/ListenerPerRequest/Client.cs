@@ -15,18 +15,18 @@ namespace OpenTracing.Examples.ListenerPerRequest
         }
 
         // Async execution
-        private Task<String> Execute(String message, ResponseListener responseListener)
+        private Task<string> Execute(string message, ResponseListener responseListener)
         {
             return Task.Run(() =>
             {
                 // send via wire and get response
-                String response = $"{message}:response";
+                string response = $"{message}:response";
                 responseListener.OnResponse(response);
                 return response;
             });
         }
 
-        public Task<String> Send(String message)
+        public Task<string> Send(string message)
         {
             ISpan span = _tracer.BuildSpan("send").
                     WithTag(Tags.SpanKind.Key, Tags.SpanKindClient)

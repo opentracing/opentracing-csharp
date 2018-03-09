@@ -54,7 +54,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
             {
                 var responseTask = _client.Send("no_parent");
                 responseTask.Wait(DefaultTimeout);
-                String response = responseTask.Result;
+                string response = responseTask.Result;
                 Assert.Equal("no_parent:response", response);
             }
 
@@ -85,14 +85,14 @@ namespace OpenTracing.Examples.CommonRequestHandler
 
                 var responseTask = testClient.Send("correct_parent");
                 responseTask.Wait(DefaultTimeout);
-                String response = responseTask.Result;
+                string response = responseTask.Result;
                 Assert.Equal("correct_parent:response", response);
             }
 
             // Send second request, now there is no active parent, but it will be set, ups
             var responseTask2 = testClient.Send("wrong_parent");
             responseTask2.Wait(DefaultTimeout);
-            String response2 = responseTask2.Result;
+            string response2 = responseTask2.Result;
             Assert.Equal("wrong_parent:response", response2);
 
             var finished = _tracer.FinishedSpans();
@@ -110,7 +110,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
             Assert.Equal(parent.Context.SpanId, finished[2].ParentId);
         }
 
-        private static MockSpan GetOneByOperationName(List<MockSpan> spans, String name)
+        private static MockSpan GetOneByOperationName(List<MockSpan> spans, string name)
         {
             MockSpan found = null;
             foreach (MockSpan span in spans)

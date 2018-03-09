@@ -13,7 +13,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
             _requestHandler = requestHandler;
         }
 
-        public async Task<String> Send(String message)
+        public async Task<string> Send(string message)
         {
             var context = new Context();
 

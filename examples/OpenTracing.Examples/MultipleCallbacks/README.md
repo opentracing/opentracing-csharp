@@ -6,7 +6,7 @@ This example shows an `ISpan` created for a top-level operation, covering a set 
 
 ```cs
 // Client.Send()
-public async Task<String> Send<T>(T message, long milliseconds)
+public async Task<string> Send<T>(T message, long milliseconds)
 {
     using (IScope scope = tracer.BuildSpan("subtask").StartActive(finishSpanOnDispose:true))
     {

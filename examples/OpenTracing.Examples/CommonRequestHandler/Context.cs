@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenTracing.Examples.CommonRequestHandler
 {
-    public class Context : Dictionary<String, Object>
+    public class Context : Dictionary<string, Object>
     {
     }
 }

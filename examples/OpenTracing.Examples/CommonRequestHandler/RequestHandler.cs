@@ -8,7 +8,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
     // and 'afterResponse' are executed in different threads for one 'send'
     public class RequestHandler
     {
-        internal const String OperationName = "send";
+        internal const string OperationName = "send";
 
         private readonly ITracer _tracer;
 

@@ -14,6 +14,6 @@ namespace OpenTracing.Examples.ListenerPerRequest
         }
 
         // executed when response is received from server. Any thread.
-        public void OnResponse(String response) => _span.Finish();
+        public void OnResponse(string response) => _span.Finish();
     }
 }
