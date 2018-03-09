@@ -17,17 +17,11 @@ namespace OpenTracing.Examples.CommonRequestHandler
         {
             var context = new Context();
 
-            await Task.Run(async () =>
-            {
-                await Task.Delay(50);
-                _requestHandler.BeforeRequest(message, context);
-            });
+            await Task.Delay(50);
+            _requestHandler.BeforeRequest(message, context);
 
-            await Task.Run(async () =>
-            {
-                await Task.Delay(50);
-                _requestHandler.AfterResponse(message, context);
-            });
+            await Task.Delay(50);
+            _requestHandler.AfterResponse(message, context);
 
             return $"{message}:response";
         }

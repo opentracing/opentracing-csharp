@@ -8,8 +8,8 @@ using Xunit;
 using static OpenTracing.Examples.TestUtils;
 
 // There is only one instance of 'RequestHandler' per 'Client'. Methods of 'RequestHandler' are
-// executed concurrently in different threads which are reused (common pool). Therefore we cannot
-// use current active span and Activate. So one issue here is setting correct parent span.
+// executed concurrently in different threads which are reused (common pool). But as the active Span
+// is properly propagated we can rely on getting/setting the active one.
 namespace OpenTracing.Examples.CommonRequestHandler
 {
     public class HandlerTest
@@ -23,15 +23,13 @@ namespace OpenTracing.Examples.CommonRequestHandler
         }
 
         [Fact]
-        public void TwoRequests()
+        public async Task TwoRequests()
         {
-            var responseTask = _client.Send("message");
-            var responseTask2 = _client.Send("message2");
+            string response = await _client.Send("message");
+            string response2 = await _client.Send("message2");
 
-            responseTask.Wait(DefaultTimeout);
-            responseTask2.Wait(DefaultTimeout);
-            Assert.Equal("message:response", responseTask.Result);
-            Assert.Equal("message2:response", responseTask2.Result);
+            Assert.Equal("message:response", response);
+            Assert.Equal("message2:response", response2);
 
             var finished = _tracer.FinishedSpans();
             Assert.Equal(2, finished.Count);
@@ -47,14 +45,14 @@ namespace OpenTracing.Examples.CommonRequestHandler
         }
 
         // active parent is not picked up by child.
+        // Need to explicitly tell to RequestHandler to ignore any active Span.
         [Fact]
-        public void ParentNotPickedUp()
+        public async Task ParentNotPickedUp()
         {
+            var testClient = new Client(new RequestHandler(_tracer, ignoreActiveSpan:true));
             using (IScope scope = _tracer.BuildSpan("parent").StartActive(finishSpanOnDispose:true))
             {
-                var responseTask = _client.Send("no_parent");
-                responseTask.Wait(DefaultTimeout);
-                string response = responseTask.Result;
+                string response = await testClient.Send("no_parent");
                 Assert.Equal("no_parent:response", response);
             }
 
@@ -72,28 +70,19 @@ namespace OpenTracing.Examples.CommonRequestHandler
             Assert.NotEqual(parent.Context.SpanId, child.ParentId);
         }
 
-        // Solution is bad because parent is per client (we don't have better choice).
-        // Therefore all client requests will have the same parent.
-        // But if client is long living and injected/reused in different places then initial parent will not be correct.
         [Fact]
-        public void BadSolutionToSetParent()
+        public async Task ParentPickedUp()
         {
-            Client testClient;
+            var testClient = new Client(new RequestHandler(_tracer));
             using (IScope scope = _tracer.BuildSpan("parent").StartActive(finishSpanOnDispose:true))
             {
-                testClient = new Client(new RequestHandler(_tracer, scope.Span.Context));
-
-                var responseTask = testClient.Send("correct_parent");
-                responseTask.Wait(DefaultTimeout);
-                string response = responseTask.Result;
+                string response = await testClient.Send("correct_parent");
                 Assert.Equal("correct_parent:response", response);
             }
 
-            // Send second request, now there is no active parent, but it will be set, ups
-            var responseTask2 = testClient.Send("wrong_parent");
-            responseTask2.Wait(DefaultTimeout);
-            string response2 = responseTask2.Result;
-            Assert.Equal("wrong_parent:response", response2);
+            // Send second request, now there is no active parent.
+            string response2 = await testClient.Send("no_parent");
+            Assert.Equal("no_parent:response", response2);
 
             var finished = _tracer.FinishedSpans();
             Assert.Equal(3, finished.Count);
@@ -106,8 +95,8 @@ namespace OpenTracing.Examples.CommonRequestHandler
             // now there is parent/child relation between first and second span:
             Assert.Equal(parent.Context.SpanId, finished[1].ParentId);
 
-            // third span should not have parent, but it has, damn it
-            Assert.Equal(parent.Context.SpanId, finished[2].ParentId);
+            // third span should not have parent.
+            Assert.Equal(0, finished[2].ParentId);
         }
 
         private static MockSpan GetOneByOperationName(List<MockSpan> spans, string name)

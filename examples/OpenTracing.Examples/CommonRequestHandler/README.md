@@ -23,10 +23,9 @@ public void BeforeRequest(Object request, Context context)
 
 public void AfterResponse(Object response, Context context)
 {
-    Object spanObject = context["span"];
-    if (spanObject is ISpan)
+    if (context["span"] is ISpan span)
     {
-        ((ISpan)spanObject).Finish();
+        span.Finish();
     }
 }
 ```
