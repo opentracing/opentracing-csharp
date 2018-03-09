@@ -2,7 +2,7 @@ using System;
 
 namespace OpenTracing.Examples.ListenerPerRequest
 {
-    // Response listener per request. Executed in a thread different from 'send' thread
+    // Response listener per request. Executed in a thread different from 'Send' thread
     public class ResponseListener
     {
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using OpenTracing.Mock;
 using OpenTracing.Tag;
 using Xunit;
@@ -14,13 +15,11 @@ namespace OpenTracing.Examples.ListenerPerRequest
         private readonly MockTracer _tracer = new MockTracer();
 
         [Fact]
-        public void test()
+        public async Task test()
         {
             var client = new Client(_tracer);
 
-            var responseTask = client.Send("message");
-            responseTask.Wait(DefaultTimeout);
-            string response = responseTask.Result;
+            string response = await client.Send("message");
             Assert.Equal("message:response", response);
 
             var finished = _tracer.FinishedSpans();
