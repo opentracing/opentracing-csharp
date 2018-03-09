@@ -13,22 +13,20 @@ namespace OpenTracing.Examples.MultipleCallbacks
         private readonly MockTracer _tracer = new MockTracer();
 
         [Fact]
-        public void test()
+        public async Task test()
         {
             Client client = new Client(_tracer);
             var tasks = new Task[3];
 
             var span = _tracer.BuildSpan("parent").Start();
-            using (IScope scope = _tracer.ScopeManager.Activate(span, finishSpanOnDispose:false))
+            using (IScope scope = _tracer.ScopeManager.Activate(span, finishSpanOnDispose:true))
             {
                 var rand = new Random();
                 for (int i = 0; i < tasks.Length; i++)
                     tasks[i] = client.Send("task" + i, rand.Next(300));
 
-                Task.WhenAll(tasks).ContinueWith(arg => span.Finish());
+                await Task.WhenAll(tasks);
             }
-
-            WaitForSpanCount(_tracer, 4, DefaultTimeout);
 
             List<MockSpan> spans = _tracer.FinishedSpans();
             Assert.Equal(4, spans.Count);
