@@ -13,16 +13,14 @@ namespace OpenTracing.Examples.LateSpanFinish
         private readonly MockTracer _tracer = new MockTracer();
 
         [Fact]
-        public void test()
+        public async Task test()
         {
             // Create a Span manually and use it as parent of a pair of subtasks
             ISpan parentSpan = _tracer.BuildSpan("parent").Start();
             using (IScope scope = _tracer.ScopeManager.Activate(parentSpan, finishSpanOnDispose:false))
             {
-                SubmitTasks();
+                await SubmitTasks();
             }
-
-            WaitForSpanCount(_tracer, 2, DefaultTimeout);
 
             // Late-finish the parent Span now
             parentSpan.Finish();
@@ -42,9 +40,9 @@ namespace OpenTracing.Examples.LateSpanFinish
         // is not tied at-all to the children.
         // NOTE: As opposed to Java, there is not need to reactivate the parent Span,
         // as the context is propagated by AsyncLocalScopeManager.
-        private void SubmitTasks()
+        private Task SubmitTasks()
         {
-            Task.Run(async () =>
+            var task1 = Task.Run(async () =>
             {
                 using (IScope childScope1 = _tracer.BuildSpan("task1").StartActive(finishSpanOnDispose:true))
                 {
@@ -52,13 +50,15 @@ namespace OpenTracing.Examples.LateSpanFinish
                 }
             });
 
-            Task.Run(async () =>
+            var task2 = Task.Run(async () =>
             {
                 using (IScope childScope2 = _tracer.BuildSpan("task2").StartActive(finishSpanOnDispose:true))
                 {
                     await Task.Delay(85);
                 }
             });
+
+            return Task.WhenAll(task1, task2);
         }
     }
 }
