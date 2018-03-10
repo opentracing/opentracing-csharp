@@ -25,7 +25,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
             _ignoreActiveSpan = ignoreActiveSpan;
         }
 
-        public void BeforeRequest(Object request, Context context)
+        public void BeforeRequest(object request, Context context)
         {
             ISpanBuilder spanBuilder = _tracer.BuildSpan(OperationName)
                     .WithTag(Tags.SpanKind.Key, Tags.SpanKindClient);
@@ -38,7 +38,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
             context["span"] = spanBuilder.StartActive(true);
         }
 
-        public void AfterResponse(Object response, Context context)
+        public void AfterResponse(object response, Context context)
         {
             if (context["span"] is IScope scope)
             {
