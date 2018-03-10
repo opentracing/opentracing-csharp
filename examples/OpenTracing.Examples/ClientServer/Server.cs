@@ -36,8 +36,7 @@ namespace OpenTracing.Examples.ClientServer
             {
                 // Wait for messages indefinitely, till
                 // the queue has been marked as adding-complete.
-                Message message;
-                while (_queue.TryTake(out message, -1)) {
+                while (_queue.TryTake(out Message message, -1)) {
                     Process(message);
                 }
             });
