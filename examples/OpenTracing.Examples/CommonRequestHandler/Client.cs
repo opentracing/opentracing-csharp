@@ -6,9 +6,9 @@ namespace OpenTracing.Examples.CommonRequestHandler
 {
     public class Client
     {
-        private readonly RequestHandler _requestHandler;
+        private readonly IRequestHandler _requestHandler;
 
-        public Client(RequestHandler requestHandler)
+        public Client(IRequestHandler requestHandler)
         {
             _requestHandler = requestHandler;
         }

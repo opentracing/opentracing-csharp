@@ -2,30 +2,27 @@
 
 This example shows an `ISpan` used with `RequestHandler`, which is used as a middleware (as in web frameworks) to manage a new `ISpan` per operation through its `BeforeRequest()`/`AfterResponse()` methods.
 
-Since its methods are not guaranteed to be run in the same thread, activation of such `ISpan`s is not done.
+The active `Span` is not put in the request `Context`, as it will be properly propagated (even between threads) by the `ScopeManager` - which means that, upon having `AfterResponse()` being called, we can simply finish the active `Scope`, if any.
 
 ```cs
 public void BeforeRequest(object request, Context context)
 {
-    // we cannot use active span because we don't know in which thread it is executed
-    // and we cannot therefore Activate span. thread can come from common thread pool.
-    ISpanBuilder spanBuilder = tracer.BuildSpan(OperationName)
-            .IgnoreActiveSpan()
-            .WithTag(Tags.SpanKind.Key, Tags.SpanKindClient);
+    ISpanBuilder spanBuilder = _tracer.BuildSpan(OperationName)
+	    .WithTag(Tags.SpanKind.Key, Tags.SpanKindClient);
 
-    if (parentContext != null)
+    if (_ignoreActiveSpan)
     {
-        spanBuilder.AsChildOf(parentContext);
+	spanBuilder.IgnoreActiveSpan();
     }
 
-    context["span"] = spanBuilder.Start();
+    // No need to put 'span' in Context, as our ScopeManager
+    // will automatically propagate it, even when switching between threads,
+    // and will be available when AfterResponse() is called.
+    spanBuilder.StartActive(true);
 }
 
 public void AfterResponse(object response, Context context)
 {
-    if (context["span"] is ISpan span)
-    {
-        span.Finish();
-    }
+    _tracer.ScopeManager.Active.Dispose();
 }
 ```

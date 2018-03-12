@@ -4,10 +4,16 @@ using OpenTracing.Tag;
 
 namespace OpenTracing.Examples.CommonRequestHandler
 {
+    public interface IRequestHandler
+    {
+        void BeforeRequest(object request, Context context);
+        void AfterResponse(object response, Context context);
+    }
+
     // One instance per Client. Executed concurrently for all requests of one client. 'BeforeRequest'
     // and 'AfterResponse' may be executed in different threads for one 'send', but the active Span
     // will be properly propagated.
-    public class RequestHandler
+    public class RequestHandler : IRequestHandler
     {
         internal const string OperationName = "send";
 
@@ -35,15 +41,15 @@ namespace OpenTracing.Examples.CommonRequestHandler
                 spanBuilder.IgnoreActiveSpan();
             }
 
-            context["span"] = spanBuilder.StartActive(true);
+            // No need to put 'span' in Context, as our ScopeManager
+            // will automatically propagate it, even when switching between threads,
+            // and will be available when AfterResponse() is called.
+            spanBuilder.StartActive(true);
         }
 
         public void AfterResponse(object response, Context context)
         {
-            if (context["span"] is IScope scope)
-            {
-                scope.Dispose();
-            }
+            _tracer.ScopeManager.Active.Dispose();
         }
     }
 }
