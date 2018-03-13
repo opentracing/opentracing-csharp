@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTracing.Tag;
 
 namespace OpenTracing
 {
@@ -27,6 +28,14 @@ namespace OpenTracing
 
         /// <summary>Same as <see cref="SetTag(string,string)"/> but for numeric values.</summary>
         ISpan SetTag(string key, double value);
+
+        ISpan SetTag_Int(string key, int value);
+
+        ISpan SetTag_AbstractGeneric<TTagValue>(AbstractTag<TTagValue> tag, TTagValue value);
+
+        ISpan SetTag_AbstractTyped(AbstractTag<int> tag, int value);
+
+        ISpan SetTag_IntTag(IntTag tag, int value);
 
         /// <summary>
         /// Log key:value pairs to the Span with the current walltime.
