@@ -158,9 +158,27 @@ namespace OpenTracing.Mock
             return SetObjectTag(key, value);
         }
 
-        public ISpan SetTag<TTagType>(AbstractTag<TTagType> tagSetter, TTagType value)
+        public ISpan SetTag(BooleanTag tag, bool value)
         {
-            tagSetter.Set(this, value);
+            tag.Set(this, value);
+            return this;
+        }
+
+        public ISpan SetTag(IntOrStringTag tag, string value)
+        {
+            tag.Set(this, value);
+            return this;
+        }
+
+        public ISpan SetTag(IntTag tag, int value)
+        {
+            tag.Set(this, value);
+            return this;
+        }
+
+        public ISpan SetTag(StringTag tag, string value)
+        {
+            tag.Set(this, value);
             return this;
         }
 

@@ -51,7 +51,22 @@ namespace OpenTracing.Noop
             return this;
         }
 
-        public ISpanBuilder WithTag<TTagType>(AbstractTag<TTagType> type, TTagType value)
+        public ISpanBuilder WithTag(BooleanTag tag, bool value)
+        {
+            return this;
+        }
+
+        public ISpanBuilder WithTag(IntOrStringTag tag, string value)
+        {
+            return this;
+        }
+
+        public ISpanBuilder WithTag(IntTag tag, int value)
+        {
+            return this;
+        }
+
+        public ISpanBuilder WithTag(StringTag tag, string value)
         {
             return this;
         }

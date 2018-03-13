@@ -29,8 +29,17 @@ namespace OpenTracing
         /// <summary>Same as <see cref="SetTag(string,string)"/> but for numeric values.</summary>
         ISpan SetTag(string key, double value);
 
-        /// <summary>Set a tag on the Span using the helper in <paramref name="tagSetter"/>.</summary>
-        ISpan SetTag<TTagType>(AbstractTag<TTagType> tagSetter, TTagType value);
+        /// <summary>Set a tag on the Span using the helper in <paramref name="tag"/>.</summary>
+        ISpan SetTag(BooleanTag tag, bool value);
+
+        /// <summary>Set a tag on the Span using the helper in <paramref name="tag"/>.</summary>
+        ISpan SetTag(IntOrStringTag tag, string value);
+
+        /// <summary>Set a tag on the Span using the helper in <paramref name="tag"/>.</summary>
+        ISpan SetTag(IntTag tag, int value);
+
+        /// <summary>Set a tag on the Span using the helper in <paramref name="tag"/>.</summary>
+        ISpan SetTag(StringTag tag, string value);
 
         /// <summary>
         /// Log key:value pairs to the Span with the current walltime.

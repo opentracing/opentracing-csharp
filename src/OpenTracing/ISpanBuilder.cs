@@ -59,8 +59,17 @@ namespace OpenTracing
         /// <summary>Same as <see cref="ISpan.SetTag(string,double)"/>, but for the span being built.</summary>
         ISpanBuilder WithTag(string key, double value);
 
-        /// <summary>Same as <see cref="ISpan.SetTag{TTagType}(AbstractTag{TTagType},TTagType)"/>, but for the span being built.</summary>
-        ISpanBuilder WithTag<TTagType>(AbstractTag<TTagType> type, TTagType value);
+        /// <summary>Same as <see cref="ISpan.SetTag(BooleanTag,bool)"/>, but for the span being built.</summary>
+        ISpanBuilder WithTag(BooleanTag tag, bool value);
+
+        /// <summary>Same as <see cref="ISpan.SetTag(IntOrStringTag,string)"/>, but for the span being built.</summary>
+        ISpanBuilder WithTag(IntOrStringTag tag, string value);
+
+        /// <summary>Same as <see cref="ISpan.SetTag(IntTag,int)"/>, but for the span being built.</summary>
+        ISpanBuilder WithTag(IntTag tag, int value);
+
+        /// <summary>Same as <see cref="ISpan.SetTag(StringTag,string)"/>, but for the span being built.</summary>
+        ISpanBuilder WithTag(StringTag tag, string value);
 
         /// <summary>Specify a timestamp of when the <see cref="ISpan"/> was started.</summary>
         ISpanBuilder WithStartTimestamp(DateTimeOffset timestamp);

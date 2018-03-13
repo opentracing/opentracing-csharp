@@ -64,12 +64,6 @@ namespace OpenTracing.Mock
             return this;
         }
 
-        public ISpanBuilder WithTag<TTagType>(AbstractTag<TTagType> type, TTagType value)
-        {
-            _initialTags[type.Key] = value;
-            return this;
-        }
-
         public ISpanBuilder WithTag(string key, int value)
         {
             _initialTags[key] = value;
@@ -79,6 +73,30 @@ namespace OpenTracing.Mock
         public ISpanBuilder WithTag(string key, string value)
         {
             _initialTags[key] = value;
+            return this;
+        }
+
+        public ISpanBuilder WithTag(BooleanTag tag, bool value)
+        {
+            _initialTags[tag.Key] = value;
+            return this;
+        }
+
+        public ISpanBuilder WithTag(IntOrStringTag tag, string value)
+        {
+            _initialTags[tag.Key] = value;
+            return this;
+        }
+
+        public ISpanBuilder WithTag(IntTag tag, int value)
+        {
+            _initialTags[tag.Key] = value;
+            return this;
+        }
+
+        public ISpanBuilder WithTag(StringTag tag, string value)
+        {
+            _initialTags[tag.Key] = value;
             return this;
         }
 
