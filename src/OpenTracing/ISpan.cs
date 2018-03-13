@@ -5,7 +5,7 @@ namespace OpenTracing
 {
     /// <summary>
     /// Represents the OpenTracing specification's span contract. <seealso cref="IScope"/>
-    /// <seealso cref="IScopeManager"/> <seealso cref="ISpanBuilder.Start"/> <seealso cref="ISpanBuilder.StartActive"/>
+    /// <seealso cref="IScopeManager"/> <seealso cref="ISpanBuilder.Start"/> <seealso cref="ISpanBuilder.StartActive(bool)"/>
     /// </summary>
     public interface ISpan
     {

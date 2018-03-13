@@ -55,6 +55,11 @@ namespace OpenTracing.Noop
             return this;
         }
 
+        public IScope StartActive()
+        {
+            return NoopScopeManager.NoopScope.Instance;
+        }
+
         public IScope StartActive(bool finishSpanOnDispose)
         {
             return NoopScopeManager.NoopScope.Instance;

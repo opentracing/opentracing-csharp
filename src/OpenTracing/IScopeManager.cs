@@ -14,7 +14,7 @@ namespace OpenTracing
         /// <see cref="IScope.Span"/>.
         /// <para>
         /// If there is an non-null <see cref="IScope"/>, its wrapped <see cref="ISpan"/> becomes an implicit parent of any
-        /// newly-created <see cref="ISpan"/> at <see cref="ISpanBuilder.StartActive"/> time (rather than at
+        /// newly-created <see cref="ISpan"/> at <see cref="ISpanBuilder.StartActive(bool)"/> time (rather than at
         /// <see cref="ITracer.BuildSpan"/> time).
         /// </para>
         /// </summary>

@@ -25,7 +25,7 @@ namespace OpenTracing
         /// <item><see cref="IgnoreActiveSpan"/> is not invoked, </item>
         /// </list>
         /// ... then an inferred <see cref="References.ChildOf"/> reference is created to the <see cref="IScopeManager.Active"/>
-        /// <see cref="ISpanContext"/> when either <see cref="StartActive"/> or <see cref="Start"/> is invoked.
+        /// <see cref="ISpanContext"/> when either <see cref="StartActive(bool)"/> or <see cref="Start"/> is invoked.
         /// </para>
         /// </summary>
         /// <param name="referenceType">
@@ -61,6 +61,36 @@ namespace OpenTracing
         ISpanBuilder WithStartTimestamp(DateTimeOffset timestamp);
 
         /// <summary>
+        /// Same as <see cref="StartActive(bool)"/> with <c>finishSpanOnDispose: true</c>.
+        /// <para/>
+        /// Returns a newly started and activated <see cref="IScope"/>. The underlying span is finished
+        /// automatically when the scope is disposed.
+        /// <para/>
+        /// The returned <see cref="IScope"/> supports using(). For example:
+        /// <code>
+        /// using (IScope scope = tracer.BuildSpan("...").StartActive())
+        /// {
+        ///     // (Do work)
+        ///     scope.Span.SetTag( ... );  // etc, etc
+        /// } // Span finishes automatically on Dispose.
+        /// </code>
+        /// <para>
+        /// If
+        /// <list type="bullet">
+        /// <item>the <see cref="ITracer"/>'s <see cref="IScopeManager.Active"/> is not null, and </item>
+        /// <item>no <b>explicit</b> references are added via <see cref="AddReference"/>, and </item>
+        /// <item><see cref="IgnoreActiveSpan"/> is not invoked, </item>
+        /// </list>
+        /// ... then an inferred <see cref="References.ChildOf"/> reference is created to the <see cref="IScopeManager.Active"/>
+        /// <see cref="ISpanContext"/> when either <see cref="Start"/> or <see cref="StartActive()"/> is invoked.
+        /// </para>
+        /// </summary>
+        /// <returns>An <see cref="IScope"/>, already registered via the <see cref="IScopeManager"/>.</returns>
+        /// <seealso cref="IScopeManager"/>
+        /// <seealso cref="IScope"/>
+        IScope StartActive();
+
+        /// <summary>
         /// Returns a newly started and activated <see cref="IScope"/>.
         /// <para>
         /// The returned <see cref="IScope"/> supports using(). For example:
@@ -81,7 +111,7 @@ namespace OpenTracing
         /// <item><see cref="IgnoreActiveSpan"/> is not invoked, </item>
         /// </list>
         /// ... then an inferred <see cref="References.ChildOf"/> reference is created to the <see cref="IScopeManager.Active"/>
-        /// <see cref="ISpanContext"/> when either <see cref="Start"/> or <see cref="StartActive"/> is invoked.
+        /// <see cref="ISpanContext"/> when either <see cref="Start"/> or <see cref="StartActive(bool)"/> is invoked.
         /// </para>
         /// </summary>
         /// <param name="finishSpanOnDispose">
@@ -93,7 +123,7 @@ namespace OpenTracing
         IScope StartActive(bool finishSpanOnDispose);
 
         /// <summary>
-        /// Like <see cref="StartActive"/>, but the returned <see cref="ISpan"/> has not been registered via the
+        /// Like <see cref="StartActive(bool)"/>, but the returned <see cref="ISpan"/> has not been registered via the
         /// <see cref="IScopeManager"/>.
         /// </summary>
         /// <returns>
