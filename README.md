@@ -8,7 +8,7 @@ This solution includes the .NET platform API for OpenTracing.
 
 In order to understand the .NET platform API, one must first be familiar with the
 [OpenTracing project](http://opentracing.io) and
-[terminology](http://opentracing.io/spec/) more specifically.
+[terminology](http://opentracing.io/documentation/pages/spec) more specifically.
 
 ## Usage
 
