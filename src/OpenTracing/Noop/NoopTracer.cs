@@ -2,7 +2,7 @@ using OpenTracing.Propagation;
 
 namespace OpenTracing.Noop
 {
-    internal sealed class NoopTracer : ITracer
+    public sealed class NoopTracer : ITracer
     {
         internal static readonly NoopTracer Instance = new NoopTracer();
 

@@ -3,7 +3,7 @@ namespace OpenTracing.Noop
     /// <summary>
     /// A noop (i.e., cheap-as-possible) implementation of an <see cref="IScopeManager"/>.
     /// </summary>
-    internal sealed class NoopScopeManager : IScopeManager
+    public sealed class NoopScopeManager : IScopeManager
     {
         internal static readonly NoopScopeManager Instance = new NoopScopeManager();
 
@@ -23,7 +23,7 @@ namespace OpenTracing.Noop
             return nameof(NoopScopeManager);
         }
 
-        internal sealed class NoopScope : IScope
+        public sealed class NoopScope : IScope
         {
             internal static readonly NoopScope Instance = new NoopScope();
 
