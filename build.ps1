@@ -63,11 +63,12 @@ Task "Build" $RunBuild {
 Task "Tests" $RunTests {
 
     $testsFailed = $false
-    Get-ChildItem .\test -Filter *.csproj -Recurse | ForEach-Object {
+    Get-ChildItem -Filter *.csproj -Recurse | ForEach-Object {
 
-        dotnet test $_.FullName -c $BuildConfiguration --no-build
-
-        if ($LASTEXITCODE -ne 0) { $testsFailed = $true }
+        if (Select-Xml -Path $_.FullName -XPath "/Project/ItemGroup/PackageReference[@Include='Microsoft.NET.Test.Sdk']") {
+            dotnet test $_.FullName -c $BuildConfiguration --no-build
+            if ($LASTEXITCODE -ne 0) { $testsFailed = $true }
+        }
     }
 
     if ($testsFailed) { throw "At least one test failed." }
