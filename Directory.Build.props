@@ -13,6 +13,9 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
+    <!-- Projects that should generate nuget packages override this setting -->
+    <IsPackable>false</IsPackable>
+
     <!-- SourceLink support -->
     <DebugType>portable</DebugType>
     <SourceLinkNoAutoLF>true</SourceLinkNoAutoLF>
