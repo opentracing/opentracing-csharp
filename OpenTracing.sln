@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
@@ -10,6 +10,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTracing", "src\OpenTracing\OpenTracing.csproj", "{60B9BDE0-8203-46C9-9373-E06FC82CECB3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTracing.Tests", "test\OpenTracing.Tests\OpenTracing.Tests.csproj", "{F82B4191-F9D1-4656-8585-840E6BA045DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{5F088F03-B65C-4E50-B1A3-D8FFE2E0A3A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTracing.Examples", "examples\OpenTracing.Examples\OpenTracing.Examples.csproj", "{2D957863-06D4-4279-AE3E-90F3DDD10193}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +29,10 @@ Global
 		{F82B4191-F9D1-4656-8585-840E6BA045DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F82B4191-F9D1-4656-8585-840E6BA045DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F82B4191-F9D1-4656-8585-840E6BA045DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D957863-06D4-4279-AE3E-90F3DDD10193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D957863-06D4-4279-AE3E-90F3DDD10193}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D957863-06D4-4279-AE3E-90F3DDD10193}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D957863-06D4-4279-AE3E-90F3DDD10193}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,5 +40,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{60B9BDE0-8203-46C9-9373-E06FC82CECB3} = {CA88CFB0-F5DF-411B-B083-D54819E9414F}
 		{F82B4191-F9D1-4656-8585-840E6BA045DD} = {FC8B6803-6F66-4F1E-9034-5564B2D4FF9C}
+		{2D957863-06D4-4279-AE3E-90F3DDD10193} = {5F088F03-B65C-4E50-B1A3-D8FFE2E0A3A1}
 	EndGlobalSection
 EndGlobal
