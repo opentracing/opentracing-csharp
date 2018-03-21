@@ -24,7 +24,7 @@ That said, instrumentation for packages that are themselves statically configure
 
 ### Scopes and within-process propagation
 
-For any thread, at most one `ISpan` may be "active". Of course there may be many other spans involved with the thread which are (a) started, (b) not finished, and yet (c) not "active": perhaps they are waiting for I/O, blocked on a child span, or otherwise off of the critical path.
+For any thread, at most one `ISpan` may be "active". Of course, there may be many other spans involved with the thread which are (a) started, (b) not finished, and yet (c) not "active": perhaps they are waiting for I/O, blocked on a child span, or otherwise off of the critical path.
 
 It's inconvenient to pass an active `ISpan` from function to function manually, so OpenTracing requires that every `ITracer` contains a `IScopeManager` that grants access to the active `ISpan` through a `IScope`. Any `ISpan` may be transferred to another callback or thread, but not `IScope`; more on this below.
 
