@@ -38,8 +38,8 @@ namespace OpenTracing.Examples.CommonRequestHandler
             Assert.Equal(Tags.SpanKindClient, finished[1].Tags[Tags.SpanKind.Key]);
 
             Assert.NotEqual(finished[0].Context.TraceId, finished[1].Context.TraceId);
-            Assert.Equal(0, finished[0].ParentId);
-            Assert.Equal(0, finished[1].ParentId);
+            Assert.Null(finished[0].ParentId);
+            Assert.Null(finished[1].ParentId);
 
             Assert.Null(_tracer.ScopeManager.Active);
         }
@@ -96,7 +96,7 @@ namespace OpenTracing.Examples.CommonRequestHandler
             Assert.Equal(parent.Context.SpanId, finished[1].ParentId);
 
             // third span should not have parent.
-            Assert.Equal(0, finished[2].ParentId);
+            Assert.Null(finished[2].ParentId);
         }
 
         private static MockSpan GetOneByOperationName(List<MockSpan> spans, string name)

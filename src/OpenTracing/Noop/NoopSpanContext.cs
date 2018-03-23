@@ -11,6 +11,10 @@ namespace OpenTracing.Noop
         {
         }
 
+        public string TraceId { get; }
+
+        public string SpanId { get; }
+
         public IEnumerable<KeyValuePair<string, string>> GetBaggageItems()
         {
             return Enumerable.Empty<KeyValuePair<string, string>>();
