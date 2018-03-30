@@ -21,15 +21,16 @@ namespace OpenTracing.Tests.Noop
         {
             var tracer = NoopTracerFactory.Create();
 
-            Assert.IsType<NoopScopeManager>(tracer.ScopeManager);
+            Assert.Same(NoopScopeManager.Instance, tracer.ScopeManager);
         }
 
         [Fact]
-        public void Tracer_initially_has_no_active_span()
+        public void Tracer_ActiveSpan_is_NoopSpan()
         {
             var tracer = NoopTracerFactory.Create();
 
-            Assert.Null(tracer.ActiveSpan);
+            var span = tracer.ActiveSpan;
+            Assert.Same(NoopSpan.Instance, span);
         }
 
         [Fact]
@@ -39,7 +40,7 @@ namespace OpenTracing.Tests.Noop
 
             var spanBuilder = tracer.BuildSpan("noop");
 
-            Assert.IsType<NoopSpanBuilder>(spanBuilder);
+            Assert.Same(NoopSpanBuilder.Instance, spanBuilder);
         }
 
         [Fact]
@@ -61,7 +62,7 @@ namespace OpenTracing.Tests.Noop
             var scope = tracer.BuildSpan("noop")
                 .StartActive(finishSpanOnDispose: false);
 
-            Assert.IsType<NoopScopeManager.NoopScope>(scope);
+            Assert.Same(NoopScopeManager.NoopScope.Instance, scope);
         }
 
         [Fact]
@@ -72,29 +73,29 @@ namespace OpenTracing.Tests.Noop
             var scope = tracer.BuildSpan("noop")
                 .StartActive(finishSpanOnDispose: false);
 
-            Assert.IsType<NoopSpan>(scope.Span);
+            Assert.Same(NoopSpan.Instance, scope.Span);
         }
 
         [Fact]
-        public void StartActive_does_NOT_set_Tracer_ActiveSpan()
+        public void StartActive_sets_Tracer_ActiveSpan()
         {
             var tracer = NoopTracerFactory.Create();
 
             var scope = tracer.BuildSpan("noop")
                 .StartActive(finishSpanOnDispose: false);
 
-            Assert.Null(tracer.ActiveSpan);
+            Assert.Same(NoopSpan.Instance, tracer.ActiveSpan);
         }
 
         [Fact]
-        public void StartActive_does_NOT_set_ScopeManager_Active()
+        public void StartActive_sets_ScopeManager_Active()
         {
             var tracer = NoopTracerFactory.Create();
 
             var scope = tracer.BuildSpan("noop")
                 .StartActive(finishSpanOnDispose: false);
 
-            Assert.Null(tracer.ScopeManager.Active);
+            Assert.Same(NoopScopeManager.NoopScope.Instance, tracer.ScopeManager.Active);
         }
 
         [Fact]
@@ -104,7 +105,7 @@ namespace OpenTracing.Tests.Noop
 
             var span = tracer.BuildSpan("noop").Start();
 
-            Assert.IsType<NoopSpan>(span);
+            Assert.Same(NoopSpan.Instance, span);
         }
 
         [Fact]
@@ -119,23 +120,23 @@ namespace OpenTracing.Tests.Noop
         }
 
         [Fact]
-        public void Start_does_NOT_set_Tracer_ActiveSpan()
+        public void Start_sets_Tracer_ActiveSpan()
         {
             var tracer = NoopTracerFactory.Create();
 
             var span = tracer.BuildSpan("noop").Start();
 
-            Assert.Null(tracer.ActiveSpan);
+            Assert.Same(NoopSpan.Instance, tracer.ActiveSpan);
         }
 
         [Fact]
-        public void Start_does_NOT_set_ScopeManager_Active()
+        public void Start_sets_ScopeManager_Active()
         {
             var tracer = NoopTracerFactory.Create();
 
             var span = tracer.BuildSpan("noop").Start();
 
-            Assert.Null(tracer.ScopeManager.Active);
+            Assert.Same(NoopScopeManager.NoopScope.Instance, tracer.ScopeManager.Active);
         }
 
         [Fact]
@@ -147,11 +148,11 @@ namespace OpenTracing.Tests.Noop
 
             var scope = tracer.ScopeManager.Activate(span, finishSpanOnDispose: false);
 
-            Assert.IsType<NoopScopeManager.NoopScope>(scope);
+            Assert.Same(NoopScopeManager.NoopScope.Instance, scope);
         }
 
         [Fact]
-        public void ScopeManager_does_NOT_set_Active_on_Activate()
+        public void ScopeManager_sets_Active_on_Activate()
         {
             var tracer = NoopTracerFactory.Create();
 
@@ -159,8 +160,8 @@ namespace OpenTracing.Tests.Noop
 
             tracer.ScopeManager.Activate(span, finishSpanOnDispose: false);
 
-            Assert.Null(tracer.ScopeManager.Active);
-            Assert.Null(tracer.ActiveSpan);
+            Assert.Same(NoopScopeManager.NoopScope.Instance, tracer.ScopeManager.Active);
+            Assert.Same(NoopSpan.Instance, tracer.ActiveSpan);
         }
 
         [Fact]
@@ -170,7 +171,7 @@ namespace OpenTracing.Tests.Noop
 
             var span = tracer.BuildSpan("noop").Start();
 
-            Assert.IsType<NoopSpanContext>(span.Context);
+            Assert.Same(NoopSpanContext.Instance, span.Context);
         }
 
         [Fact]
@@ -182,7 +183,7 @@ namespace OpenTracing.Tests.Noop
 
             var spanContext = tracer.Extract(BuiltinFormats.TextMap, new TextMapExtractAdapter(carrier));
 
-            Assert.IsType<NoopSpanContext>(spanContext);
+            Assert.Same(NoopSpanContext.Instance, spanContext);
         }
 
         [Fact]
