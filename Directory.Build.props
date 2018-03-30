@@ -24,6 +24,10 @@
     This will be fixed in an upcoming version of nuget. The workaround for now is to just disable analysis.
     https://github.com/NuGet/Home/issues/4587#issuecomment-288913324 -->
     <NoPackageAnalysis>true</NoPackageAnalysis>
+
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)OpenTracing.snk</AssemblyOriginatorKeyFile>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
   </PropertyGroup>
 
   <ItemGroup>
