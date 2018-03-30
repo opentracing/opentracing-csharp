@@ -47,7 +47,7 @@ namespace OpenTracing.Mock
         /// to <see cref="ITracer.Inject"/> and/or <see cref="ITracer.Extract"/>.
         /// </summary>
         public MockTracer(IPropagator propagator)
-            : this(NoopScopeManager.Instance, propagator)
+            : this(new AsyncLocalScopeManager(), propagator)
         {
         }
 
