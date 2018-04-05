@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OpenTracing.Examples.CommonRequestHandler
+namespace OpenTracing.Testbed.CommonRequestHandler
 {
     public class Context : Dictionary<string, object>
     {

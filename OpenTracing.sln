@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTracing", "src\OpenTrac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTracing.Tests", "test\OpenTracing.Tests\OpenTracing.Tests.csproj", "{F82B4191-F9D1-4656-8585-840E6BA045DD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{5F088F03-B65C-4E50-B1A3-D8FFE2E0A3A1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testbed", "testbed", "{5F088F03-B65C-4E50-B1A3-D8FFE2E0A3A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTracing.Examples", "examples\OpenTracing.Examples\OpenTracing.Examples.csproj", "{2D957863-06D4-4279-AE3E-90F3DDD10193}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTracing.Testbed", "testbed\OpenTracing.Testbed\OpenTracing.Testbed.csproj", "{2D957863-06D4-4279-AE3E-90F3DDD10193}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

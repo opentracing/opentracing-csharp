@@ -5,9 +5,9 @@ using OpenTracing.Mock;
 using OpenTracing.Tag;
 using Xunit;
 
-using static OpenTracing.Examples.TestUtils;
+using static OpenTracing.Testbed.TestUtils;
 
-namespace OpenTracing.Examples.ClientServer
+namespace OpenTracing.Testbed.ClientServer
 {
     public class TestClientServerTest : IDisposable
     {

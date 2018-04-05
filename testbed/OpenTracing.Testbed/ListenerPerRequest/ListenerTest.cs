@@ -5,9 +5,9 @@ using OpenTracing.Mock;
 using OpenTracing.Tag;
 using Xunit;
 
-using static OpenTracing.Examples.TestUtils;
+using static OpenTracing.Testbed.TestUtils;
 
-namespace OpenTracing.Examples.ListenerPerRequest
+namespace OpenTracing.Testbed.ListenerPerRequest
 {
     // Each request has own instance of ResponseListener
     public class ListenerTest

@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using OpenTracing;
 
-namespace OpenTracing.Examples.MultipleCallbacks
+namespace OpenTracing.Testbed.MultipleCallbacks
 {
     public class Client
     {

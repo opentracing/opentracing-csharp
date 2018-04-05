@@ -5,12 +5,12 @@ using OpenTracing.Mock;
 using OpenTracing.Tag;
 using Xunit;
 
-using static OpenTracing.Examples.TestUtils;
+using static OpenTracing.Testbed.TestUtils;
 
 // There is only one instance of 'RequestHandler' per 'Client'. Methods of 'RequestHandler' are
 // executed concurrently in different threads which are reused (common pool). But as the active Span
 // is properly propagated we can rely on getting/setting the active one.
-namespace OpenTracing.Examples.CommonRequestHandler
+namespace OpenTracing.Testbed.CommonRequestHandler
 {
     public class HandlerTest
     {

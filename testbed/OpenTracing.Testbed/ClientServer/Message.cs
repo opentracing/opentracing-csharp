@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OpenTracing.Examples.ClientServer
+namespace OpenTracing.Testbed.ClientServer
 {
     public class Message : Dictionary<string, string> {
     }

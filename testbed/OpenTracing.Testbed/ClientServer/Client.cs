@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 using OpenTracing.Propagation;
 using OpenTracing.Tag;
 
-namespace OpenTracing.Examples.ClientServer
+namespace OpenTracing.Testbed.ClientServer
 {
     public class Client
     {

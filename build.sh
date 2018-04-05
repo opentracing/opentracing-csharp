@@ -26,7 +26,7 @@ echo
 echo dotnet-test
 echo ----------------------
 
-dotnet test examples/OpenTracing.Examples/OpenTracing.Examples.csproj -c $CONFIGURATION --no-build
+dotnet test testbed/OpenTracing.Testbed/OpenTracing.Testbed.csproj -c $CONFIGURATION --no-build
 
 for d in test/*/*.csproj; do
     dotnet test $d -c $CONFIGURATION --no-build
