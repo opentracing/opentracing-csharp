@@ -2,7 +2,7 @@ using System;
 
 namespace OpenTracing.Noop
 {
-    internal sealed class NoopSpanBuilder : ISpanBuilder
+    public sealed class NoopSpanBuilder : ISpanBuilder
     {
         internal static NoopSpanBuilder Instance = new NoopSpanBuilder();
 

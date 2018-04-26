@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace OpenTracing.Noop
 {
-    internal sealed class NoopSpanContext : ISpanContext
+    public sealed class NoopSpanContext : ISpanContext
     {
         internal static readonly NoopSpanContext Instance = new NoopSpanContext();
 
