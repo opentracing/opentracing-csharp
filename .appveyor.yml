@@ -21,6 +21,8 @@ build_script:
         }
   - ps: .\build.ps1 -VersionSuffix $VersionSuffix
 
+test: off
+
 artifacts:
   - path: artifacts\nuget\*.nupkg
     name: NuGet
