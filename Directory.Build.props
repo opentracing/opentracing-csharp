@@ -31,8 +31,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SourceLink.Create.GitHub" Version="2.8.0" PrivateAssets="All" />
-    <DotNetCliToolReference Include="dotnet-sourcelink" Version="2.8.0" />
-    <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.8.0" />
+    <PackageReference Include="SourceLink.Create.GitHub" Version="2.8.1" PrivateAssets="All" />
+    <DotNetCliToolReference Include="dotnet-sourcelink" Version="2.8.1" />
+    <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.8.1" />
   </ItemGroup>
 </Project>
