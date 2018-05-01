@@ -10,6 +10,12 @@ In order to understand the .NET platform API, one must first be familiar with th
 [OpenTracing project](http://opentracing.io) and
 [terminology](http://opentracing.io/documentation/pages/spec) more specifically.
 
+## Installation
+
+Install the [NuGet package](https://www.nuget.org/packages/OpenTracing/):
+
+    Install-Package OpenTracing
+
 ## Usage
 
 ### Initialization
