@@ -1,4 +1,4 @@
-[![Gitter chat][gitter-img]][gitter] [![Build Status][ci-img]][ci]
+[![Gitter chat][gitter-img]][gitter] [![Build Status][travis-img]][travis] [![Build status][appveyor-img]][appveyor] [![NuGet][nuget-img]][nuget]
 
 # OpenTracing API for .NET
 
@@ -134,5 +134,9 @@ All files are released with the Apache 2.0 license.
 
   [gitter-img]: http://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg
   [gitter]: https://gitter.im/opentracing/public
-  [ci-img]: https://travis-ci.org/opentracing/opentracing-csharp.svg?branch=master
-  [ci]: https://travis-ci.org/opentracing/opentracing-csharp
+  [travis-img]: https://travis-ci.org/opentracing/opentracing-csharp.svg?branch=master
+  [travis]: https://travis-ci.org/opentracing/opentracing-csharp
+  [appveyor-img]: https://ci.appveyor.com/api/projects/status/1ku5e2er93oa7vji/branch/master?svg=true
+  [appveyor]: https://ci.appveyor.com/project/opentracing/opentracing-csharp
+  [nuget-img]: https://img.shields.io/nuget/v/OpenTracing.svg
+  [nuget]: https://www.nuget.org/packages/OpenTracing
