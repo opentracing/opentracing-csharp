@@ -1,0 +1,42 @@
+# AppVeyor Build number is incremental and not related to actual version number of the product
+version: '{build}'
+
+image: Visual Studio 2017
+
+init:
+  - cmd: git config --global core.autocrlf true
+
+environment:
+  global:
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+build_script:
+  - ps: |
+        if ($env:APPVEYOR_REPO_TAG -eq $true) {
+            $VersionSuffix = ""
+        }
+        else {
+            $VersionSuffix = "ci" + $env:APPVEYOR_BUILD_NUMBER.PadLeft(4, "0")
+        }
+  - ps: .\build.ps1 -VersionSuffix $VersionSuffix
+
+artifacts:
+- path: '*.nupkg'
+
+# Deploy every successful build (except PRs) to development feed
+nuget:
+  account_feed: true
+  project_feed: true
+  disable_publish_on_pr: true
+
+deploy:
+  # Create a GitHub release for every tag
+  - provider: GitHub
+    release: $(appveyor_repo_tag_name)
+    description: "See milestone for changes: https://github.com/opentracing/opentracing-csharp/releases"
+    draft: true
+    auth_token:
+      secure: JU9H+A+WwAtz4Xkcd/50N239EiX1o7OpEnmtiQGayR+Zc2ZHF8xrcPMRelHyJwZL
+    on:
+      appveyor_repo_tag: true
