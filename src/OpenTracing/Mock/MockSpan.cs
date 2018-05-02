@@ -160,25 +160,25 @@ namespace OpenTracing.Mock
 
         public ISpan SetTag(BooleanTag tag, bool value)
         {
-            tag.Set(this, value);
+            SetObjectTag(tag.Key, value);
             return this;
         }
 
         public ISpan SetTag(IntOrStringTag tag, string value)
         {
-            tag.Set(this, value);
+            SetObjectTag(tag.Key, value);
             return this;
         }
 
         public ISpan SetTag(IntTag tag, int value)
         {
-            tag.Set(this, value);
+            SetObjectTag(tag.Key, value);
             return this;
         }
 
         public ISpan SetTag(StringTag tag, string value)
         {
-            tag.Set(this, value);
+            SetObjectTag(tag.Key, value);
             return this;
         }
 
