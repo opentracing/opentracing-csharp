@@ -1,6 +1,6 @@
 using System;
 
-namespace OpenTracing.Examples.ListenerPerRequest
+namespace OpenTracing.Testbed.ListenerPerRequest
 {
     // Response listener per request. Executed in a thread different from 'Send' thread
     public class ResponseListener

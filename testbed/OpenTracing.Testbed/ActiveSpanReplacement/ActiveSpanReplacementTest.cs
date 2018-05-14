@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using OpenTracing.Mock;
 using Xunit;
 
-using static OpenTracing.Examples.TestUtils;
+using static OpenTracing.Testbed.TestUtils;
 
-namespace OpenTracing.Examples.ActiveSpanReplacement
+namespace OpenTracing.Testbed.ActiveSpanReplacement
 {
     public class ActiveSpanReplacementTest
     {

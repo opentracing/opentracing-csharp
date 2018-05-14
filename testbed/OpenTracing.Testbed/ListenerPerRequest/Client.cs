@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OpenTracing.Tag;
 
-namespace OpenTracing.Examples.ListenerPerRequest
+namespace OpenTracing.Testbed.ListenerPerRequest
 {
     public class Client
     {

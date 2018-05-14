@@ -5,7 +5,7 @@ using OpenTracing.Mock;
 using OpenTracing.Tag;
 using Xunit;
 
-namespace OpenTracing.Examples
+namespace OpenTracing.Testbed
 {
     public static class TestUtils
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using OpenTracing.Tag;
 
-namespace OpenTracing.Examples.CommonRequestHandler
+namespace OpenTracing.Testbed.CommonRequestHandler
 {
     public interface IRequestHandler
     {
