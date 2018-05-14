@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using OpenTracing.Tag;
 
 namespace OpenTracing.Mock
 {
@@ -155,6 +156,30 @@ namespace OpenTracing.Mock
         public ISpan SetTag(string key, string value)
         {
             return SetObjectTag(key, value);
+        }
+
+        public ISpan SetTag(BooleanTag tag, bool value)
+        {
+            SetObjectTag(tag.Key, value);
+            return this;
+        }
+
+        public ISpan SetTag(IntOrStringTag tag, string value)
+        {
+            SetObjectTag(tag.Key, value);
+            return this;
+        }
+
+        public ISpan SetTag(IntTag tag, int value)
+        {
+            SetObjectTag(tag.Key, value);
+            return this;
+        }
+
+        public ISpan SetTag(StringTag tag, string value)
+        {
+            SetObjectTag(tag.Key, value);
+            return this;
         }
 
         private ISpan SetObjectTag(string key, object value)

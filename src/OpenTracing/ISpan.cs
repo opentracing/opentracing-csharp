@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTracing.Tag;
 
 namespace OpenTracing
 {
@@ -31,6 +32,18 @@ namespace OpenTracing
         /// <summary>Same as <see cref="SetTag(string,string)"/> but for numeric values.</summary>
         /// <returns>This span instance, for chaining.</returns>
         ISpan SetTag(string key, double value);
+
+        /// <summary>Set a tag on the Span using the helper in <paramref name="tag"/>.</summary>
+        ISpan SetTag(BooleanTag tag, bool value);
+
+        /// <summary>Set a tag on the Span using the helper in <paramref name="tag"/>.</summary>
+        ISpan SetTag(IntOrStringTag tag, string value);
+
+        /// <summary>Set a tag on the Span using the helper in <paramref name="tag"/>.</summary>
+        ISpan SetTag(IntTag tag, int value);
+
+        /// <summary>Set a tag on the Span using the helper in <paramref name="tag"/>.</summary>
+        ISpan SetTag(StringTag tag, string value);
 
         /// <summary>
         /// Log key:value pairs to the span with the current timestamp.

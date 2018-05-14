@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenTracing.Tag;
 
 namespace OpenTracing.Mock
 {
@@ -72,6 +73,30 @@ namespace OpenTracing.Mock
         public ISpanBuilder WithTag(string key, string value)
         {
             _initialTags[key] = value;
+            return this;
+        }
+
+        public ISpanBuilder WithTag(BooleanTag tag, bool value)
+        {
+            _initialTags[tag.Key] = value;
+            return this;
+        }
+
+        public ISpanBuilder WithTag(IntOrStringTag tag, string value)
+        {
+            _initialTags[tag.Key] = value;
+            return this;
+        }
+
+        public ISpanBuilder WithTag(IntTag tag, int value)
+        {
+            _initialTags[tag.Key] = value;
+            return this;
+        }
+
+        public ISpanBuilder WithTag(StringTag tag, string value)
+        {
+            _initialTags[tag.Key] = value;
             return this;
         }
 
