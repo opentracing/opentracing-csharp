@@ -81,6 +81,11 @@ namespace OpenTracing.Mock
             return this;
         }
 
+        public IScope StartActive()
+        {
+            return StartActive(finishSpanOnDispose: true);
+        }
+
         public IScope StartActive(bool finishSpanOnDispose)
         {
             ISpan span = Start();
