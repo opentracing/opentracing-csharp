@@ -4,6 +4,8 @@ using Xunit;
 
 namespace OpenTracing.Tests.Util
 {
+    using OpenTracing.Mock;
+
     public class AsyncLocalScopeManagerTests
     {
         private AsyncLocalScopeManager _source;
@@ -12,6 +14,21 @@ namespace OpenTracing.Tests.Util
         public AsyncLocalScopeManagerTests()
         {
             _source = new AsyncLocalScopeManager();
+        }
+
+        [Fact]
+        public void InstancesSouldNotShareData()
+        {
+            AsyncLocalScopeManager manager1 = new AsyncLocalScopeManager();
+            AsyncLocalScopeManager manager2 = new AsyncLocalScopeManager();
+
+            AsyncLocalScope manager1Scope = new AsyncLocalScope(manager1, Substitute.For<ISpan>(), false);
+            manager1.Active = manager1Scope;
+            AsyncLocalScope manager2Scope = new AsyncLocalScope(manager2, Substitute.For<ISpan>(), false);
+            manager2.Active = manager2Scope;
+
+            Assert.Same(manager1Scope, manager1.Active);
+            Assert.Same(manager2Scope, manager2.Active);
         }
 
         [Fact]
