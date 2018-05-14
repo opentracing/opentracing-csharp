@@ -16,7 +16,7 @@ namespace OpenTracing.Util
     public class AsyncLocalScopeManager : IScopeManager
     {
 #if NET45 // AsyncLocal is .NET 4.6+, so fall back to CallContext for .NET 4.5
-        private static readonly string s_logicalDataKey = "__AsyncLocalScope_Current__" + AppDomain.CurrentDomain.Id;
+        private readonly string s_logicalDataKey = "__AsyncLocalScope_Current__" + Guid.NewGuid().ToString("D");
 
         public IScope Active
         {
@@ -31,7 +31,7 @@ namespace OpenTracing.Util
             }
         }
 #else
-        private static AsyncLocal<IScope> s_current = new AsyncLocal<IScope>();
+        private AsyncLocal<IScope> s_current = new AsyncLocal<IScope>();
 
         public IScope Active
         {
