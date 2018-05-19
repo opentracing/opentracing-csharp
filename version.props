@@ -19,7 +19,7 @@
     <VersionSuffix>loc$([System.DateTime]::UtcNow.ToString('yyyyMMddHHmm'))</VersionSuffix>
 
     <!-- Suffix for regular AppVeyor builds -->
-    <VersionSuffix Condition="'$(APPVEYOR_BUILD_NUMBER)' != ''">b$([System.Int32]::Parse($(APPVEYOR_BUILD_NUMBER)).ToString('D4'))</VersionSuffix>
+    <VersionSuffix Condition="'$(APPVEYOR_BUILD_NUMBER)' != ''">ci$([System.Int32]::Parse($(APPVEYOR_BUILD_NUMBER)).ToString('D4'))</VersionSuffix>
 
     <!-- Overwrite everything if there's an AppVeyor tag -->
     <Version Condition="'$(APPVEYOR_REPO_TAG_NAME)' != ''">$(APPVEYOR_REPO_TAG_NAME)</Version>
