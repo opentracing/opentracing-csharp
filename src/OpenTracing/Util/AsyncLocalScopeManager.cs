@@ -16,27 +16,27 @@ namespace OpenTracing.Util
     public class AsyncLocalScopeManager : IScopeManager
     {
 #if NET45 // AsyncLocal is .NET 4.6+, so fall back to CallContext for .NET 4.5
-        private static readonly string s_logicalDataKey = "__AsyncLocalScope_Current__" + AppDomain.CurrentDomain.Id;
+        private readonly string _logicalDataKey = "__AsyncLocalScope_Current__" + Guid.NewGuid().ToString("D");
 
         public IScope Active
         {
             get
             {
-                var handle = CallContext.LogicalGetData(s_logicalDataKey) as ObjectHandle;
+                var handle = CallContext.LogicalGetData(_logicalDataKey) as ObjectHandle;
                 return handle?.Unwrap() as IScope;
             }
             set
             {
-                CallContext.LogicalSetData(s_logicalDataKey, new ObjectHandle(value));
+                CallContext.LogicalSetData(_logicalDataKey, new ObjectHandle(value));
             }
         }
 #else
-        private static AsyncLocal<IScope> s_current = new AsyncLocal<IScope>();
+        private readonly AsyncLocal<IScope> _current = new AsyncLocal<IScope>();
 
         public IScope Active
         {
-            get => s_current.Value;
-            set => s_current.Value = value;
+            get => _current.Value;
+            set => _current.Value = value;
         }
 #endif
 
