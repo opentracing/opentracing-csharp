@@ -62,12 +62,12 @@ namespace OpenTracing.Noop
             return this;
         }
 
-        public ISpan Log(IDictionary<string, object> fields)
+        public ISpan Log(IEnumerable<KeyValuePair<string, object>> fields)
         {
             return this;
         }
 
-        public ISpan Log(DateTimeOffset timestamp, IDictionary<string, object> fields)
+        public ISpan Log(DateTimeOffset timestamp, IEnumerable<KeyValuePair<string, object>> fields)
         {
             return this;
         }
