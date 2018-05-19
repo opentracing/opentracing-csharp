@@ -13,9 +13,9 @@ namespace OpenTracing.Mock
     {
         private readonly IDictionary<string, string> _baggage;
 
-        public long TraceId { get; }
+        public string TraceId { get; }
 
-        public long SpanId { get; }
+        public string SpanId { get; }
 
         /// <summary>
         /// An internal constructor to create a new <see cref="MockSpanContext"/>.
@@ -25,7 +25,7 @@ namespace OpenTracing.Mock
         /// <param name="spanId">The id of the span.</param>
         /// <param name="baggage">The MockContext takes ownership of the baggage parameter.</param>
         /// <seealso cref="MockSpanContext.WithBaggageItem(string, string)"/>
-        internal MockSpanContext(long traceId, long spanId, IDictionary<string, string> baggage)
+        internal MockSpanContext(string traceId, string spanId, IDictionary<string, string> baggage)
         {
             TraceId = traceId;
             SpanId = spanId;

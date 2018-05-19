@@ -43,9 +43,9 @@ namespace OpenTracing.Tests.Mock
             Assert.Single(finishedSpans);
             MockSpan finishedSpan = finishedSpans[0];
             Assert.Equal("tester", finishedSpan.OperationName);
-            Assert.Equal(0, finishedSpan.ParentId);
-            Assert.NotEqual(0, finishedSpan.Context.TraceId);
-            Assert.NotEqual(0, finishedSpan.Context.SpanId);
+            Assert.Null(finishedSpan.ParentId);
+            Assert.NotNull(finishedSpan.Context.TraceId);
+            Assert.NotNull(finishedSpan.Context.SpanId);
             Assert.Equal(FixedStartTimestamp, finishedSpan.StartTimestamp);
             Assert.Equal(FixedFinishTimestamp, finishedSpan.FinishTimestamp);
 

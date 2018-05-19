@@ -12,6 +12,16 @@ namespace OpenTracing
     /// <seealso cref="ISpan.GetBaggageItem"/>
     public interface ISpanContext
     {
+        /// <summary>
+        /// Globally unique. Every span in a trace shares this ID.
+        /// </summary>
+        string TraceId { get; }
+
+        /// <summary>
+        /// Unique within a trace. Each span within a trace contains a different ID.
+        /// </summary>
+        string SpanId { get; }
+
         /// <returns>All zero or more baggage items propagating along with the associated span.</returns>
         /// <seealso cref="ISpan.SetBaggageItem"/>
         /// <seealso cref="ISpan.GetBaggageItem"/>

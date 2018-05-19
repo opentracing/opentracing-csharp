@@ -64,8 +64,8 @@ namespace OpenTracing.Mock
 
         public MockSpanContext Extract<TCarrier>(IFormat<TCarrier> format, TCarrier carrier)
         {
-            long? traceId = null;
-            long? spanId = null;
+            string traceId = null;
+            string spanId = null;
             Dictionary<string, string> baggage = new Dictionary<string, string>();
 
             if (carrier is ITextMap text)
@@ -74,11 +74,11 @@ namespace OpenTracing.Mock
                 {
                     if (TraceIdKey.Equals(entry.Key))
                     {
-                        traceId = Convert.ToInt64(entry.Value);
+                        traceId = entry.Value;
                     }
                     else if (SpanIdKey.Equals(entry.Key))
                     {
-                        spanId = Convert.ToInt64(entry.Value);
+                        spanId = entry.Value;
                     }
                     else if (entry.Key.StartsWith(BaggageKeyPrefix))
                     {
@@ -92,9 +92,9 @@ namespace OpenTracing.Mock
                 throw new InvalidOperationException($"Unknown carrier [{carrier.GetType()}]");
             }
 
-            if (traceId.HasValue && spanId.HasValue)
+            if (!string.IsNullOrEmpty(traceId) && !string.IsNullOrEmpty(spanId))
             {
-                return new MockSpanContext(traceId.Value, spanId.Value, baggage);
+                return new MockSpanContext(traceId, spanId, baggage);
             }
 
             return null;

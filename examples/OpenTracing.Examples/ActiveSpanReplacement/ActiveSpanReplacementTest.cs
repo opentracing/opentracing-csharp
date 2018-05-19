@@ -33,7 +33,7 @@ namespace OpenTracing.Examples.ActiveSpanReplacement
 
             // initial task is not related in any way to those two tasks
             Assert.NotEqual(spans[0].Context.TraceId, spans[1].Context.TraceId);
-            Assert.Equal(0, spans[0].ParentId);
+            Assert.Null(spans[0].ParentId);
 
             Assert.Null(_tracer.ScopeManager.Active);
         }
