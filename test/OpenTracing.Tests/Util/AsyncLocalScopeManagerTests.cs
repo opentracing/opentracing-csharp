@@ -1,11 +1,10 @@
 ﻿using NSubstitute;
+using OpenTracing.Mock;
 using OpenTracing.Util;
 using Xunit;
 
 namespace OpenTracing.Tests.Util
 {
-    using OpenTracing.Mock;
-
     public class AsyncLocalScopeManagerTests
     {
         private AsyncLocalScopeManager _source;
@@ -17,7 +16,7 @@ namespace OpenTracing.Tests.Util
         }
 
         [Fact]
-        public void InstancesSouldNotShareData()
+        public void InstancesShouldNotShareData()
         {
             AsyncLocalScopeManager manager1 = new AsyncLocalScopeManager();
             AsyncLocalScopeManager manager2 = new AsyncLocalScopeManager();
