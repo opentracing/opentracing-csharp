@@ -1,11 +1,11 @@
 <Project>
+  <Import Project="version.props" />
   <PropertyGroup>
-    <VersionPrefix>0.12.0</VersionPrefix>
     <Authors>The OpenTracing Authors</Authors>
     <PackageIconUrl>https://avatars0.githubusercontent.com/u/15482765</PackageIconUrl>
     <PackageProjectUrl>https://github.com/opentracing/opentracing-csharp</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/opentracing/opentracing-csharp/master/LICENSE</PackageLicenseUrl>
-    <PackageReleaseNotes>https://github.com/opentracing/opentracing-csharp/releases/tag/$(VersionPrefix)</PackageReleaseNotes>
+    <PackageReleaseNotes Condition="'$(Version)' != ''">https://github.com/opentracing/opentracing-csharp/releases/tag/$(Version)</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/opentracing/opentracing-csharp</RepositoryUrl>
 

@@ -1,0 +1,27 @@
+<Project>
+  <PropertyGroup>
+    <!--
+      These settings ensure that we don't have to manually increment version numbers after every release!
+
+      If there's an AppVeyor tag, we always build with that tag name as the <Version>.
+      This overwrites any <VersionPrefix> and <VersionSuffix> so the tag MUST have a SemVer-compatible name!
+
+      Any non-official (non-tagged) build uses a fixed (high) <VersionPrefix> and an incrementing suffix.
+      This ensures that people who want to reference a package from a regular build can do so by specifying
+      the complete version (e.g. 99.99.99-b0014 or 99.99.99-*) which will always
+      be higher than any official release and therefore will always take priority.
+    -->
+
+    <!-- Prefix for non-tagged (local/regular CI) builds -->
+    <VersionPrefix>99.99.99</VersionPrefix>
+
+    <!-- Suffix for loal builds -->
+    <VersionSuffix>loc$([System.DateTime]::UtcNow.ToString('yyyyMMddHHmm'))</VersionSuffix>
+
+    <!-- Suffix for regular AppVeyor builds -->
+    <VersionSuffix Condition="'$(APPVEYOR_BUILD_NUMBER)' != ''">ci$([System.Int32]::Parse($(APPVEYOR_BUILD_NUMBER)).ToString('D4'))</VersionSuffix>
+
+    <!-- Overwrite everything if there's an AppVeyor tag -->
+    <Version Condition="'$(APPVEYOR_REPO_TAG_NAME)' != ''">$(APPVEYOR_REPO_TAG_NAME)</Version>
+  </PropertyGroup>
+</Project>
