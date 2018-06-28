@@ -8,14 +8,10 @@ namespace OpenTracing.Decorators
     public class SpanBuilderDecorator : ISpanBuilder
     {
         private readonly ISpanBuilder _spanBuilder;
-        private readonly SpanDecoratorFactory _spanDecoratorFactory;
-        private readonly ScopeDecoratorFactory _scopeDecoratorFactory;
 
-        public SpanBuilderDecorator(ISpanBuilder spanBuilder, SpanDecoratorFactory spanDecoratorFactory, ScopeDecoratorFactory scopeDecoratorFactory)
+        public SpanBuilderDecorator(ISpanBuilder spanBuilder)
         {
             _spanBuilder = spanBuilder;
-            _spanDecoratorFactory = spanDecoratorFactory;
-            _scopeDecoratorFactory = scopeDecoratorFactory;
         }
 
         public virtual ISpanBuilder AddReference(string referenceType, ISpanContext referencedContext) { _spanBuilder.AddReference(referenceType, referencedContext); return this; }
@@ -26,11 +22,11 @@ namespace OpenTracing.Decorators
 
         public virtual ISpanBuilder IgnoreActiveSpan() { _spanBuilder.IgnoreActiveSpan(); return this; }
 
-        public virtual ISpan Start() => _spanDecoratorFactory(_spanBuilder.Start());
+        public virtual ISpan Start() => _spanBuilder.Start();
 
-        public virtual IScope StartActive() => _scopeDecoratorFactory(_spanBuilder.StartActive());
+        public virtual IScope StartActive() => _spanBuilder.StartActive();
 
-        public virtual IScope StartActive(bool finishSpanOnDispose) => _scopeDecoratorFactory(_spanBuilder.StartActive(finishSpanOnDispose));
+        public virtual IScope StartActive(bool finishSpanOnDispose) => _spanBuilder.StartActive(finishSpanOnDispose);
 
         public virtual ISpanBuilder WithStartTimestamp(DateTimeOffset timestamp) { _spanBuilder.WithStartTimestamp(timestamp); return this; }
 

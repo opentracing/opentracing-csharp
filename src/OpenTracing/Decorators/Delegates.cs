@@ -4,6 +4,7 @@ using System.Text;
 
 namespace OpenTracing.Decorators
 {
+    public delegate ITracer TracerDecoratorFactory(ITracer tracer);
     public delegate IScopeManager ScopeManagerDecoratorFactory(IScopeManager scopeManager);
     public delegate ISpan SpanDecoratorFactory(ISpan scopeManager);
     public delegate ISpanBuilder SpanBuilderDecoratorFactory(ISpanBuilder scopeManager);
@@ -13,6 +14,7 @@ namespace OpenTracing.Decorators
 
     public static class DefaultDecoratorFactories
     {
+        public static ITracer DefaultTracerDecoratorFactory(ITracer tracer) => tracer;
         public static IScopeManager DefaultScopeManagerDecoratorFactory(IScopeManager scopeManager) => scopeManager;
         public static ISpan DefaultSpanDecoratorFactory(ISpan span) => span;
         public static ISpanBuilder DefaultSpanBuilderDecoratorFactory(ISpanBuilder spanBuilder) => spanBuilder;

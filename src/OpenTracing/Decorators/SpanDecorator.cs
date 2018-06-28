@@ -8,15 +8,13 @@ namespace OpenTracing.Decorators
     public class SpanDecorator : ISpan
     {
         private readonly ISpan _span;
-        private readonly SpanContextDecoratorFactory _spanContextDecoratorFactory;
 
-        public SpanDecorator(ISpan span, SpanContextDecoratorFactory spanContextDecoratorFactory)
+        public SpanDecorator(ISpan span)
         {
             _span = span;
-            _spanContextDecoratorFactory = spanContextDecoratorFactory;
         }
 
-        public virtual ISpanContext Context => _spanContextDecoratorFactory(_span.Context);
+        public virtual ISpanContext Context => _span.Context;
 
         public virtual void Finish() => _span.Finish();
 

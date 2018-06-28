@@ -9,15 +9,13 @@ namespace OpenTracing.Decorators
 #pragma warning restore S3881 // "IDisposable" should be implemented correctly
     {
         private readonly IScope _scope;
-        private readonly SpanDecoratorFactory _spanDecoratorFactory;
 
-        public ScopeDecorator(IScope scope, SpanDecoratorFactory spanDecoratorFactory)
+        public ScopeDecorator(IScope scope)
         {
             _scope = scope;
-            _spanDecoratorFactory = spanDecoratorFactory;
         }
 
-        public virtual ISpan Span => _spanDecoratorFactory(_scope.Span);
+        public virtual ISpan Span => _scope.Span;
 
         public virtual void Dispose() => _scope.Dispose();
     }
