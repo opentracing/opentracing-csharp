@@ -11,12 +11,12 @@ namespace OpenTracing.Tests.Util
     {
         public GlobalTracerTests()
         {
-            GlobalTracerTestUtil.ResetGlobalTracer();
+            GlobalTracer.ResetTracer();
         }
 
         public void Dispose()
         {
-            GlobalTracerTestUtil.ResetGlobalTracer();
+            GlobalTracer.ResetTracer();
         }
 
         [Fact]
@@ -59,6 +59,14 @@ namespace OpenTracing.Tests.Util
         public void Registering_null_fails()
         {
             Assert.Throws<ArgumentNullException>(() => GlobalTracer.Register(null));
+        }
+
+        [Fact]
+        public void Registering_NoopTracer_indicates_tracer_has_been_registered()
+        {
+            Assert.False(GlobalTracer.IsRegistered());
+            GlobalTracer.Register(NoopTracerFactory.Create());
+            Assert.True(GlobalTracer.IsRegistered());
         }
 
         [Fact]
