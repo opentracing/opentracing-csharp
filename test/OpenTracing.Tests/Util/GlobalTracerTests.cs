@@ -11,12 +11,12 @@ namespace OpenTracing.Tests.Util
     {
         public GlobalTracerTests()
         {
-            GlobalTracer.ResetTracer();
+            GlobalTracerTestUtil.ResetGlobalTracer();
         }
 
         public void Dispose()
         {
-            GlobalTracer.ResetTracer();
+            GlobalTracerTestUtil.ResetGlobalTracer();
         }
 
         [Fact]

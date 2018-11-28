@@ -29,7 +29,7 @@ namespace OpenTracing.Util
     {
         private static readonly object s_lock = new object();
 
-        internal static bool _isRegistered;
+        private static bool s_isRegistered;
 
         /// <summary>
         /// Singleton instance.
@@ -61,21 +61,7 @@ namespace OpenTracing.Util
         /// <returns>Whether a tracer has been registered.</returns>
         public static bool IsRegistered()
         {
-            return _isRegistered;
-        }
-
-        /// <summary>
-        /// Resets the configured <see cref="ITracer"/> to an instance of <see cref="NoopTracer"/>.
-        /// <para/>
-        /// This is intended for internal use only.
-        /// </summary>
-        internal static void ResetTracer()
-        {
-            lock (s_lock)
-            {
-                s_instance._tracer = NoopTracerFactory.Create();
-                _isRegistered = false;
-            }
+            return s_isRegistered;
         }
 
         /// <summary>
@@ -99,7 +85,7 @@ namespace OpenTracing.Util
             {
                 if (tracer == s_instance._tracer)
                 {
-                    _isRegistered = true;
+                    s_isRegistered = true;
                     return;
                 }
 
@@ -107,7 +93,7 @@ namespace OpenTracing.Util
                     throw new InvalidOperationException("There is already a current global Tracer registered.");
 
                 s_instance._tracer = tracer;
-                _isRegistered = true;
+                s_isRegistered = true;
             }
         }
 
