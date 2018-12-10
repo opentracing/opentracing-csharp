@@ -7,6 +7,7 @@ namespace OpenTracing.Tests.Util
     public static class GlobalTracerTestUtil
     {
         private static FieldInfo s_tracerField = typeof(GlobalTracer).GetField("_tracer", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static FieldInfo s_isRegisteredField = typeof(GlobalTracer).GetField("s_isRegistered", BindingFlags.NonPublic | BindingFlags.Static);
 
         /// <summary>
         /// Resets the <see cref="GlobalTracer"/> to its initial, unregistered state.
@@ -24,6 +25,7 @@ namespace OpenTracing.Tests.Util
         {
             GlobalTracer globalTracer = (GlobalTracer)GlobalTracer.Instance;
             s_tracerField.SetValue(globalTracer, tracer);
+            s_isRegisteredField.SetValue(globalTracer, false);
         }
     }
 }
