@@ -47,7 +47,7 @@ namespace OpenTracing
         ISpanBuilder BuildSpan(string operationName);
 
         /// <summary>
-        /// Inect a <see cref="ISpanContext"/> into a 'carrier' of a given type, presumably for propagation across process boundaries.
+        /// Inject a <see cref="ISpanContext"/> into a 'carrier' of a given type, presumably for propagation across process boundaries.
         /// <para>
         /// Example:
         /// <code>
