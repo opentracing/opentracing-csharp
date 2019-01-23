@@ -46,7 +46,7 @@ namespace OpenTracing.Examples.LateSpanFinish
             {
                 using (IScope childScope1 = _tracer.BuildSpan("task1").StartActive(finishSpanOnDispose:true))
                 {
-                    await Task.Delay(55);
+                    await Task.Delay(100);
                 }
             });
 
@@ -54,7 +54,7 @@ namespace OpenTracing.Examples.LateSpanFinish
             {
                 using (IScope childScope2 = _tracer.BuildSpan("task2").StartActive(finishSpanOnDispose:true))
                 {
-                    await Task.Delay(85);
+                    await Task.Delay(500);
                 }
             });
 

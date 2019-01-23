@@ -1,4 +1,6 @@
-﻿namespace OpenTracing.Propagation
+﻿using System.IO;
+
+namespace OpenTracing.Propagation
 {
     public static class BuiltinFormats
     {
@@ -24,6 +26,17 @@
         /// <seealso cref="IFormat{TCarrier}"/>
         /// <seealso cref="TextMap"/>
         public static readonly IFormat<ITextMap> HttpHeaders = new Builtin<ITextMap>("HTTP_HEADERS");
+
+        /// <summary>
+        /// The 'Binary' format allows for unconstrained byte encoding of <see cref="ISpanContext"/> state
+        /// for <see cref="ITracer.Inject{TCarrier}"/> and <see cref="ITracer.Extract{TCarrier}"/> using a <see cref="MemoryStream"/>.
+        /// Note that this should be considered experimental, and subject to change.
+        /// </summary>
+        /// <seealso cref="ITracer.Inject{TCarrier}"/>
+        /// <seealso cref="ITracer.Extract{TCarrier}"/>
+        /// <seealso cref="IFormat{TCarrier}"/>
+        /// <seealso cref="byte"/>
+        public static readonly IFormat<Stream> Binary = new Builtin<Stream>("BINARY");
 
         private struct Builtin<TCarrier> : IFormat<TCarrier>
         {
