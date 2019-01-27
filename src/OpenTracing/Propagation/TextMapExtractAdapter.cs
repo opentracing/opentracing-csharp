@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace OpenTracing.Propagation
 {
     /// <summary>
-    /// A <see cref="ITextMap"/> carrier for use with <see cref="ITracer.Extract"/> ONLY (it has no mutating methods). Note that the
+    /// A <see cref="ITextMap"/> carrier for use with <see cref="ITracer.Extract{TCarrier}"/> ONLY (it has no mutating methods). Note that the
     /// <see cref="ITextMap"/> interface can be made to wrap around arbitrary data types
     /// (not just <code>Dictionary&lt;string, string&gt;</code> as illustrated here).
     /// </summary>

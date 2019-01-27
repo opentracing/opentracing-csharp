@@ -44,7 +44,7 @@ namespace OpenTracing.Mock
 
         /// <summary>
         /// Create a new <see cref="MockTracer"/> that passes through any calls
-        /// to <see cref="ITracer.Inject"/> and/or <see cref="ITracer.Extract"/>.
+        /// to <see cref="ITracer.Inject{TCarrier}"/> and/or <see cref="ITracer.Extract{TCarrier}"/>.
         /// </summary>
         public MockTracer(IPropagator propagator)
             : this(new AsyncLocalScopeManager(), propagator)

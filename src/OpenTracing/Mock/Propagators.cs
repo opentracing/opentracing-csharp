@@ -12,7 +12,7 @@ namespace OpenTracing.Mock
     }
 
     /// <summary>
-    /// Allows the developer to inject into the <see cref="MockTracer.Inject"/> and <see cref="MockTracer.Extract"/> calls.
+    /// Allows the developer to inject into the <see cref="MockTracer.Inject{TCarrier}"/> and <see cref="MockTracer.Extract{TCarrier}"/> calls.
     /// </summary>
     public interface IPropagator
     {

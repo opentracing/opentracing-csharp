@@ -62,7 +62,7 @@ namespace OpenTracing
         /// <param name="spanContext">The <see cref="ISpanContext"/> instance to inject into the <paramref name="carrier"/>.</param>
         /// <param name="format">The <see cref="IFormat{TCarrier}"/> of the <paramref name="carrier"/>.</param>
         /// <param name="carrier">
-        /// The carrier for the <see cref="ISpanContext"/> state. All <see cref="Inject"/> implementations must support
+        /// The carrier for the <see cref="ISpanContext"/> state. All <see cref="Inject{TCarrier}"/> implementations must support
         /// <see cref="ITextMap"/> and <see cref="Stream"/>.
         /// </param>
         /// <seealso cref="IFormat{TCarrier}"/>
@@ -88,7 +88,7 @@ namespace OpenTracing
         /// <typeparam name="TCarrier">The <paramref name="carrier"/> type, which also parametrizes the <paramref name="format"/>.</typeparam>
         /// <param name="format">The <see cref="IFormat{TCarrier}"/> of the <paramref name="carrier"/>.</param>
         /// <param name="carrier">
-        /// The carrier for the <see cref="ISpanContext"/> state. All <see cref="Extract"/> implementations must support
+        /// The carrier for the <see cref="ISpanContext"/> state. All <see cref="Extract{TCarrier}"/> implementations must support
         /// <see cref="ITextMap"/> and <see cref="Stream"/>.
         /// </param>
         /// <returns>The <see cref="ISpanContext"/> instance holding context to create a span.</returns>
