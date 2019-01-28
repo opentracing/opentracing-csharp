@@ -39,7 +39,7 @@ namespace OpenTracing.Mock
         private readonly List<Exception> _errors = new List<Exception>();
 
         /// <summary>
-        /// The spanId of the span's first <see cref="References.ChildOf"/> reference, or the first reference of any type,
+        /// The spanId of the span's first <see cref="OpenTracing.References.ChildOf"/> reference, or the first reference of any type,
         /// or null if no reference exists.
         /// </summary>
         /// <seealso cref="MockSpanContext.SpanId"/>
