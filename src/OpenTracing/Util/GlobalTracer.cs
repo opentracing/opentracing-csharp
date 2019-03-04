@@ -61,7 +61,10 @@ namespace OpenTracing.Util
         /// <returns>Whether a tracer has been registered.</returns>
         public static bool IsRegistered()
         {
-            return s_isRegistered;
+            lock (s_lock)
+            {
+                return s_isRegistered;
+            }
         }
 
         /// <summary>
