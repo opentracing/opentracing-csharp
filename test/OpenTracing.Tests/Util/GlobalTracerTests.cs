@@ -126,5 +126,19 @@ namespace OpenTracing.Tests.Util
 
             Assert.True(GlobalTracer.IsRegistered());
         }
+
+        [Fact]
+        public void RegisterIfAbsent_called_multiple_times_does_not_throw_exception()
+        {
+            Assert.False(GlobalTracer.IsRegistered());
+
+            for (var i = 0; i < 10; i++)
+            {
+                var tracer = Substitute.For<ITracer>();
+                GlobalTracer.RegisterIfAbsent(tracer);                
+
+                Assert.True(GlobalTracer.IsRegistered());
+            }
+        }
     }
 }
