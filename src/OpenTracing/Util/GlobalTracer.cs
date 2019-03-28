@@ -65,6 +65,44 @@ namespace OpenTracing.Util
         }
 
         /// <summary>
+        /// Attempts to register a <see cref="ITracer"/> to back the behaviour of the global tracer (<see cref="Instance"/>).
+        /// <para>
+        /// Registration is a one-time operation, subsequent attempts do not change the registered global tracer.
+        /// </para>
+        /// </summary>
+        /// <param name="tracer">The tracer to use as the global tracer.</param>
+        /// <returns>True if the tracer was successfully registered, otherwise false.</returns>
+        public static bool RegisterIfAbsent(ITracer tracer)
+        {
+            if (tracer == null)
+                throw new ArgumentNullException(nameof(tracer), "Cannot register GlobalTracer <null>.");
+
+            if (tracer is GlobalTracer)
+                throw new ArgumentException("Attempted to register the GlobalTracer as delegate of itself.", nameof(tracer));
+
+            lock (s_lock)
+            {
+                // if re-registering the same tracer, just return true
+                if (tracer == s_instance._tracer)
+                {
+                    s_isRegistered = true;
+                    return true;
+                }
+
+                // if a tracer is already registered, return false
+                if (s_isRegistered)
+                {
+                    return false;
+                }
+
+                s_instance._tracer = tracer;
+                s_isRegistered = true;
+
+                return true;
+            }
+        }
+
+        /// <summary>
         /// Register a <see cref="ITracer"/> to back the behaviour of the global tracer (<see cref="Instance"/>).
         /// <para/>
         /// Registration is a one-time operation, attempting to call it more often will result in a runtime exception.
@@ -75,25 +113,11 @@ namespace OpenTracing.Util
         /// <param name="tracer">Tracer to use as global tracer.</param>
         public static void Register(ITracer tracer)
         {
-            if (tracer == null)
-                throw new ArgumentNullException(nameof(tracer), "Cannot register GlobalTracer <null>.");
-
-            if (tracer is GlobalTracer)
-                throw new ArgumentException("Attempted to register the GlobalTracer as delegate of itself.", nameof(tracer));
-
-            lock (s_lock)
+            if (!RegisterIfAbsent(tracer) &&
+                tracer != s_instance._tracer &&
+                !(tracer is GlobalTracer))
             {
-                if (tracer == s_instance._tracer)
-                {
-                    s_isRegistered = true;
-                    return;
-                }
-
-                if (IsRegistered())
-                    throw new InvalidOperationException("There is already a current global Tracer registered.");
-
-                s_instance._tracer = tracer;
-                s_isRegistered = true;
+                throw new InvalidOperationException("There is already a current global Tracer registered.");
             }
         }
 
