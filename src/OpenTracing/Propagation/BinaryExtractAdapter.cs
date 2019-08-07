@@ -12,7 +12,7 @@ namespace OpenTracing.Propagation
     /// <seealso cref="ITracer.Extract{TCarrier}"/>
     public class BinaryExtractAdapter : IBinary
     {
-        private readonly MemoryStream _stream;
+        private MemoryStream _stream;
 
         public BinaryExtractAdapter(MemoryStream stream)
         {

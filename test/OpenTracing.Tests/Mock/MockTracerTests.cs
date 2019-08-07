@@ -141,7 +141,7 @@ namespace OpenTracing.Tests.Mock
             parentSpan.Finish();
             var ms = new MemoryStream();
             tracer.Inject(parentSpan.Context, BuiltinFormats.Binary, new BinaryInjectAdapter(ms));
-            Console.WriteLine(ms.Length);
+            
             var sc = tracer.Extract(BuiltinFormats.Binary, new BinaryExtractAdapter(ms));
 
             var childSpan = tracer.BuildSpan("bar").AsChildOf(sc).Start();

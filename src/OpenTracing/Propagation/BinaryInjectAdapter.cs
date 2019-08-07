@@ -9,9 +9,9 @@ namespace OpenTracing.Propagation
     /// <seealso cref="ITracer.Extract{TCarrier}"/>
     public class BinaryInjectAdapter : IBinary
     {
-        private readonly MemoryStream _stream;
+        private MemoryStream _stream;
 
-        public BinaryInjectAdapter(in MemoryStream stream)
+        public BinaryInjectAdapter(MemoryStream stream)
         {
             _stream = stream;
         }
@@ -19,6 +19,7 @@ namespace OpenTracing.Propagation
         /// <inheritdoc />
         public void Set(MemoryStream stream)
         {
+            stream.Position = 0;
             stream.CopyTo(_stream);
         }
         

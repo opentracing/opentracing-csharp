@@ -86,6 +86,7 @@ namespace OpenTracing.Mock
 
         public BinaryContext Deserialize(MemoryStream stream)
         {
+            stream.Position = 0;
             var res = new BinaryContext();
             using (var reader = new BinaryReader(stream))
             {
