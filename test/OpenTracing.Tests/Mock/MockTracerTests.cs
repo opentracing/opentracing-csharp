@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using OpenTracing.Mock;
@@ -130,6 +131,27 @@ namespace OpenTracing.Tests.Mock
 
             Assert.Single(finishedSpans);
             Assert.Equal(startTimestamp, finishedSpans[0].StartTimestamp);
+        }
+
+        [Fact]
+        public void TestBinaryPropagator()
+        {
+            MockTracer tracer = new MockTracer(propagator: Propagators.Binary);
+            var parentSpan = tracer.BuildSpan("foo").Start();
+            parentSpan.Finish();
+            var ms = new MemoryStream();
+            tracer.Inject(parentSpan.Context, BuiltinFormats.Binary, new BinaryInjectAdapter(ms));
+            
+            var sc = tracer.Extract(BuiltinFormats.Binary, new BinaryExtractAdapter(ms));
+
+            var childSpan = tracer.BuildSpan("bar").AsChildOf(sc).Start();
+            childSpan.Finish();
+
+            var finishedSpans = tracer.FinishedSpans();
+
+            Assert.Equal(2, finishedSpans.Count);
+            Assert.Equal(finishedSpans[0].Context.TraceId, finishedSpans[1].Context.TraceId);
+            Assert.Equal(finishedSpans[0].Context.SpanId, finishedSpans[1].ParentId);
         }
 
         [Fact]

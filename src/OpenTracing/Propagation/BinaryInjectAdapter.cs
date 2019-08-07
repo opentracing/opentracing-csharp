@@ -19,7 +19,8 @@ namespace OpenTracing.Propagation
         /// <inheritdoc />
         public void Set(MemoryStream stream)
         {
-            _stream = stream;
+            stream.Position = 0;
+            stream.CopyTo(_stream);
         }
         
         /// <inheritdoc />

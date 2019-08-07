@@ -75,20 +75,18 @@ namespace OpenTracing.Mock
 
         public MemoryStream Serialize(BinaryContext ctx)
         {
-            using (var ms = new MemoryStream())
+            var ms = new MemoryStream();
+            using (var writer = new BinaryWriter(ms, System.Text.Encoding.UTF8, true))
             {
-                using (var writer = new BinaryWriter(ms))
-                {
-                    writer.Write(ctx.SpanId);
-                    writer.Write(ctx.TraceId);
-                }
-
-                return ms;
+                writer.Write(ctx.SpanId);
+                writer.Write(ctx.TraceId);
             }
+            return ms;
         }
 
         public BinaryContext Deserialize(MemoryStream stream)
         {
+            stream.Position = 0;
             var res = new BinaryContext();
             using (var reader = new BinaryReader(stream))
             {
