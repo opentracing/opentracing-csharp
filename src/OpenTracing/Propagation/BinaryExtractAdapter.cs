@@ -28,6 +28,7 @@ namespace OpenTracing.Propagation
         /// <inheritdoc />
         public MemoryStream Get()
         {
+            _stream.Position = 0;
             return _stream;
         }
     }
