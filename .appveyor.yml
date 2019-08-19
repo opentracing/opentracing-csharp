@@ -33,6 +33,6 @@ deploy:
     description: "See milestone for changes: https://github.com/opentracing/opentracing-csharp/releases"
     draft: true
     auth_token:
-      secure: VD2KNkqKnAIEm3QWxqCLC3KaVrQjfxsaV9NiuLCvrTEAk4p5ZmI462RA4qoB21KS
+      secure: 05KasH/6S6S8XqW70igCQOUMs8NmvjDbdojF7mZlvWHFEZ8B8c6/tmBEoRT636ui
     on:
       appveyor_repo_tag: true
