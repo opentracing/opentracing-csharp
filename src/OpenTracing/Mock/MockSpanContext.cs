@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenTracing.Mock
 {
@@ -50,9 +49,10 @@ namespace OpenTracing.Mock
         /// </summary>
         public MockSpanContext WithBaggageItem(string key, string val)
         {
-            var newBaggage = new Dictionary<string, string>(_baggage);
-
-            newBaggage[key] = val;
+            var newBaggage = new Dictionary<string, string>(_baggage)
+            {
+                [key] = val
+            };
 
             return new MockSpanContext(TraceId, SpanId, newBaggage);
         }

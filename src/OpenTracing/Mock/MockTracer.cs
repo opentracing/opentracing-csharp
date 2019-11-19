@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenTracing.Noop;
+﻿using System.Collections.Generic;
 using OpenTracing.Propagation;
 using OpenTracing.Util;
 
