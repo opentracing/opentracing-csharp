@@ -1,5 +1,4 @@
 ﻿using NSubstitute;
-using OpenTracing.Mock;
 using OpenTracing.Util;
 using Xunit;
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 
 namespace OpenTracing.Propagation
