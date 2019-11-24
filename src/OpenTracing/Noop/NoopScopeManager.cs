@@ -7,7 +7,7 @@ namespace OpenTracing.Noop
     {
         internal static readonly NoopScopeManager Instance = new NoopScopeManager();
 
-        public IScope Active => null;
+        public IScope Active => NoopScope.Instance;
 
         private NoopScopeManager()
         {

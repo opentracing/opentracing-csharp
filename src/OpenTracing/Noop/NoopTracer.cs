@@ -8,7 +8,7 @@ namespace OpenTracing.Noop
 
         public IScopeManager ScopeManager => NoopScopeManager.Instance;
 
-        public ISpan ActiveSpan => null;
+        public ISpan ActiveSpan => NoopSpan.Instance;
 
         private NoopTracer()
         {
